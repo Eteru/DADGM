@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="android_native_app_glue.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Structs.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shaders.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="Fog.h" />
+    <ClInclude Include="AmbientalLight.h" />
+    <ClInclude Include="AnimatedObject.h" />
+    <ClInclude Include="LightSource.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="SkyBox.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="android_native_app_glue.c" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Math.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="TGA.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="Fog.cpp" />
+    <ClCompile Include="AmbientalLight.cpp" />
+    <ClCompile Include="AnimatedObject.cpp" />
+    <ClCompile Include="LightSource.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
+  </ItemGroup>
+</Project>
