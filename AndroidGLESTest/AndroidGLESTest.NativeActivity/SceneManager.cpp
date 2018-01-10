@@ -643,7 +643,7 @@ bool SceneManager::Init(std::string filepath)
 	//lights
 	//debug settings
 
-	delete string;
+	delete[] string;
 
 	// Init objects
 	for (auto model : m_objects) {

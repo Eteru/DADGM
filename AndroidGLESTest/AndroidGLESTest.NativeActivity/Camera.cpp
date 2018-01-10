@@ -3,9 +3,10 @@
 #include "SceneManager.h"
 
 Camera::Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat moveSpeed, GLfloat rotateSpeed, GLfloat cnear, GLfloat cfar, GLfloat fov, GLfloat deltaTime)
-	: m_position(position), m_target(target), m_up(up), m_moveSpeed(moveSpeed), m_rotateSpeed(rotateSpeed), m_near(cnear), m_far(cfar), m_fov(fov), m_deltaTime(deltaTime)
+	: m_position(position), m_target(target), m_up(up), m_moveSpeed(moveSpeed), m_rotateSpeed(rotateSpeed), m_near(cnear), m_far(cfar), m_fov(fov), m_deltaTime(deltaTime),
+	m_default_position(position), m_default_target(target), m_default_up(up)
 {
-	updateWorldView();
+	UpdateWorldView();
 
 	/// TODO: this is hardcoded for it to work -> width / height
 	const engine *eng = SceneManager::GetInstance()->GetEngine();
@@ -16,7 +17,7 @@ Camera::~Camera()
 {
 }
 
-void Camera::moveOX(int dir)
+void Camera::MoveOX(int dir)
 {
 	Vector3 direction = m_target - m_position;
 	Vector3 forward = -(m_up.Cross(direction)).Normalize();
@@ -24,30 +25,30 @@ void Camera::moveOX(int dir)
 	m_position += deplasare;
 	m_target += deplasare;
 
-	updateWorldView();
+	UpdateWorldView();
 }
 
-void Camera::moveOY(int dir)
+void Camera::MoveOY(int dir)
 {
 	Vector3 forward = -(m_up - m_position).Normalize();
 	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * m_deltaTime : -forward * m_moveSpeed * m_deltaTime;
 	m_position += deplasare;
 	m_up += deplasare;
 
-	updateWorldView();
+	UpdateWorldView();
 }
 
-void Camera::moveOZ(int dir)
+void Camera::MoveOZ(int dir)
 {
 	Vector3 forward = -(m_target - m_position).Normalize();
 	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * m_deltaTime : -forward * m_moveSpeed * m_deltaTime;
 	m_position += deplasare;
 	m_target += deplasare;
 
-	updateWorldView();
+	UpdateWorldView();
 }
 
-void Camera::rotateOX(int dir)
+void Camera::RotateOX(int dir)
 {
 	Vector4 up4 = Vector4(0.f, 1.f, 0.f, 0.f) * Matrix().SetRotationX(dir * m_rotateSpeed * m_deltaTime) * m_worldMatrix;
 	m_up = Vector3(up4.x, up4.y, up4.z).Normalize();
@@ -57,28 +58,38 @@ void Camera::rotateOX(int dir)
 
 	m_target = Vector3(rotatedTarget.x, rotatedTarget.y, rotatedTarget.z);
 
-	updateWorldView();
+	UpdateWorldView();
 }
 
-void Camera::rotateOY(int dir)
+void Camera::RotateOY(int dir)
 {
 	Vector4 localTarget = Vector4(0.f, 0.f, -(m_target - m_position).Length(), 1.f);
 	Vector4 rotatedTarget = localTarget * Matrix().SetRotationY(dir * m_rotateSpeed * m_deltaTime) * m_worldMatrix;
 
 	m_target = Vector3(rotatedTarget.x, rotatedTarget.y, rotatedTarget.z);
 
-	updateWorldView();
+	UpdateWorldView();
 }
 
-void Camera::rotateOZ(int dir)
+void Camera::RotateOZ(int dir)
 {
 	Vector4 up4 = Vector4(0.f, 1.f, 0.f, 0.f) * Matrix().SetRotationZ(dir * m_rotateSpeed * m_deltaTime) * m_worldMatrix;
 	m_up = Vector3(up4.x, up4.y, up4.z).Normalize();
 
-	updateWorldView();
+	UpdateWorldView();
 }
 
-void Camera::updateWorldView()
+void Camera::RestoreDefaults()
+{
+	m_position = m_default_position;
+	m_target = m_default_target;
+	m_up = m_default_up;
+
+	UpdateWorldView();
+}
+
+
+void Camera::UpdateWorldView()
 {
 	m_zAxis = -(m_target - m_position).Normalize();
 	m_yAxis = m_up.Normalize();

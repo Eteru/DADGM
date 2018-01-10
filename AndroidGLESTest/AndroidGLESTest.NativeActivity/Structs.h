@@ -35,6 +35,7 @@ struct engine {
 	int32_t width;
 	int32_t height;
 	struct saved_state state;
+	struct saved_state prev_state;
 };
 
 enum ObjectType {

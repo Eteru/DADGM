@@ -79,15 +79,16 @@ public:
 		return m_P;
 	}
 
-	void moveOX(int dir);
-	void moveOY(int dir);
-	void moveOZ(int dir);
+	void MoveOX(int dir);
+	void MoveOY(int dir);
+	void MoveOZ(int dir);
 
-	void rotateOX(int dir);
-	void rotateOY(int dir);
-	void rotateOZ(int dir);
+	void RotateOX(int dir);
+	void RotateOY(int dir);
+	void RotateOZ(int dir);
 
-	void updateWorldView();
+	void UpdateWorldView();
+	void RestoreDefaults();
 
 private:
 	Matrix m_viewMatrix;
@@ -98,6 +99,10 @@ private:
 	Vector3 m_position;
 	Vector3 m_target;
 	Vector3 m_up;
+
+	Vector3 m_default_position;
+	Vector3 m_default_target;
+	Vector3 m_default_up;
 
 	Vector3 m_xAxis;
 	Vector3 m_yAxis;
