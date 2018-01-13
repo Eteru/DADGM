@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <GLES2\gl2.h>
 
 //Vector2
@@ -172,4 +173,47 @@ public:
 
 	//data members
 	GLfloat m[4][4];
+};
+
+
+class Math
+{
+public:
+	static GLfloat Length(const Vector2 v)
+	{
+		return std::sqrt(v.x * v.x + v.y * v.y);
+	}
+
+	static GLfloat Length(const Vector3 v)
+	{
+		return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	}
+
+	static GLfloat Dot(const Vector2 v1, const Vector2 v2)
+	{
+		return v1.x * v2.x + v1.y * v2.y;
+	}
+
+	static GLfloat Dot(const Vector3 v1, const Vector3 v2)
+	{
+		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+	}
+
+	static Vector3 Cross(const Vector3 v1, const Vector3 v2)
+	{
+		return Vector3(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
+	}
+	
+	static GLfloat Distance(const Vector2 v1, const Vector2 v2)
+	{
+		return std::sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
+	}
+
+	static GLfloat Distance(const Vector3 v1, const Vector3 v2)
+	{
+		return std::sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y) + (v1.z - v2.z) * (v1.z - v2.z));
+	}
+
+private:
+	Math() {}
 };
