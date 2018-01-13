@@ -1,16 +1,18 @@
 #pragma once
+#include "GameLoopObject.h"
 
-class GameManager
+class GameManager : public GameLoopObject
 {
 public:
 	GameManager();
 	virtual ~GameManager();
 
-	void Init();
-	void Run();
+	virtual void Init() override;
+	virtual void FixedUpdate() override;
+	virtual void Update() override;
+	virtual void Draw() override;
+	virtual void Destroy() override;
 
-private:
-	void FixedUpdate();
-	void Update();
-	void Draw();
+	virtual std::string GetClassName() override;
+
 };

@@ -48,7 +48,7 @@ void SceneManager::SetEngine(engine * eng)
 	m_engine = eng;
 }
 
-bool SceneManager::Init(std::string filepath)
+bool SceneManager::LoadFromFile(std::string filepath)
 {
 	AAssetManager* mgr = m_engine->app->activity->assetManager;
 	AAsset* file = AAssetManager_open(mgr, filepath.c_str(), AASSET_MODE_BUFFER);

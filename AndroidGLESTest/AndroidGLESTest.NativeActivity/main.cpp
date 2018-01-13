@@ -104,7 +104,7 @@ static int engine_init_display(struct engine* engine) {
 	SceneManager::GetInstance()->SetEngine(engine);
 
 	ResourceManager::GetInstance()->Init("XMLs/resourceManager.xml");
-	SceneManager::GetInstance()->Init("XMLs/sceneManager.xml");
+	SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 
 	return 0;
 }
@@ -142,7 +142,7 @@ static void engine_draw_frame(struct engine* engine) {
 	//SceneManager::GetInstance()->GetActiveCamera()->SetDeltaTime(deltaTime);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	SceneManager::GetInstance()->Update();
+	//SceneManager::GetInstance()->Update();
 	SceneManager::GetInstance()->Draw();
 
 	int err = glGetError();

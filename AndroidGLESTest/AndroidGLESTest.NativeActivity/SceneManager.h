@@ -19,7 +19,7 @@ public:
 	static SceneManager *GetInstance();
 
 	void SetEngine(engine *eng);
-	bool Init(std::string filepath);
+	bool LoadFromFile(std::string filepath);
 	void Update();
 	void Draw();
 	void CleanUp();
