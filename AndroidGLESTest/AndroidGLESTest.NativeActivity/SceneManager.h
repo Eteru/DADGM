@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include <iostream>
-#include "rapidxml/rapidxml.hpp"
+
 #include "SceneObject.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -68,6 +68,18 @@ public:
 	}
 
 private:
+
+	bool ParseBackgroundColor(rapidxml::xml_node<> *pRoot);
+	bool ParseCameras(rapidxml::xml_node<> *pRoot);
+	bool ParseCamera(rapidxml::xml_node<> *pCamera);
+
+	bool ParseFog(rapidxml::xml_node<> *pRoot);
+	bool ParseLights(rapidxml::xml_node<> *pRoot);
+	bool ParseLight(rapidxml::xml_node<> *pLight);
+
+	bool ParseObjects(rapidxml::xml_node<> *pRoot);
+	bool ParseObject(rapidxml::xml_node<> *pObject);
+
 	static SceneManager *m_instance;
 
 	engine *m_engine;
@@ -82,4 +94,3 @@ private:
 
 	SceneManager();
 };
-
