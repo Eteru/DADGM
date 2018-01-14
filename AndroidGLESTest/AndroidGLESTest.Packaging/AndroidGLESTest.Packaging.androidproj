@@ -171,10 +171,8 @@
     <Content Include="assets\Textures\Witch.tga" />
     <Content Include="assets\Textures\Woman1.tga" />
     <Content Include="assets\Textures\Woman2.tga" />
-    <Content Include="assets\XMLs\exemplu_xml.xml" />
     <Content Include="assets\XMLs\resourceManager.xml" />
     <Content Include="assets\XMLs\sceneManager.xml" />
-    <Content Include="assets\XMLs\test.xml" />
     <Content Include="res\values\strings.xml" />
     <AntBuildXml Include="build.xml" />
     <AndroidManifest Include="AndroidManifest.xml" />

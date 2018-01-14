@@ -17,10 +17,12 @@
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "AndroidProject1.NativeActivity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "AndroidProject1.NativeActivity", __VA_ARGS__))
+#define LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG, "AndroidProject1.NativeActivity", __VA_ARGS__))
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
 
+// prevent any computations before display is initialized
 static bool DISPLAY_INITIALIZED = false;
 
 /**
