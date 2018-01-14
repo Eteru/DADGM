@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AndroidGLESTest", "AndroidGLESTest", "{95E5BD59-96F4-47E2-96AD-BBFA804A4615}"
+	ProjectSection(SolutionItems) = preProject
+		AndroidGLESTest\AndroidGLESTest.NativeActivity\XMLUtils.h = AndroidGLESTest\AndroidGLESTest.NativeActivity\XMLUtils.h
+	EndProjectSection
 EndProject
 Project("{39E2626F-3545-4960-A6E8-258AD8476CE5}") = "AndroidGLESTest.Packaging", "AndroidGLESTest\AndroidGLESTest.Packaging\AndroidGLESTest.Packaging.androidproj", "{27EAF83B-CBE6-481F-ADEC-A5361519E5D3}"
 EndProject

@@ -231,7 +231,9 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="UniqueID.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="XMLUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmbientalLight.cpp" />
@@ -254,6 +256,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGA.cpp" />
     <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="XMLUtils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

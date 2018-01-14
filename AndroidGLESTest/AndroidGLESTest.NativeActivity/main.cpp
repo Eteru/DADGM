@@ -21,6 +21,8 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 
+static bool DISPLAY_INITIALIZED = false;
+
 /**
 * Initialize an EGL context for the current display.
 */
@@ -106,6 +108,8 @@ static int engine_init_display(struct engine* engine) {
 	ResourceManager::GetInstance()->Init("XMLs/resourceManager.xml");
 	SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 
+	DISPLAY_INITIALIZED = true;
+
 	return 0;
 }
 
@@ -142,7 +146,6 @@ static void engine_draw_frame(struct engine* engine) {
 	//SceneManager::GetInstance()->GetActiveCamera()->SetDeltaTime(deltaTime);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//SceneManager::GetInstance()->Update();
 	SceneManager::GetInstance()->Draw();
 
 	int err = glGetError();
@@ -334,8 +337,10 @@ void android_main(struct android_app* state) {
 			}
 		}
 		
-		engine_update(&engine);
-		engine_draw_frame(&engine);
+		if (true == DISPLAY_INITIALIZED) {
+			engine_update(&engine);
+			engine_draw_frame(&engine);
+		}
 
 		/*if (engine.animating) {
 			// Done with events; draw next animation frame.
