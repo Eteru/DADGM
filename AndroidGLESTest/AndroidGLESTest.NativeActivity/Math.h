@@ -3,6 +3,8 @@
 #include <cmath>
 #include <GLES2\gl2.h>
 
+#include <string>
+
 //Vector2
 
 class Vector2
@@ -30,6 +32,8 @@ public:
 	Vector2 & operator = (const Vector2 & vector);
 	Vector2 Modulate(Vector2 & vector);
 	GLfloat Dot(Vector2 & vector);
+
+	std::string ToString();
 
 	//access to elements
 	GLfloat operator [] (unsigned int idx);
@@ -72,6 +76,8 @@ public:
 	GLfloat Dot(Vector3 & vector);
 	Vector3 Cross(Vector3 & vector);
 
+	std::string ToString();
+
 	//access to elements
 	GLfloat operator [] (unsigned int idx);
 
@@ -79,6 +85,7 @@ public:
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
+
 };
 
 //Vector4
@@ -124,7 +131,7 @@ public:
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
-	GLfloat w;
+	GLfloat w;	
 };
 
 //Matrix 4 X 4

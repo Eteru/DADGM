@@ -13,6 +13,14 @@ public:
 	virtual void Draw() override;
 	virtual void Destroy() override;
 
+	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 
+
+
+	// Astea se apeleaza doar de GM, care e root-ul ierarhiei. Restul claselor nu apeleaza explicit functiile cu "_"	
+	void FixedUpdateTree();
+	void UpdateTree();
+	void DrawTree();
+	void DestroyTree();
 };

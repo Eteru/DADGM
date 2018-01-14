@@ -10,6 +10,7 @@
 
 #include "Structs.h"
 #include "XMLUtils.h"
+#include "PrintUtils.h"
 
 SceneManager *SceneManager::m_instance = nullptr;
 
@@ -108,7 +109,8 @@ bool SceneManager::LoadFromFile(std::string filepath)
 	delete[] string;
 
 	// Init objects
-	for (auto model : m_objects) {
+	for (auto model : m_objects)
+	{
 		model.second->Init();
 	}	
 
@@ -164,7 +166,7 @@ bool SceneManager::ParseBackgroundColor(rapidxml::xml_node<> *pRoot)
 	m_background_color = XMLUtils::GetVectorValueRGBSafe(pBkg, Vector3(0.f));
 
 
-	LOGD("Background color: (%f, %f, %f)\n", m_background_color.x, m_background_color.y, m_background_color.z);
+	PrintUtils::PrintD("Background color " + m_background_color.ToString());
 
 	return true;
 }
@@ -340,7 +342,7 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	ObjectType ot = typeMap[type];
 
 
-	LOGD("ot value: %d\n", ot);
+	//LOGD("ot value: %d\n", ot);
 	bool depthTest = XMLUtils::GetBoolValueSafe(pObject, "depthTest", true);
 	bool blend = XMLUtils::GetBoolValueSafe(pObject, "blend", true);
 	std::string name = XMLUtils::GetStringValueSafe(pObject, "name", "");
@@ -368,8 +370,6 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	Vector3 rot = XMLUtils::GetVectorValueXYZSafe(pObject, "rotation", Vector3(0.f));
 	Vector3 scale = XMLUtils::GetVectorValueXYZSafe(pObject, "scale", Vector3(0.f));
 	Vector3 color = XMLUtils::GetVectorValueXYZSafe(pObject, "color", Vector3(0.f));
-
-
 
 	float selfRotateSpeed = XMLUtils::GetFloatValueSafe(pObject, "selfRotateSpeed", 0.1f);
 

@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include <android/log.h>
 
+#include "PrintUtils.h"
 Model::Model() : m_loaded(false), m_mr(nullptr)
 {
 }

@@ -3,6 +3,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "PrintUtils.h"
+
 class GameLoopObject
 {
 public:
@@ -13,12 +15,15 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual void Destroy() = 0;
+	virtual std::string ToString() = 0;
 
 	virtual std::string GetClassName() = 0;
+
 
 	virtual void AddComponent(GameLoopObject *component) final;
 	virtual GameLoopObject *FindComponent(const std::string className) final;
 	virtual std::vector<GameLoopObject *> FindComponents(const std::string className) final;
+	virtual std::string ToStringTree(int indent = 0) final;
 	
 	
 
@@ -27,9 +32,9 @@ public:
 
 	GameLoopObject * GetParent() const { return m_parent; }
 	void SetParent(GameLoopObject * val) { m_parent = val; }
-private:
 
-	virtual void _Init() final;
+protected:
+
 	virtual void _FixedUpdate() final;
 	virtual void _Update() final;
 	virtual void _Draw() final;
@@ -44,6 +49,7 @@ private:
 
 inline void GameLoopObject::AddComponent(GameLoopObject *component)
 {
+	component->Init();
 	component->SetParent(this);
 	m_children[component->GetClassName()].push_back(component);
 }
@@ -64,17 +70,27 @@ inline std::vector<GameLoopObject *> GameLoopObject::FindComponents(const std::s
 	return m_children.at(className);
 }
 
-inline void GameLoopObject::_Init()
+inline std::string GameLoopObject::ToStringTree(int indent /*= 0*/)
 {
-	Init();
+	std::string result = "";
+
+	for (int i = 0; i < indent; ++i)
+	{
+		//result += " ";
+		result += "\t";
+	}
+
+	result += GetClassName() + "[" + PrintUtils::ToString(m_ID) + "]: " + ToString();
 
 	for (auto kvPair : m_children)
 	{
 		for (auto component : kvPair.second)
 		{
-			component->_Init();
+			result += "\n" + component->ToStringTree(indent + 1);
 		}
 	}
+
+	return result;
 }
 
 inline void GameLoopObject::_FixedUpdate()
