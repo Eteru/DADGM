@@ -17,6 +17,8 @@
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "PrintUtils.h"
+
 
 // prevent any computations before display is initialized
 static bool DISPLAY_INITIALIZED = false;
