@@ -2,6 +2,8 @@
 #include "Math.h"
 #include <cmath>
 
+#include "PrintUtils.h"
+
 //Vector2
 
 GLfloat Vector2::Length()
@@ -94,6 +96,11 @@ Vector2 Vector2::Modulate(Vector2 & vector)
 GLfloat Vector2::Dot(Vector2 & vector)
 {
 	return x * vector.x + y * vector.y;
+}
+
+std::string Vector2::ToString()
+{
+	return "Vector2(" + PrintUtils::ToString(x) + ", " + PrintUtils::ToString(y) + ")";
 }
 
 //Vector3
@@ -208,6 +215,11 @@ GLfloat Vector3::Dot(Vector3 & vector)
 Vector3 Vector3::Cross(Vector3 & vector)
 {
 	return Vector3(y * vector.z -  z * vector.y, z * vector.x - x * vector.z, x * vector.y - y * vector.x);
+}
+
+std::string Vector3::ToString()
+{
+	return "Vector3(" + PrintUtils::ToString(x) + ", " + PrintUtils::ToString(y) + ", " + PrintUtils::ToString(z) + ")";
 }
 
 //Vector4

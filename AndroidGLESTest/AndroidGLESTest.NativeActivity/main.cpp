@@ -15,11 +15,16 @@
 *
 */
 
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "AndroidProject1.NativeActivity", __VA_ARGS__))
-#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "AndroidProject1.NativeActivity", __VA_ARGS__))
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
+
+#include "PrintUtils.h"
+#include "GameManager.h"
+#include "UniqueID.h"
+
+
+GameManager *gm;
 
 /**
 * Initialize an EGL context for the current display.
@@ -106,6 +111,15 @@ static int engine_init_display(struct engine* engine) {
 	ResourceManager::GetInstance()->Init("XMLs/resourceManager.xml");
 	SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 
+	
+
+	PrintUtils::PrintD("Init called");
+
+	//TODO Aprodu daca decomentez asta crapa. functia in care suntem acum nu se apeleaza deloc
+	//gm = new GameManager();
+
+	gm->Init();
+
 	return 0;
 }
 
@@ -127,7 +141,12 @@ static void engine_update(struct engine* engine)
 		engine->prev_state = engine->state;
 	}
 
+
+	//PrintUtils::PrintD("Update called");
+
 	SceneManager::GetInstance()->Update();
+
+	gm->UpdateTree();
 }
 
 /**
@@ -145,8 +164,15 @@ static void engine_draw_frame(struct engine* engine) {
 	//SceneManager::GetInstance()->Update();
 	SceneManager::GetInstance()->Draw();
 
+
+	//PrintUtils::PrintD("Draw called");
+	gm->DrawTree();
+
 	int err = glGetError();
-	LOGD("gles error: %d", err);
+	if (err)
+	{
+		LOGE("gles error: %d", err);
+	}
 
 	eglSwapBuffers(engine->display, engine->surface);
 }
@@ -273,6 +299,27 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 * event loop for receiving input events and doing other things.
 */
 void android_main(struct android_app* state) {
+
+	gm = new GameManager();
+	gm->SetID(UniqueID::GetID(gm->GetClassName()));
+
+	
+	for (int i = 0; i < 5; ++i)
+	{
+		GameManager *tst = new GameManager();
+		tst->SetID(UniqueID::GetID(tst->GetClassName()));
+
+		GameManager *tst2 = new GameManager();
+		tst2->SetID(UniqueID::GetID(tst2->GetClassName()));
+
+		tst->AddComponent(tst2);
+
+		gm->AddComponent(tst);
+	}
+
+
+	PrintUtils::PrintD(gm->ToStringTree());
+
 	struct engine engine;
 
 	memset(&engine, 0, sizeof(engine));
@@ -352,4 +399,6 @@ void android_main(struct android_app* state) {
 
 	SceneManager::GetInstance()->CleanUp();
 	ResourceManager::GetInstance()->CleanUp();
+
+	gm->DestroyTree();
 }
