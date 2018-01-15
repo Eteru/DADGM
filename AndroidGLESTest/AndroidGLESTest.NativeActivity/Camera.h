@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Math.h"
+#include "GameLoopObject.h"
 #include <GLES2\gl2.h>
 
-class Camera
+class Camera : public GameLoopObject
 {
 public:
 	Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat moveSpeed = 44.9f, GLfloat rotateSpeed = 0.5f, GLfloat cnear = 0.2f, GLfloat cfar = 1000.f, GLfloat fov = 45.F, GLfloat deltaTime = 0.05f);
@@ -87,8 +88,19 @@ public:
 	void RotateOY(int dir);
 	void RotateOZ(int dir);
 
+	void SetFollowingObject(std::string id, float x, float z);
+
 	void UpdateWorldView();
 	void RestoreDefaults();
+
+	virtual void Init() override;
+	virtual void FixedUpdate() override;
+	virtual void Update() override;
+	virtual void Draw() override;
+	virtual void Destroy() override;
+	virtual std::string ToString() override;
+
+	virtual std::string GetClassName() override;
 
 private:
 	Matrix m_viewMatrix;
@@ -114,5 +126,9 @@ private:
 	GLfloat m_far;
 	GLfloat m_fov;
 	GLfloat m_deltaTime;
+
+	// following object
+	Vector2 m_xz_offset;
+	std::string m_object_to_follow_id;
 };
 

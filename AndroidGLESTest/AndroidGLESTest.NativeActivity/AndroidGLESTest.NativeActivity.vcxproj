@@ -215,6 +215,7 @@
     <ClInclude Include="AnimatedObject.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Fog.h" />
+    <ClInclude Include="GameLoopObject.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="Math.h" />
