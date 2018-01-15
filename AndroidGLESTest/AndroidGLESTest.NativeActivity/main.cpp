@@ -18,10 +18,14 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "PrintUtils.h"
+#include "GameManager.h"
+
 
 
 // prevent any computations before display is initialized
 static bool DISPLAY_INITIALIZED = false;
+
+GameManager *gm;
 
 /**
 * Initialize an EGL context for the current display.
@@ -108,6 +112,9 @@ static int engine_init_display(struct engine* engine) {
 	ResourceManager::GetInstance()->Init("XMLs/resourceManager.xml");
 	SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 
+	gm = new GameManager();
+	gm->Init();
+
 	DISPLAY_INITIALIZED = true;
 
 	return 0;
@@ -132,6 +139,8 @@ static void engine_update(struct engine* engine)
 	}
 
 	SceneManager::GetInstance()->Update();
+
+	gm->UpdateTree();
 }
 
 /**
@@ -148,8 +157,14 @@ static void engine_draw_frame(struct engine* engine) {
 
 	SceneManager::GetInstance()->Draw();
 
+	gm->DrawTree();
+
 	int err = glGetError();
-	LOGD("gles error: %d", err);
+
+	if (0 != err)
+	{
+		LOGD("gles error: %d", err);
+	}
 
 	eglSwapBuffers(engine->display, engine->surface);
 }
@@ -357,4 +372,5 @@ void android_main(struct android_app* state) {
 
 	SceneManager::GetInstance()->CleanUp();
 	ResourceManager::GetInstance()->CleanUp();
+	gm->DestroyTree();
 }

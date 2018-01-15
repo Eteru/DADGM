@@ -108,7 +108,7 @@ void Camera::FixedUpdate()
 
 		m_target = obj_pos;// -(obj_pos - m_position).Normalize();
 
-		LOGD("New %s\n", ToString().c_str());
+		//LOGD("New %s\n", ToString().c_str());
 	}
 }
 

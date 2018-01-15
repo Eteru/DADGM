@@ -1,159 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="AmbientalLight.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="android_native_app_glue.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatedObject.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Fog.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="LightSource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneObject.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Shaders.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Trajectory.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="XMLUtils.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="UniqueID.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="PrintUtils.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-=======
-    <ClInclude Include="GameLoopObject.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
->>>>>>> 107455715e27a7c4d641f3ee57433e5fe9b73909
+    <ClCompile Include="AmbientalLight.cpp" />
+    <ClCompile Include="android_native_app_glue.c" />
+    <ClCompile Include="AnimatedObject.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Fog.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="LightSource.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Math.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="PrintUtils.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TGA.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="XMLUtils.cpp" />
+    <ClCompile Include="DeltaTime.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AmbientalLight.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="android_native_app_glue.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimatedObject.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Fog.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="LightSource.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneObject.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Shaders.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TGA.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Trajectory.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="XMLUtils.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PrintUtils.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{76a6b5fc-4ec7-4061-8de9-c039e23b5a98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources">
-      <UniqueIdentifier>{c36fca44-5713-4e75-846f-01274a82ef71}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="AmbientalLight.h" />
+    <ClInclude Include="AnimatedObject.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Fog.h" />
+    <ClInclude Include="GameLoopObject.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="LightSource.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="android_native_app_glue.h" />
+    <ClInclude Include="PrintUtils.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shaders.h" />
+    <ClInclude Include="SkyBox.h" />
+    <ClInclude Include="Structs.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="UniqueID.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="XMLUtils.h" />
+    <ClInclude Include="DeltaTime.h" />
   </ItemGroup>
 </Project>

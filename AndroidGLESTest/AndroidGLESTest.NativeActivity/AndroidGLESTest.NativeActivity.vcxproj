@@ -214,6 +214,7 @@
     <ClInclude Include="AmbientalLight.h" />
     <ClInclude Include="AnimatedObject.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DeltaTime.h" />
     <ClInclude Include="Fog.h" />
     <ClInclude Include="GameLoopObject.h" />
     <ClInclude Include="GameManager.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="android_native_app_glue.c" />
     <ClCompile Include="AnimatedObject.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="Fog.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="LightSource.cpp" />
