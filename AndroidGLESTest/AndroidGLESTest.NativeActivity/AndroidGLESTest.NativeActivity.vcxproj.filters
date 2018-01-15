@@ -73,9 +73,12 @@
     <ClInclude Include="PrintUtils.h">
       <Filter>Headers</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
     <ClInclude Include="GameLoopObject.h">
       <Filter>Headers</Filter>
     </ClInclude>
+>>>>>>> 107455715e27a7c4d641f3ee57433e5fe9b73909
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmbientalLight.cpp">

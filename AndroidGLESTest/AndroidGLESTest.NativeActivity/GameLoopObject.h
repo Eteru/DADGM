@@ -134,7 +134,6 @@ inline void GameLoopObject::_Draw()
 
 inline void GameLoopObject::_Destroy()
 {
-	Destroy();
 
 	for (auto kvPair : m_children)
 	{
@@ -143,4 +142,6 @@ inline void GameLoopObject::_Destroy()
 			component->_Destroy();
 		}
 	}
+
+	Destroy();
 }
