@@ -102,6 +102,10 @@ void Camera::FixedUpdate()
 {
 	if ("" != m_object_to_follow_id) {
 		const SceneObject *obj = SceneManager::GetInstance()->GetSceneObject(m_object_to_follow_id);
+		if (nullptr == obj) {
+			return;
+		}
+
 		Vector3 obj_pos = obj->GetPosition();
 		m_position.x = obj_pos.x - m_xz_offset.x;
 		m_position.z = obj_pos.z - m_xz_offset.y;
