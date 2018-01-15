@@ -42,12 +42,6 @@ void LightSource::SetSpotAngle(float angle)
 
 Vector3 LightSource::GetPosition()
 {
-	SceneObject *so = SceneManager::GetInstance()->GetSceneObject(m_assoc_obj_id);
-
-	if (nullptr != so) {
-		m_position = so->GetPosition();
-	}
-
 	return m_position;
 }
 
@@ -89,4 +83,41 @@ float LightSource::GetSpotAngle() const
 LightSource::LightType LightSource::GetType() const
 {
 	return m_type;
+}
+
+void LightSource::Init()
+{
+}
+
+void LightSource::FixedUpdate()
+{
+	SceneObject *so = SceneManager::GetInstance()->GetSceneObject(m_assoc_obj_id);
+
+	if (nullptr != so) {
+		m_position = so->GetPosition();
+	}
+
+}
+
+void LightSource::Update()
+{
+}
+
+void LightSource::Draw()
+{
+}
+
+void LightSource::Destroy()
+{
+}
+
+std::string LightSource::ToString()
+{
+	/// TODO: cba
+	return std::string();
+}
+
+std::string LightSource::GetClassName()
+{
+	return "LightSource";
 }
