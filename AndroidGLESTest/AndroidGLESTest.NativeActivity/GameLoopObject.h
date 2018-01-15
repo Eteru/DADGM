@@ -20,12 +20,21 @@ public:
 	virtual std::string GetClassName() = 0;
 
 
+	virtual void OnTouchDown(const int x, const int y);
+	virtual void OnTouchUp(const int x, const int y);
+	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y);
+
 	virtual void AddComponent(GameLoopObject *component) final;
-	virtual GameLoopObject *FindComponent(const std::string className) final;
-	virtual std::vector<GameLoopObject *> FindComponents(const std::string className) final;
+
+	GameLoopObject *FindComponent(const std::string className);
+	GameLoopObject *FindComponent(const std::string className, const size_t id);
+
+	std::vector<GameLoopObject *> FindComponents(const std::string className);
+									
+
 	virtual std::string ToStringTree(int indent = 0) final;
-	
-	
+
+
 
 	size_t GetID() const { return m_ID; }
 	void SetID(size_t val) { m_ID = val; }
@@ -47,6 +56,10 @@ protected:
 
 };
 
+inline void GameLoopObject::OnTouchDown(const int x, const int y) {}
+inline void GameLoopObject::OnTouchUp(const int x, const int y) {}
+inline void GameLoopObject::OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) {}
+
 inline void GameLoopObject::AddComponent(GameLoopObject *component)
 {
 	component->Init();
@@ -54,7 +67,7 @@ inline void GameLoopObject::AddComponent(GameLoopObject *component)
 	m_children[component->GetClassName()].push_back(component);
 }
 
-inline GameLoopObject *GameLoopObject::FindComponent(const std::string className)
+inline GameLoopObject * GameLoopObject::FindComponent(const std::string className)
 {
 	if (!m_children.count(className))
 		return nullptr;
@@ -62,10 +75,26 @@ inline GameLoopObject *GameLoopObject::FindComponent(const std::string className
 	return m_children.at(className)[0];
 }
 
+inline GameLoopObject * GameLoopObject::FindComponent(const std::string className, const size_t id)
+{
+	if (!m_children.count(className))
+		return nullptr;
+
+	std::vector<GameLoopObject *> bucket = m_children.at(className);
+
+	for (auto obj : bucket)
+	{
+		if (obj->GetID() == id)
+			return obj;
+	}
+
+	return nullptr;
+}
+
 inline std::vector<GameLoopObject *> GameLoopObject::FindComponents(const std::string className)
 {
 	if (!m_children.count(className))
-		return std::vector<GameLoopObject *> ();
+		return std::vector<GameLoopObject *>();
 
 	return m_children.at(className);
 }

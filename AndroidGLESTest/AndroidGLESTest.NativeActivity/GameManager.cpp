@@ -76,7 +76,7 @@ void GameManager::UpdateTree()
 
 	PrintUtils::PrintI("Calling Update after " + PrintUtils::ToString(timeSinceLastFrame) + " ms");
 
-	DeltaTime::SetDt(timeSpentMili);
+	DeltaTime::SetDt(timeSinceLastFrame / 1000.f);
 	m_lastFrameTime = crtTime;
 
 	_Update();

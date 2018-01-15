@@ -10,6 +10,13 @@ std::string PrintUtils::ToString(const size_t value)
 	return ss.str();
 }
 
+std::string PrintUtils::ToString(const int value)
+{
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
+}
+
 std::string PrintUtils::ToString(const GLfloat value)
 {
 	std::stringstream ss;

@@ -20,6 +20,8 @@
 #include "PrintUtils.h"
 #include "GameManager.h"
 
+#include "InputManager.h"
+
 
 
 // prevent any computations before display is initialized
@@ -125,19 +127,6 @@ static int engine_init_display(struct engine* engine) {
 */
 static void engine_update(struct engine* engine)
 {
-	int dX = engine->state.x - engine->prev_state.x;
-	int dY = engine->state.y - engine->prev_state.y;
-
-	if (0 != dX) {
-		SceneManager::GetInstance()->GetActiveCamera()->MoveOX(dX > 0 ? 1 : -1);
-		engine->prev_state = engine->state;
-	}
-
-	if (0 != dY) {
-		SceneManager::GetInstance()->GetActiveCamera()->RotateOX(dY > 0 ? 1 : -1);
-		engine->prev_state = engine->state;
-	}
-
 	SceneManager::GetInstance()->Update();
 
 	gm->UpdateTree();
@@ -212,22 +201,29 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 			switch (action) {
 			case AMOTION_EVENT_ACTION_DOWN:
 				// move action starts
+
+				InputManager::TouchDown(engine->state.x, engine->state.y);
+
 				break;
 			case AMOTION_EVENT_ACTION_UP:
 			case AMOTION_EVENT_ACTION_CANCEL:
 			case AMOTION_EVENT_ACTION_OUTSIDE:
+				// move action ends
+
+				InputManager::TouchUp(engine->state.x, engine->state.y);
+
 				engine->prev_state.x = 0;
 				engine->prev_state.y = 0;
 
 				engine->state.x = 0;
 				engine->state.y = 0;
 
-				SceneManager::GetInstance()->GetActiveCamera()->RestoreDefaults();
-				// move action ends
-
 				break;
 			case AMOTION_EVENT_ACTION_MOVE:
 				// move event
+
+				InputManager::TouchDrag(engine->prev_state.x, engine->prev_state.y, engine->state.x, engine->state.y);
+
 				break;
 			}
 			break;

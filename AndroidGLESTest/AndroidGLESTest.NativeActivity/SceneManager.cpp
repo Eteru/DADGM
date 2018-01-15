@@ -11,6 +11,7 @@
 #include "Structs.h"
 #include "XMLUtils.h"
 #include "PrintUtils.h"
+#include "InputManager.h"
 
 SceneManager *SceneManager::m_instance = nullptr;
 
@@ -217,7 +218,13 @@ bool SceneManager::ParseCamera(rapidxml::xml_node<> *pCamera)
 	float cnear = XMLUtils::GetFloatValueSafe(pCamera, "near", 0.2f);
 	float cfar = XMLUtils::GetFloatValueSafe(pCamera, "far", 10000.f);
 
-	m_cameras[id] = new Camera(pos, target, up, translateSpeed, rotationSpeed, cnear, cfar, fov);
+	// TODO remove engine from members.
+	float aspectRatio = static_cast<GLfloat>(m_engine->width) / m_engine->height;
+
+	auto cam = new Camera(pos, target, up, aspectRatio, translateSpeed, rotationSpeed, cnear, cfar, fov);
+
+	InputManager::RegisterListener(cam);
+	m_cameras[id] = cam;
 
 	rapidxml::xml_node<> *pFollowing = pCamera->first_node("following");
 	if (nullptr != pFollowing)

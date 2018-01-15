@@ -1,15 +1,15 @@
-
 #include "Camera.h"
 #include "SceneManager.h"
 
-Camera::Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat moveSpeed, GLfloat rotateSpeed, GLfloat cnear, GLfloat cfar, GLfloat fov, GLfloat deltaTime)
-	: m_position(position), m_target(target), m_up(up), m_moveSpeed(moveSpeed), m_rotateSpeed(rotateSpeed), m_near(cnear), m_far(cfar), m_fov(fov), m_deltaTime(deltaTime),
+#include "DeltaTime.h"
+
+Camera::Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat aspectRatio, GLfloat moveSpeed, GLfloat rotateSpeed, GLfloat cnear, GLfloat cfar, GLfloat fov)
+	: m_position(position), m_target(target), m_up(up), m_aspect(aspectRatio), m_moveSpeed(moveSpeed), m_rotateSpeed(rotateSpeed), m_near(cnear), m_far(cfar), m_fov(fov), 
 	m_default_position(position), m_default_target(target), m_default_up(up), m_object_to_follow_id("")
 {
 	UpdateWorldView();
 
-	const engine *eng = SceneManager::GetInstance()->GetEngine();
-	m_P.SetPerspective(m_fov, static_cast<GLfloat>(eng->width) / eng->height, m_near, m_far);
+	m_P.SetPerspective(m_fov, aspectRatio, m_near, m_far);
 }
 
 Camera::~Camera()
@@ -20,7 +20,7 @@ void Camera::MoveOX(int dir)
 {
 	Vector3 direction = m_target - m_position;
 	Vector3 forward = -(m_up.Cross(direction)).Normalize();
-	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * m_deltaTime : -forward * m_moveSpeed * m_deltaTime;
+	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * DeltaTime::GetDt() : -forward * m_moveSpeed * DeltaTime::GetDt();
 	m_position += deplasare;
 	m_target += deplasare;
 
@@ -30,7 +30,7 @@ void Camera::MoveOX(int dir)
 void Camera::MoveOY(int dir)
 {
 	Vector3 forward = -(m_up - m_position).Normalize();
-	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * m_deltaTime : -forward * m_moveSpeed * m_deltaTime;
+	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * DeltaTime::GetDt() : -forward * m_moveSpeed * DeltaTime::GetDt();
 	m_position += deplasare;
 	m_up += deplasare;
 
@@ -40,7 +40,7 @@ void Camera::MoveOY(int dir)
 void Camera::MoveOZ(int dir)
 {
 	Vector3 forward = -(m_target - m_position).Normalize();
-	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * m_deltaTime : -forward * m_moveSpeed * m_deltaTime;
+	Vector3 deplasare = dir == 1 ? forward * m_moveSpeed * DeltaTime::GetDt() : -forward * m_moveSpeed * DeltaTime::GetDt();
 	m_position += deplasare;
 	m_target += deplasare;
 
@@ -49,11 +49,11 @@ void Camera::MoveOZ(int dir)
 
 void Camera::RotateOX(int dir)
 {
-	Vector4 up4 = Vector4(0.f, 1.f, 0.f, 0.f) * Matrix().SetRotationX(dir * m_rotateSpeed * m_deltaTime) * m_worldMatrix;
+	Vector4 up4 = Vector4(0.f, 1.f, 0.f, 0.f) * Matrix().SetRotationX(dir * m_rotateSpeed * DeltaTime::GetDt()) * m_worldMatrix;
 	m_up = Vector3(up4.x, up4.y, up4.z).Normalize();
 
 	Vector4 localTarget = Vector4(0.f, 0.f, -(m_target - m_position).Length(), 1.f);
-	Vector4 rotatedTarget = localTarget * Matrix().SetRotationX(dir * m_rotateSpeed * m_deltaTime) * m_worldMatrix;
+	Vector4 rotatedTarget = localTarget * Matrix().SetRotationX(dir * m_rotateSpeed * DeltaTime::GetDt()) * m_worldMatrix;
 
 	m_target = Vector3(rotatedTarget.x, rotatedTarget.y, rotatedTarget.z);
 
@@ -63,7 +63,7 @@ void Camera::RotateOX(int dir)
 void Camera::RotateOY(int dir)
 {
 	Vector4 localTarget = Vector4(0.f, 0.f, -(m_target - m_position).Length(), 1.f);
-	Vector4 rotatedTarget = localTarget * Matrix().SetRotationY(dir * m_rotateSpeed * m_deltaTime) * m_worldMatrix;
+	Vector4 rotatedTarget = localTarget * Matrix().SetRotationY(dir * m_rotateSpeed * DeltaTime::GetDt()) * m_worldMatrix;
 
 	m_target = Vector3(rotatedTarget.x, rotatedTarget.y, rotatedTarget.z);
 
@@ -72,7 +72,7 @@ void Camera::RotateOY(int dir)
 
 void Camera::RotateOZ(int dir)
 {
-	Vector4 up4 = Vector4(0.f, 1.f, 0.f, 0.f) * Matrix().SetRotationZ(dir * m_rotateSpeed * m_deltaTime) * m_worldMatrix;
+	Vector4 up4 = Vector4(0.f, 1.f, 0.f, 0.f) * Matrix().SetRotationZ(dir * m_rotateSpeed * DeltaTime::GetDt()) * m_worldMatrix;
 	m_up = Vector3(up4.x, up4.y, up4.z).Normalize();
 
 	UpdateWorldView();
@@ -133,9 +133,7 @@ void Camera::Destroy()
 
 std::string Camera::ToString()
 {
-	return "Camera: Position: " + m_position.ToString() + 
-		"Target: " + m_target.ToString() +
-		"Up: " + m_up.ToString();
+	return "Position: " + m_position.ToString() + ", target: " + m_target.ToString() + ", up: " + m_up.ToString();
 }
 
 std::string Camera::GetClassName()
@@ -143,6 +141,26 @@ std::string Camera::GetClassName()
 	return "Camera";
 }
 
+void Camera::OnTouchUp(const int x, const int y)
+{
+	RestoreDefaults();
+}
+
+void Camera::OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y)
+{
+	int dX = x - xPrev;
+	int dY = y - yPrev;
+
+	if (0 != dX)
+	{
+		SceneManager::GetInstance()->GetActiveCamera()->MoveOX(dX > 0 ? 1 : -1);
+	}
+
+	if (0 != dY)
+	{
+		SceneManager::GetInstance()->GetActiveCamera()->RotateOX(dY > 0 ? 1 : -1);
+	}
+}
 
 void Camera::UpdateWorldView()
 {

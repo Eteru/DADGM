@@ -12,7 +12,7 @@
 
 namespace PrintUtils
 {
-
+	std::string ToString(const int value);
 	std::string ToString(const size_t value);
 	std::string ToString(const GLfloat value);
 

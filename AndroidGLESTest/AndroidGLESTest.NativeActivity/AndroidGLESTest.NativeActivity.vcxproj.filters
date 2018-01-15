@@ -24,6 +24,7 @@
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="XMLUtils.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
+    <ClCompile Include="InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -52,5 +53,6 @@
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="XMLUtils.h" />
     <ClInclude Include="DeltaTime.h" />
+    <ClInclude Include="InputManager.h" />
   </ItemGroup>
 </Project>

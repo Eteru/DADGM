@@ -218,6 +218,7 @@
     <ClInclude Include="Fog.h" />
     <ClInclude Include="GameLoopObject.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Model.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="Fog.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math.cpp" />

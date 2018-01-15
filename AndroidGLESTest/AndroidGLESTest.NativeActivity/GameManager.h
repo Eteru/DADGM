@@ -2,6 +2,7 @@
 #include <chrono>
 
 #include "GameLoopObject.h"
+
 class GameManager : public GameLoopObject
 {
 public:

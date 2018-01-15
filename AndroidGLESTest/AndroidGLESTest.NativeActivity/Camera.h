@@ -7,7 +7,7 @@
 class Camera : public GameLoopObject
 {
 public:
-	Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat moveSpeed = 44.9f, GLfloat rotateSpeed = 0.5f, GLfloat cnear = 0.2f, GLfloat cfar = 1000.f, GLfloat fov = 45.F, GLfloat deltaTime = 0.05f);
+	Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat aspectRatio, GLfloat moveSpeed = 44.9f, GLfloat rotateSpeed = 0.5f, GLfloat cnear = 0.2f, GLfloat cfar = 1000.f, GLfloat fov = 45.F);
 	~Camera();
 
 	inline void SetPosition(Vector3 position)
@@ -35,11 +35,6 @@ public:
 		m_rotateSpeed = rotateSpeed;
 	}
 
-	inline void SetDeltaTime(GLfloat deltaTime)
-	{
-		m_deltaTime = deltaTime;
-	}
-
 	inline Vector3 GetPosition()
 	{
 		return m_position;
@@ -65,10 +60,6 @@ public:
 		return m_rotateSpeed;
 	}
 
-	inline GLfloat GetDeltaTime() const
-	{
-		return m_deltaTime;
-	}
 
 	inline Matrix GetView()
 	{
@@ -99,8 +90,9 @@ public:
 	virtual void Draw() override;
 	virtual void Destroy() override;
 	virtual std::string ToString() override;
-
 	virtual std::string GetClassName() override;
+	virtual void OnTouchUp(const int x, const int y) override;
+	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 
 private:
 	Matrix m_viewMatrix;
@@ -125,7 +117,7 @@ private:
 	GLfloat m_near;
 	GLfloat m_far;
 	GLfloat m_fov;
-	GLfloat m_deltaTime;
+	GLfloat m_aspect;
 
 	// following object
 	Vector2 m_xz_offset;
