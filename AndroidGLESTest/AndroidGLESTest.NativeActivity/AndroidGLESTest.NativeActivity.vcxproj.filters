@@ -70,6 +70,12 @@
     <ClInclude Include="UniqueID.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PrintUtils.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoopObject.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmbientalLight.cpp">
@@ -133,6 +139,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="XMLUtils.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintUtils.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

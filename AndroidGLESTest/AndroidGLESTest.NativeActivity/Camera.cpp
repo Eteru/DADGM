@@ -4,11 +4,10 @@
 
 Camera::Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat moveSpeed, GLfloat rotateSpeed, GLfloat cnear, GLfloat cfar, GLfloat fov, GLfloat deltaTime)
 	: m_position(position), m_target(target), m_up(up), m_moveSpeed(moveSpeed), m_rotateSpeed(rotateSpeed), m_near(cnear), m_far(cfar), m_fov(fov), m_deltaTime(deltaTime),
-	m_default_position(position), m_default_target(target), m_default_up(up)
+	m_default_position(position), m_default_target(target), m_default_up(up), m_object_to_follow_id("")
 {
 	UpdateWorldView();
 
-	/// TODO: this is hardcoded for it to work -> width / height
 	const engine *eng = SceneManager::GetInstance()->GetEngine();
 	m_P.SetPerspective(m_fov, static_cast<GLfloat>(eng->width) / eng->height, m_near, m_far);
 }
@@ -79,6 +78,12 @@ void Camera::RotateOZ(int dir)
 	UpdateWorldView();
 }
 
+void Camera::SetFollowingObject(std::string id, float x, float z)
+{
+	m_object_to_follow_id = id;
+	m_xz_offset = Vector2(x, z);
+}
+
 void Camera::RestoreDefaults()
 {
 	m_position = m_default_position;
@@ -86,6 +91,52 @@ void Camera::RestoreDefaults()
 	m_up = m_default_up;
 
 	UpdateWorldView();
+}
+
+void Camera::Init()
+{
+	// Not sure anything should happen here
+}
+
+void Camera::FixedUpdate()
+{
+	if ("" != m_object_to_follow_id) {
+		const SceneObject *obj = SceneManager::GetInstance()->GetSceneObject(m_object_to_follow_id);
+		Vector3 obj_pos = obj->GetPosition();
+		m_position.x = obj_pos.x - m_xz_offset.x;
+		m_position.z = obj_pos.z - m_xz_offset.y;
+
+		m_target = (obj_pos - m_position).Normalize();
+
+		LOGD("New %s\n", ToString().c_str());
+	}
+}
+
+void Camera::Update()
+{
+	UpdateWorldView();
+}
+
+void Camera::Draw()
+{
+	// No camera draw required, only if we draw something for debug
+}
+
+void Camera::Destroy()
+{
+	// nothing to destroy
+}
+
+std::string Camera::ToString()
+{
+	return "Camera: Position: " + m_position.ToString() + 
+		"Target: " + m_target.ToString() +
+		"Up: " + m_up.ToString();
+}
+
+std::string Camera::GetClassName()
+{
+	return "Camera";
 }
 
 

@@ -142,6 +142,10 @@ void SceneManager::Update()
 			std::cout << "Camera collides with " << obj->second->GetName() << std::endl;
 		}
 	}
+
+	/// TODO: this is just for test, remove it after
+	m_cameras[m_active_camera]->FixedUpdate();
+	m_cameras[m_active_camera]->Update();
 }
 
 void SceneManager::Draw()
@@ -214,6 +218,27 @@ bool SceneManager::ParseCamera(rapidxml::xml_node<> *pCamera)
 	float cfar = XMLUtils::GetFloatValueSafe(pCamera, "far", 10000.f);
 
 	m_cameras[id] = new Camera(pos, target, up, translateSpeed, rotationSpeed, cnear, cfar, fov);
+
+	rapidxml::xml_node<> *pFollowing = pCamera->first_node("following");
+	if (nullptr != pFollowing)
+	{
+		std::string folObjId = XMLUtils::GetStringValueSafe(pFollowing, "object", "");
+		if ("" == folObjId)
+		{
+			return true;
+		}
+		
+		rapidxml::xml_node<> *pCamOffest = pFollowing->first_node("offset");
+		if (nullptr == pCamOffest)
+		{
+			return true;
+		}
+
+		float offsetX = XMLUtils::GetFloatValueSafe(pCamOffest, "x", 20.f);
+		float offsetZ = XMLUtils::GetFloatValueSafe(pCamOffest, "z", 20.f);
+
+		m_cameras[id]->SetFollowingObject(folObjId, offsetX, offsetZ);
+	}
 
 	return true;
 }
