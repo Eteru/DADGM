@@ -106,7 +106,7 @@ void Camera::FixedUpdate()
 		m_position.x = obj_pos.x - m_xz_offset.x;
 		m_position.z = obj_pos.z - m_xz_offset.y;
 
-		m_target = (obj_pos - m_position).Normalize();
+		m_target = obj_pos;// -(obj_pos - m_position).Normalize();
 
 		LOGD("New %s\n", ToString().c_str());
 	}
