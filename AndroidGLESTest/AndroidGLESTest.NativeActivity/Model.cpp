@@ -56,8 +56,8 @@ bool Model::Load()
 
 
 	// Read vertices
-	m_bb.bb_min = Vector3(FLT_MAX, FLT_MAX, FLT_MAX);
-	m_bb.bb_max = Vector3(FLT_MIN, FLT_MIN, FLT_MIN);
+	Vector3 bb_min = Vector3(FLT_MAX, FLT_MAX, FLT_MAX);
+	Vector3 bb_max = Vector3(FLT_MIN, FLT_MIN, FLT_MIN);
 	std::vector<Vertex> vertices(numberOfVertices);
 	for (int i = 0; i < numberOfVertices; ++i) {
 		sscanf(string + crt_pos, "   %*d. pos:[%f, %f, %f]; norm:[%f, %f, %f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n%n",
@@ -66,17 +66,20 @@ bool Model::Load()
 			&vertices[i].uv.x, &vertices[i].uv.y, &pos);
 		crt_pos += pos;
 
-		m_bb.bb_min.x = std::min(m_bb.bb_min.x, vertices[i].pos.x);
-		m_bb.bb_min.y = std::min(m_bb.bb_min.y, vertices[i].pos.y);
-		m_bb.bb_min.z = std::min(m_bb.bb_min.z, vertices[i].pos.z);
+		bb_min.x = std::min(bb_min.x, vertices[i].pos.x);
+		bb_min.y = std::min(bb_min.y, vertices[i].pos.y);
+		bb_min.z = std::min(bb_min.z, vertices[i].pos.z);
 
-		m_bb.bb_max.x = std::max(m_bb.bb_max.x, vertices[i].pos.x);
-		m_bb.bb_max.y = std::max(m_bb.bb_max.y, vertices[i].pos.y);
-		m_bb.bb_max.z = std::max(m_bb.bb_max.z, vertices[i].pos.z);
+		bb_max.x = std::max(bb_max.x, vertices[i].pos.x);
+		bb_max.y = std::max(bb_max.y, vertices[i].pos.y);
+		bb_max.z = std::max(bb_max.z, vertices[i].pos.z);
 
 		vertices[i].color = Vector3(1, 1, 1);
 		vertices[i].uv_blend = Vector2(1, 1);
 	}
+
+	m_bb.SetMinBB(bb_min);
+	m_bb.SetMaxBB(bb_max);
 
 	// Generate and create vbo
 	glGenBuffers(1, &m_vboID);
@@ -175,14 +178,17 @@ std::vector<Vertex> Model::GenerateFlatModel(uint32_t blockSize, uint32_t cellSi
 
 void Model::RebindBuffer(std::vector<Vertex>& vertices)
 {
-	for (Vertex & v : vertices) {
-		m_bb.bb_min.x = std::min(m_bb.bb_min.x, v.pos.x);
-		m_bb.bb_min.y = std::min(m_bb.bb_min.y, v.pos.y);
-		m_bb.bb_min.z = std::min(m_bb.bb_min.z, v.pos.z);
+	Vector3 bb_min = m_bb.GetMinBB();
+	Vector3 bb_max = m_bb.GetMaxBB();
 
-		m_bb.bb_max.x = std::max(m_bb.bb_max.x, v.pos.x);
-		m_bb.bb_max.y = std::max(m_bb.bb_max.y, v.pos.y);
-		m_bb.bb_max.z = std::max(m_bb.bb_max.z, v.pos.z);
+	for (Vertex & v : vertices) {
+		bb_min.x = std::min(bb_min.x, v.pos.x);
+		bb_min.y = std::min(bb_min.y, v.pos.y);
+		bb_min.z = std::min(bb_min.z, v.pos.z);
+
+		bb_max.x = std::max(bb_max.x, v.pos.x);
+		bb_max.y = std::max(bb_max.y, v.pos.y);
+		bb_max.z = std::max(bb_max.z, v.pos.z);
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);

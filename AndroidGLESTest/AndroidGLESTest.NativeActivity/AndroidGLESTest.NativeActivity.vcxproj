@@ -214,6 +214,7 @@
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
     <ClInclude Include="AnimatedObject.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DeltaTime.h" />
     <ClInclude Include="Fog.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="AmbientalLight.cpp" />
     <ClCompile Include="android_native_app_glue.c" />
     <ClCompile Include="AnimatedObject.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="Fog.cpp" />
