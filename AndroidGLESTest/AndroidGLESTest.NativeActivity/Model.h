@@ -5,6 +5,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "Structs.h"
+#include "BoundingBox.h"
 
 class Model
 {

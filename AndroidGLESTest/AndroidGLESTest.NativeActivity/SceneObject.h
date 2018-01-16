@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Trajectory.h"
 #include "Math.h"
+#include "BoundingBox.h"
 
 class SceneObject
 {
@@ -26,8 +27,8 @@ public:
 	{
 		BoundingBox bb = m_model->GetBB();
 
-		bb.bb_min = Vector3(Vector4(bb.bb_min, 1.0) * m_M);
-		bb.bb_max = Vector3(Vector4(bb.bb_max, 1.0) * m_M);
+		bb.SetMinBB(Vector3(Vector4(bb.GetMinBB(), 1.f) * m_M));
+		bb.SetMaxBB(Vector3(Vector4(bb.GetMaxBB(), 1.f) * m_M));
 
 		return bb;
 	}
