@@ -11,7 +11,7 @@
 #include "AmbientalLight.h"
 #include "LightSource.h"
 
-class SceneManager
+class SceneManager : public GameLoopObject
 {
 public:
 	~SceneManager();
@@ -20,9 +20,15 @@ public:
 
 	void SetEngine(engine *eng);
 	bool LoadFromFile(std::string filepath);
-	void Update();
-	void Draw();
-	void CleanUp();
+
+	virtual void Init() override;
+	virtual void FixedUpdate() override;
+	virtual void Update() override;
+	virtual void Draw() override;
+	virtual void Destroy() override;
+
+	virtual std::string ToString() override;
+	virtual std::string GetClassName() override;
 
 	inline const Fog & GetFog() const
 	{
@@ -34,38 +40,41 @@ public:
 		return m_ambiental_light;
 	}
 
-	inline const std::map<std::string, LightSource *> & GetLights() const
-	{
-		return m_lights;
-	}
-
-	inline LightSource *GetLightSource(std::string id)
-	{
-		if (m_lights.find(id) == m_lights.end()) {
-			return nullptr;
-		}
-
-		return m_lights[id];
-	}
-
+// 	inline const std::map<std::string, LightSource *> & GetLights() const
+// 	{
+// 		return m_lights;
+// 	}
+// 
+// 	inline LightSource *GetLightSource(std::string id)
+// 	{
+// 		if (m_lights.find(id) == m_lights.end()) {
+// 			return nullptr;
+// 		}
+// 
+// 		return m_lights[id];
+// 	}
+// 
 	inline Camera *GetActiveCamera()
 	{
-		return m_cameras[m_active_camera];
+		return m_activeCamera;
 	}
 
-	inline SceneObject *GetSceneObject(std::string id)
-	{
-		if (m_objects.find(id) == m_objects.end()) {
-			return nullptr;
-		}
-
-		return m_objects[id];
-	}
+// 
+// 	inline SceneObject *GetSceneObject(std::string id)
+// 	{
+// 		if (m_objects.find(id) == m_objects.end()) {
+// 			return nullptr;
+// 		}
+// 
+// 		return m_objects[id];
+// 	}
 
 	inline const engine *GetEngine() const
 	{
 		return m_engine;
 	}
+
+
 
 private:
 
@@ -80,14 +89,20 @@ private:
 	bool ParseObjects(rapidxml::xml_node<> *pRoot);
 	bool ParseObject(rapidxml::xml_node<> *pObject);
 
+	bool ParseLinks(rapidxml::xml_node<> *pRoot);
+	bool ParseObjectLinks(rapidxml::xml_node<> *pNode);
+	bool ParseLightLinks(rapidxml::xml_node<> *pNode);
+	bool ParseCameraLinks(rapidxml::xml_node<> *pNode);
+
 	static SceneManager *m_instance;
 
 	engine *m_engine;
 	Vector3 m_background_color;
-	std::map<std::string, Camera *> m_cameras;
-	std::map<std::string, SceneObject *> m_objects;
-	std::map<std::string, LightSource *> m_lights;
-	std::string m_active_camera;
+	//std::map<std::string, Camera *> m_cameras;
+	//std::map<std::string, SceneObject *> m_objects;
+	//std::map<std::string, LightSource *> m_lights;
+	Camera *m_activeCamera;
+	//std::string m_active_camera;
 
 	Fog m_fog;
 	AmbientalLight m_ambiental_light;

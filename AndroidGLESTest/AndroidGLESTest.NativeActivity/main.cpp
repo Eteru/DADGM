@@ -16,11 +16,11 @@
 */
 
 #include "ResourceManager.h"
-#include "SceneManager.h"
 #include "PrintUtils.h"
 #include "GameManager.h"
 
 #include "InputManager.h"
+#include "UniqueID.h"
 
 
 
@@ -111,10 +111,10 @@ static int engine_init_display(struct engine* engine) {
 	ResourceManager::GetInstance()->SetEngine(engine);
 	SceneManager::GetInstance()->SetEngine(engine);
 
-	ResourceManager::GetInstance()->Init("XMLs/resourceManager.xml");
-	SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
+	ResourceManager::GetInstance()->Init("XMLs/resourceManager.xml");	
 
 	gm = new GameManager();
+	gm->SetID(UniqueID::GetID("GameManager"));
 	gm->Init();
 
 	DISPLAY_INITIALIZED = true;
@@ -127,8 +127,6 @@ static int engine_init_display(struct engine* engine) {
 */
 static void engine_update(struct engine* engine)
 {
-	SceneManager::GetInstance()->Update();
-
 	gm->UpdateTree();
 }
 
@@ -142,9 +140,7 @@ static void engine_draw_frame(struct engine* engine) {
 	}
 
 	//SceneManager::GetInstance()->GetActiveCamera()->SetDeltaTime(deltaTime);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	SceneManager::GetInstance()->Draw();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 
 	gm->DrawTree();
 
@@ -366,7 +362,6 @@ void android_main(struct android_app* state) {
 		}*/
 	}
 
-	SceneManager::GetInstance()->CleanUp();
 	ResourceManager::GetInstance()->CleanUp();
 	gm->DestroyTree();
 }

@@ -2,6 +2,8 @@
 #include <chrono>
 
 #include "GameLoopObject.h"
+#include "SceneManager.h"
+
 
 class GameManager : public GameLoopObject
 {

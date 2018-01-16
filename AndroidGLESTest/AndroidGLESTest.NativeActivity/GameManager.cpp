@@ -22,6 +22,12 @@ void GameManager::Init()
 	m_lastFixedTime = m_initTime;
 	m_lastFrameTime = m_initTime;
 	DeltaTime::SetDt(0);
+
+	SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
+
+	AddComponent(SceneManager::GetInstance());
+
+	PrintUtils::PrintI(ToStringTree());
 	
 }
 
@@ -67,14 +73,14 @@ void GameManager::UpdateTree()
 
 	if (timeSpentMili >= DeltaTime::PHYSICS_TIME_STEP_MS)
 	{
-		PrintUtils::PrintI("Calling Fixed Update after " + PrintUtils::ToString(timeSpentMili) + " ms");
+		//PrintUtils::PrintI("Calling Fixed Update after " + PrintUtils::ToString(timeSpentMili) + " ms");
 		_FixedUpdate();
 		m_lastFixedTime = crtTime;
 	}
 
 	float timeSinceLastFrame = std::chrono::duration_cast<std::chrono::nanoseconds>(crtTime - m_lastFrameTime).count() / 1000000.f;
 
-	PrintUtils::PrintI("Calling Update after " + PrintUtils::ToString(timeSinceLastFrame) + " ms");
+	//PrintUtils::PrintI("Calling Update after " + PrintUtils::ToString(timeSinceLastFrame) + " ms");
 
 	DeltaTime::SetDt(timeSinceLastFrame / 1000.f);
 	m_lastFrameTime = crtTime;

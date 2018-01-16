@@ -7,7 +7,7 @@ class Terrain :
 	public SceneObject
 {
 public:
-	Terrain(Vector3 pos, Vector3 rot, Vector3 scale, Vector3 heights, bool depth_test, std::string id);
+	Terrain(Vector3 pos, Vector3 rot, Vector3 scale, Vector3 heights, bool depth_test, std::string name);
 	~Terrain();
 
 	inline void SetOffsetY(float offsetY)
@@ -26,8 +26,13 @@ public:
 	}
 
 	virtual void Init() override;
+	virtual void FixedUpdate() override;
 	virtual void Update() override;
 	virtual void Draw() override;
+	virtual void Destroy() override;
+
+	virtual std::string ToString() override;
+	virtual std::string GetClassName() override;
 
 protected:
 	float m_offsetY;

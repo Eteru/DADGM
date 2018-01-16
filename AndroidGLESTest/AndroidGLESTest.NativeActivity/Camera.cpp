@@ -78,9 +78,9 @@ void Camera::RotateOZ(int dir)
 	UpdateWorldView();
 }
 
-void Camera::SetFollowingObject(std::string id, float x, float z)
+void Camera::SetFollowingObject(GameLoopObject *obj, const float x, const float z)
 {
-	m_object_to_follow_id = id;
+	m_followedObject = obj;
 	m_xz_offset = Vector2(x, z);
 }
 
@@ -100,20 +100,18 @@ void Camera::Init()
 
 void Camera::FixedUpdate()
 {
-	if ("" != m_object_to_follow_id) {
-		const SceneObject *obj = SceneManager::GetInstance()->GetSceneObject(m_object_to_follow_id);
-		if (nullptr == obj) {
-			return;
-		}
-
-		Vector3 obj_pos = obj->GetPosition();
+	if (nullptr != m_followedObject)
+	{		
+		Vector3 obj_pos = dynamic_cast<SceneObject*>(m_followedObject)->GetPosition();
 		m_position.x = obj_pos.x - m_xz_offset.x;
 		m_position.z = obj_pos.z - m_xz_offset.y;
 
-		m_target = obj_pos;// -(obj_pos - m_position).Normalize();
+		m_target = obj_pos;
+		// -(obj_pos - m_position).Normalize();
 
 		//LOGD("New %s\n", ToString().c_str());
 	}
+
 }
 
 void Camera::Update()

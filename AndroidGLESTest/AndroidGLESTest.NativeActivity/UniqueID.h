@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "PrintUtils.h"
 
 static std::unordered_map<std::string, std::pair<size_t, std::unordered_set<size_t>>> classIDsMap;
 
@@ -17,15 +18,23 @@ public:
 		if (0 == classIDsMap.count(className))
 			return false;
 
-		return !classIDsMap[className].second.count(ID);
+		return classIDsMap.at(className).second.count(ID) >= 1;
 	}
 
 	static void BlacklistID(std::string className, size_t ID)
 	{
-		std::pair<size_t, std::unordered_set<size_t>> *setStruct = &classIDsMap[className];
+		PrintUtils::PrintI("Blacklisting (" + className + ", " + PrintUtils::ToString(ID) + ")");
 
-		setStruct->second.insert(ID);
-		setStruct->first = std::max(ID, setStruct->first);
+		if (0 == classIDsMap.count(className))
+		{
+			std::pair<size_t, std::unordered_set<size_t>> setStruct = std::make_pair(ID, std::unordered_set<size_t>(ID));
+			classIDsMap[className] = setStruct;
+		}
+		else
+		{
+			classIDsMap.at(className).second.insert(ID);
+			classIDsMap.at(className).first = std::max(ID, classIDsMap.at(className).first);
+		}		
 	}
 
 

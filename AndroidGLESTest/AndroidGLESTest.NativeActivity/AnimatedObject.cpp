@@ -4,8 +4,8 @@
 #include <ctime>
 #include <cmath>
 
-AnimatedObject::AnimatedObject(Vector3 pos, Vector3 rot, Vector3 scale, bool depth_test, std::string id, float displacement)
-	: SceneObject(pos, rot, scale, depth_test, id), m_displacement_max(displacement), m_time(0.f)
+AnimatedObject::AnimatedObject(Vector3 pos, Vector3 rot, Vector3 scale, bool depth_test, std::string name, float displacement)
+	: SceneObject(pos, rot, scale, name, depth_test), m_displacement_max(displacement), m_time(0.f)
 {
 }
 
@@ -47,4 +47,22 @@ void AnimatedObject::Draw()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void AnimatedObject::FixedUpdate()
+{
+}
+
+void AnimatedObject::Destroy()
+{
+}
+
+std::string AnimatedObject::ToString()
+{
+	return std::string("TODO animated object string");
+}
+
+std::string AnimatedObject::GetClassName()
+{
+	return std::string("AnimatedObject");
 }

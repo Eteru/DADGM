@@ -2,6 +2,7 @@
 
 #include "Math.h"
 #include "GameLoopObject.h"
+#include "SceneObject.h"
 #include <GLES2\gl2.h>
 
 class Camera : public GameLoopObject
@@ -79,7 +80,7 @@ public:
 	void RotateOY(int dir);
 	void RotateOZ(int dir);
 
-	void SetFollowingObject(std::string id, float x, float z);
+	void SetFollowingObject(GameLoopObject *obj, const float x, const float z);
 
 	void UpdateWorldView();
 	void RestoreDefaults();
@@ -122,5 +123,7 @@ private:
 	// following object
 	Vector2 m_xz_offset;
 	std::string m_object_to_follow_id;
+
+	GameLoopObject *m_followedObject;
 };
 

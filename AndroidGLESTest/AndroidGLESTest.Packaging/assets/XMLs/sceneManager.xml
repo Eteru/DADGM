@@ -7,6 +7,56 @@
     <b>0.0</b>
   </backgroundColor>
 
+  <links>
+	<objects>
+		<objectLightLinks>
+			<objectLightLink>
+				<objectID>1</objectID>
+				<objectType>SceneObject</objectType>
+				<lightID>1</lightID>
+			</objectLightLink>
+			<objectLightLink>
+				<objectID>2</objectID>
+				<objectType>SceneObject</objectType>
+				<lightID>1</lightID>
+			</objectLightLink>
+			<objectLightLink>
+				<objectID>4</objectID>
+				<objectType>Terrain</objectType>
+				<lightID>1</lightID>
+			</objectLightLink>
+		</objectLightLinks>
+	</objects>
+	<lights>
+		<lightObjectLinks>
+			<lightObjectLink>
+				<lightID>2</lightID>
+				<objectID>4</objectID>
+				<objectType>Terrain</objectType>
+			</lightObjectLink>
+			<lightObjectLink>
+				<lightID>3</lightID>
+				<objectID>3</objectID>
+				<objectType>SceneObject</objectType>
+			</lightObjectLink>
+		</lightObjectLinks>
+	</lights>
+	<cameras>
+		<cameraObjectLinks>
+			<cameraObjectLink>
+				<cameraID>1</cameraID>
+				<objectID>3</objectID>
+				<objectType>SceneObject</objectType>
+				<offset>			
+					<x>50</x>
+					<y>0</y>
+					<z>50</z>        
+				</offset>
+			</cameraObjectLink>
+		</cameraObjectLinks>
+	</cameras>
+  
+  </links>
   <cameras>
     <camera>
       <id>1</id>
@@ -29,14 +79,7 @@
       <rotationSpeed>1</rotationSpeed>
       <fov>45</fov>
       <near>0.2</near>
-      <far>10000</far>
-      <following>
-        <object>3</object>
-        <offset>
-          <x>50</x>
-          <z>50</z>
-        </offset>
-      </following>
+      <far>10000</far>      
     </camera>
     <!-- eventual si alte cameras -->
   </cameras>
@@ -82,9 +125,6 @@
         <z>0.1</z>
       </scale>
       <selfRotateSpeed>0.1</selfRotateSpeed>
-      <lights>
-        <light>1</light>
-      </lights>
       <trajectory>
         <type>linear</type>
         <iteration-count>10</iteration-count>
@@ -129,18 +169,6 @@
         <z>0.1</z>
       </scale>
       <selfRotateSpeed>0.1</selfRotateSpeed>
-      <followingCamera>
-        <cameras>
-          <camera>1</camera>
-        </cameras>
-        <ox/>
-        <oy/>
-        <oz/>
-      </followingCamera>
-      <lights>
-        <light>1</light>
-      </lights>
-
       <trajectory>
         <type>line_strip</type>
         <iteration-count>10</iteration-count>
@@ -259,9 +287,6 @@
         <g>2</g>
         <b>-1</b>
       </heights>
-      <lights>
-        <light>1</light>
-      </lights>
       <blockSize>80</blockSize>
       <cellSize>1</cellSize>
       <offsetY>-2</offsetY>
@@ -402,8 +427,7 @@
       </position>
     </light>
     <light>
-      <id>2</id>
-      <associatedObject>4</associatedObject>
+      <id>2</id>      
       <diffuseColor>
         <r>1.0</r>
         <g>1.0</g>
@@ -426,8 +450,7 @@
     </light>
 
     <light>
-      <id>3</id>
-      <associatedObject>3</associatedObject>
+      <id>3</id>      
       <diffuseColor>
         <r>1.0</r>
         <g>1.0</g>

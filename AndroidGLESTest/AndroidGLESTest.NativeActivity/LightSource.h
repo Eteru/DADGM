@@ -8,7 +8,7 @@ class LightSource : public GameLoopObject
 {
 public:
 	enum LightType { POINT_LIGHT = 0, DIRECTIONAL_LIGHT, SPOT_LIGHT, NO_LIGHT };
-	LightSource(float shininess, float diff_coef, float spec_coef, Vector3 diff_color, Vector3 spec_color, std::string id);
+	LightSource(float shininess, float diff_coef, float spec_coef, Vector3 diff_color, Vector3 spec_color);
 	virtual ~LightSource();
 
 	void SetType(std::string type);
@@ -35,6 +35,16 @@ public:
 
 	virtual std::string GetClassName() override;
 
+	inline GameLoopObject * GetFollowedObject() const
+	{ 
+		return m_followedObject;
+	}
+
+	inline void SetFollowedObject(GameLoopObject * val)
+	{
+		m_followedObject = val;
+	}
+
 private:
 	LightType m_type;
 	float m_shininess;
@@ -46,6 +56,6 @@ private:
 	Vector3 m_position;
 	Vector3 m_direction;
 
-	std::string m_assoc_obj_id;
+	GameLoopObject *m_followedObject;
 };
 

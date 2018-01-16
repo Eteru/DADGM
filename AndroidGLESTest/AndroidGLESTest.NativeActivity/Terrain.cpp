@@ -3,8 +3,8 @@
 #include "Vertex.h"
 #include "SceneManager.h"
 
-Terrain::Terrain(Vector3 pos, Vector3 rot, Vector3 scale, Vector3 heights, bool depth_test, std::string id)
-	: SceneObject(pos, rot, scale, depth_test, id)
+Terrain::Terrain(Vector3 pos, Vector3 rot, Vector3 scale, Vector3 heights, bool depth_test, std::string name)
+	: SceneObject(pos, rot, scale, name, depth_test)
 {
 	m_heights = heights;
 }
@@ -23,6 +23,8 @@ void Terrain::Init()
 
 	// Center terrain to camera position
 	Camera *cam = SceneManager::GetInstance()->GetActiveCamera();
+
+	PrintUtils::PrintI("Active camera: " + cam->ToString());
 	m_position.x = cam->GetPosition().x - m_half_size;
 	m_position.z = cam->GetPosition().z - m_half_size;
 }
@@ -88,4 +90,22 @@ void Terrain::Draw()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Terrain::FixedUpdate()
+{
+}
+
+void Terrain::Destroy()
+{
+}
+
+std::string Terrain::ToString()
+{
+	return std::string("TODO terrain string");
+}
+
+std::string Terrain::GetClassName()
+{
+	return std::string("Terrain");
 }

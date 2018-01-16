@@ -2,10 +2,11 @@
 #include "LightSource.h"
 #include "SceneManager.h"
 
-LightSource::LightSource(float shininess, float diff_coef, float spec_coef, Vector3 diff_color, Vector3 spec_color, std::string id)
+LightSource::LightSource(float shininess, float diff_coef, float spec_coef, Vector3 diff_color, Vector3 spec_color)
 	: m_shininess(shininess), m_diffuse_coef(diff_coef), m_specular_coef(spec_coef), m_diffuse_color(diff_color),
-	m_specular_color(spec_color), m_spot_angle(0.f), m_assoc_obj_id(id), m_position(Vector3(0,0,0)), m_type(NO_LIGHT), m_direction(Vector3(0, 0, 0))
+	m_specular_color(spec_color), m_spot_angle(0.f), m_position(Vector3(0,0,0)), m_type(NO_LIGHT), m_direction(Vector3(0, 0, 0))
 {
+	m_followedObject = nullptr;
 }
 
 LightSource::~LightSource()
@@ -91,12 +92,12 @@ void LightSource::Init()
 
 void LightSource::FixedUpdate()
 {
-	SceneObject *so = SceneManager::GetInstance()->GetSceneObject(m_assoc_obj_id);
 
-	if (nullptr != so) {
+	if (nullptr != m_followedObject)
+	{
+		SceneObject *so = dynamic_cast<SceneObject *>(m_followedObject);
 		m_position = so->GetPosition();
 	}
-
 }
 
 void LightSource::Update()
@@ -114,7 +115,7 @@ void LightSource::Destroy()
 std::string LightSource::ToString()
 {
 	/// TODO: cba
-	return std::string();
+	return std::string("TODO LightSource string");
 }
 
 std::string LightSource::GetClassName()

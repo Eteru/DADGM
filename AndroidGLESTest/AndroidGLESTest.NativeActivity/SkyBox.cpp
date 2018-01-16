@@ -3,9 +3,8 @@
 #include "SceneManager.h"
 
 
-SkyBox::SkyBox(Vector3 pos, Vector3 rot, Vector3 scale, std::string id,
-	float offset, float size)
-	: SceneObject(pos, rot, scale, false, id), m_offsetY(offset), m_size(size), m_half_size(size * 0.5f)
+SkyBox::SkyBox(Vector3 pos, Vector3 rot, Vector3 scale, std::string name, float offset, float size)
+	: SceneObject(pos, rot, scale, name, false), m_offsetY(offset), m_size(size), m_half_size(size * 0.5f)
 {
 }
 
@@ -18,6 +17,7 @@ void SkyBox::Init()
 	m_scale = Vector3(m_size, m_size, m_size);
 	// Center skybox to camera position
 	Camera *cam = SceneManager::GetInstance()->GetActiveCamera();
+	PrintUtils::PrintI("Active camera: " + cam->ToString());
 	Vector3 camera_pos = cam->GetPosition();
 	m_position.x = camera_pos.x - m_half_size;
 	m_position.y = camera_pos.y - m_half_size + m_offsetY;
@@ -58,4 +58,22 @@ bool SkyBox::Collides(SceneObject * obj)
 bool SkyBox::Contains(const Vector3 & point)
 {
 	return false;
+}
+
+void SkyBox::FixedUpdate()
+{
+}
+
+void SkyBox::Destroy()
+{
+}
+
+std::string SkyBox::ToString()
+{
+	return std::string("TODO skybox string");
+}
+
+std::string SkyBox::GetClassName()
+{
+	return std::string("SkyBox");
 }
