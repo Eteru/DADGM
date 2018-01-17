@@ -39,9 +39,14 @@ public:
 		return (true == is_wired) ? m_indicesWiredCount : m_indicesCount;
 	}
 
-	inline const BoundingBox & GetBB() const
+	inline const Vector3 & GetMinPos() const
 	{
-		return m_bb;
+		return m_pos_min;
+	}
+
+	inline const Vector3 & GetMaxPos() const
+	{
+		return m_pos_max;
 	}
 
 private:
@@ -52,6 +57,8 @@ private:
 	uint32_t m_indicesCount;
 	uint32_t m_indicesWiredCount;
 
-	BoundingBox m_bb;
+	Vector3 m_pos_min;
+	Vector3 m_pos_max;
+	
 	ModelResource *m_mr;
 };

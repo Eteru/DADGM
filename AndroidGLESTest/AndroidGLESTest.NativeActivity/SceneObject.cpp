@@ -24,6 +24,8 @@ void SceneObject::Init()
 
 void SceneObject::FixedUpdate()
 {
+	m_bb.SetMinBB(m_model->GetMinPos());
+	m_bb.SetMaxBB(m_model->GetMaxPos());
 }
 
 void SceneObject::Update()

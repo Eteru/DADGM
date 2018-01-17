@@ -33,12 +33,10 @@ public:
 
 	inline const BoundingBox GetBB()
 	{
-		BoundingBox bb = m_model->GetBB();
+		m_bb.SetMinBB(Vector3(Vector4(m_bb.GetMinBB(), 1.f) * m_M));
+		m_bb.SetMaxBB(Vector3(Vector4(m_bb.GetMaxBB(), 1.f) * m_M));
 
-		bb.SetMinBB(Vector3(Vector4(bb.GetMinBB(), 1.f) * m_M));
-		bb.SetMaxBB(Vector3(Vector4(bb.GetMaxBB(), 1.f) * m_M));
-
-		return bb;
+		return m_bb;
 	}
 
 	inline const std::string & GetName() const
@@ -74,6 +72,7 @@ protected:
 	//std::vector<std::string> m_light_ids;
 
 	std::string m_name;
+	BoundingBox m_bb;
 
 	void SharedDrawElements();
 	void GeneralUpdate();
