@@ -1,8 +1,6 @@
 
 #include "SceneManager.h"
 #include "Terrain.h"
-#include "SkyBox.h"
-#include "AnimatedObject.h"
 
 #include <android/asset_manager.h>
 
@@ -499,10 +497,8 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	{
 	case OT_ANIMATED:
 	{
-		float displacement = XMLUtils::GetFloatValueSafe(pObject, "displacement_max", 0.5f);
-		AnimatedObject *ao = new AnimatedObject(pos, rot, scale, depthTest, name, displacement);
-		object = ao;
-		break;
+		// removed aniamted obj
+		return true;
 	}
 	case OT_TERRAIN:
 	{
@@ -521,13 +517,8 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	}
 	case OT_SKYBOX:
 	{
-		float offsetY = XMLUtils::GetFloatValueSafe(pObject, "offsetY", 0.f);
-		float sz = XMLUtils::GetFloatValueSafe(pObject, "size", 0.f);
-
-		SkyBox *sb = new SkyBox(pos, rot, scale, name, offsetY, sz);
-
-		object = sb;
-		break;
+		// removed skybox
+		return true;
 	}
 	case OT_NORMAL:
 	{

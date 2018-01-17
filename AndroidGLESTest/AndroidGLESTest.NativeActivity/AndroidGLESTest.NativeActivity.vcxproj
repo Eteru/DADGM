@@ -213,7 +213,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
-    <ClInclude Include="AnimatedObject.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DeltaTime.h" />
@@ -232,7 +231,6 @@
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shaders.h" />
-    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
@@ -244,7 +242,6 @@
   <ItemGroup>
     <ClCompile Include="AmbientalLight.cpp" />
     <ClCompile Include="android_native_app_glue.c" />
-    <ClCompile Include="AnimatedObject.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
@@ -261,7 +258,6 @@
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shaders.cpp" />
-    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGA.cpp" />

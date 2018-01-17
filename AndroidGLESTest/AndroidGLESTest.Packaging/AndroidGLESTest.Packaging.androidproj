@@ -136,14 +136,10 @@
     <Content Include="assets\Models\witch.nfg" />
     <Content Include="assets\Models\Woman1.nfg" />
     <Content Include="assets\Models\Woman2.nfg" />
-    <Content Include="assets\Shaders\fireShaderFS.fs" />
-    <Content Include="assets\Shaders\fireShaderVS.vs" />
     <Content Include="assets\Shaders\LineShaderFS.fs" />
     <Content Include="assets\Shaders\LineShaderVS.vs" />
     <Content Include="assets\Shaders\ObjShaderFS.fs" />
     <Content Include="assets\Shaders\ObjShaderVS.vs" />
-    <Content Include="assets\Shaders\SkyBoxShader.fs" />
-    <Content Include="assets\Shaders\SkyBoxShader.vs" />
     <Content Include="assets\Shaders\terrainShader.fs" />
     <Content Include="assets\Shaders\terrainShader.vs" />
     <Content Include="assets\Shaders\TriangleShaderFS.fs" />

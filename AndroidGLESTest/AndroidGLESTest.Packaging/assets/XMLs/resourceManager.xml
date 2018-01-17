@@ -4,25 +4,15 @@
 		<model id="1">
 			<path>Models/Croco.nfg</path>
 		</model>
-		<model id="2">
-			<path>Models/SkyBox.nfg</path>
-		</model>
     <model id="3">
       <path>Models/Bila.nfg</path>
     </model>
-		<model id="4">
-			<path>Models/fire.nfg</path>
-		</model>
 		<!-- si aici se adauga toate modelele -->
 	</models>
 	<shaders>
 	<shader id="1">
 			<vs>Shaders/terrainShader.vs</vs>
 			<fs>Shaders/terrainShader.fs</fs>
-	</shader>
-	<shader id="2">
-		<vs>Shaders/SkyBoxShader.vs</vs>
-		<fs>Shaders/SkyBoxShader.fs</fs>
 	</shader>
 	<shader id="10">
 		<vs>Shaders/vertexShader.vs</vs>
@@ -32,10 +22,6 @@
 		<vs>Shaders/ObjShaderVS.vs</vs>
 		<fs>Shaders/ObjShaderFS.fs</fs>
 	</shader>
-  <shader id="4">
-    <vs>Shaders/fireShaderVS.vs</vs>
-    <fs>Shaders/fireShaderFS.fs</fs>
-  </shader>
 	<!-- si aici se adauga toate shaderele -->
 	</shaders>
 	<textures>
@@ -81,27 +67,6 @@
 			<wrap_s>CLAMP_TO_EDGE</wrap_s>
 			<wrap_t>CLAMP_TO_EDGE</wrap_t>
 		</texture>
-    <texture id="7" type="2d">
-      <path>Textures/fire3.tga</path>
-      <min_filter>LINEAR</min_filter>
-      <mag_filter>LINEAR</mag_filter>
-      <wrap_s>CLAMP_TO_EDGE</wrap_s>
-      <wrap_t>CLAMP_TO_EDGE</wrap_t>
-    </texture>
-    <texture id="8" type="2d">
-      <path>Textures/fire_mask.tga</path>
-      <min_filter>LINEAR</min_filter>
-      <mag_filter>LINEAR</mag_filter>
-      <wrap_s>CLAMP_TO_EDGE</wrap_s>
-      <wrap_t>CLAMP_TO_EDGE</wrap_t>
-    </texture>
-    <texture id="9" type="2d">
-      <path>Textures/DisplacementMap.tga</path>
-      <min_filter>LINEAR</min_filter>
-      <mag_filter>LINEAR</mag_filter>
-      <wrap_s>CLAMP_TO_EDGE</wrap_s>
-      <wrap_t>CLAMP_TO_EDGE</wrap_t>
-    </texture>
 		<texture id="15" type="cube">
 			<path>Textures/envMap.tga</path>			
 			<min_filter>LINEAR</min_filter>
