@@ -11,6 +11,7 @@
 #include "PrintUtils.h"
 #include "InputManager.h"
 #include "UniqueID.h"
+#include "SceneObjectSpawner.h"
 
 SceneManager *SceneManager::m_instance = nullptr;
 
@@ -170,7 +171,11 @@ void SceneManager::Destroy()
 
 void SceneManager::Init()
 {
-	
+	SceneObjectSpawner spawner("2", "3");
+
+	spawner.SpawnObject(Vector3(0, 10, -10), { "1" });
+	spawner.SpawnObject(Vector3(1, 10, -10), { "2" });
+	spawner.SpawnObject(Vector3(0, 10, -15), { "3" });
 }
 
 void SceneManager::FixedUpdate()

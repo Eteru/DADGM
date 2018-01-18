@@ -229,6 +229,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="SceneObjectSpawner.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Structs.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="SceneObjectSpawner.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Terrain.cpp" />

@@ -24,6 +24,7 @@
     <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="SceneObjectSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -52,5 +53,6 @@
     <ClInclude Include="DeltaTime.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="SceneObjectSpawner.h" />
   </ItemGroup>
 </Project>

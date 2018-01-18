@@ -4,6 +4,9 @@
 		<model id="1">
 			<path>Models/Croco.nfg</path>
 		</model>
+    <model id="2">
+      <path>Models/Cube.nfg</path>
+    </model>
     <model id="3">
       <path>Models/Bila.nfg</path>
     </model>

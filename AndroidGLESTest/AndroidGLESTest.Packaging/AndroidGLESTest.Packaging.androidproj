@@ -122,13 +122,13 @@
     <Content Include="assets\Models\Bila.nfg" />
     <Content Include="assets\Models\bus.nfg" />
     <Content Include="assets\Models\Croco.nfg" />
+    <Content Include="assets\Models\Cube.nfg" />
     <Content Include="assets\Models\fire.nfg" />
     <Content Include="assets\Models\Goliath.nfg" />
     <Content Include="assets\Models\House.nfg" />
     <Content Include="assets\Models\Marine.nfg" />
     <Content Include="assets\Models\Radar.nfg" />
     <Content Include="assets\Models\SCV.nfg" />
-    <Content Include="assets\Models\SkyBox.nfg" />
     <Content Include="assets\Models\Teran_Command_Center.nfg" />
     <Content Include="assets\Models\Terrain.nfg" />
     <Content Include="assets\Models\train.nfg" />
