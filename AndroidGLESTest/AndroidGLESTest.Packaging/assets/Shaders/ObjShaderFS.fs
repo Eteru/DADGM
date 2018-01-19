@@ -136,13 +136,18 @@ void main()
 	
 	// copy this till you die
 	
-	ID /= float(u_lights_count);
-	IS /= float(u_lights_count);
+	if (u_lights_count > 0) {
+		ID /= float(u_lights_count);
+		IS /= float(u_lights_count);
 	
-	col = col * vec4(IA * ID, 1.0) + vec4(IS, 1.0);
+		if (ID.x < 0.1 && ID.y < 0.1 && ID.z < 0.1) {
+			ID = vec3(1.0);
+		}
+
+		col = col * vec4(IA * ID, 1.0) + vec4(IS, 1.0);
+	}
 
 	float alpha_clamped = clamp(u_fog_alpha, 0.0, 1.0);
 	col = vec4(alpha_clamped * u_fog_color + (1.0 - alpha_clamped) * col.xyz, col.a);
-
 	gl_FragColor = col;
 }
