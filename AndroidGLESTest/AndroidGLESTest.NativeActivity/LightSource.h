@@ -26,13 +26,9 @@ public:
 	float GetSpotAngle() const;
 	LightType GetType() const;
 
-	virtual void Init() override;
-	virtual void FixedUpdate() override;
 	virtual void Update() override;
-	virtual void Draw() override;
-	virtual void Destroy() override;
-	virtual std::string ToString() override;
 
+	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 
 	inline GameLoopObject * GetFollowedObject() const

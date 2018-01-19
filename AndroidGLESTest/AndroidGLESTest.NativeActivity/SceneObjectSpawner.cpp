@@ -17,7 +17,7 @@ SceneObjectSpawner::~SceneObjectSpawner()
 	// resources are eliminated by the managers
 }
 
-SceneObject * SceneObjectSpawner::SpawnObject(const Vector3 pos, const std::vector<std::string>& texture_ids)
+VisualBody * SceneObjectSpawner::SpawnObject(const Vector3 pos, const std::vector<std::string>& texture_ids)
 {
 	if (nullptr == m_model ||
 		nullptr == m_shader)
@@ -25,7 +25,7 @@ SceneObject * SceneObjectSpawner::SpawnObject(const Vector3 pos, const std::vect
 		return nullptr;
 	}
 
-	SceneObject *so = new SceneObject(pos, Vector3(0, 0, 0), Vector3(0.5f, 0.5f, 0.5f), "SpawnedObject", true);
+	VisualBody *so = new VisualBody(pos, Vector3(0, 0, 0), Vector3(0.5f, 0.5f, 0.5f), "SpawnedObject", true);
 
 	so->SetModel(m_model);
 	so->SetShader(m_shader);

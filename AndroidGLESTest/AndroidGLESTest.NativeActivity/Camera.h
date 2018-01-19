@@ -2,7 +2,7 @@
 
 #include "Math.h"
 #include "GameLoopObject.h"
-#include "SceneObject.h"
+#include "VisualBody.h"
 #include <GLES2\gl2.h>
 
 class Camera : public GameLoopObject
@@ -64,11 +64,8 @@ public:
 	void UpdateWorldView();
 	void RestoreDefaults();
 
-	virtual void Init() override;
 	virtual void FixedUpdate() override;
 	virtual void Update() override;
-	virtual void Draw() override;
-	virtual void Destroy() override;
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 	virtual void OnTouchUp(const int x, const int y) override;

@@ -1,9 +1,13 @@
 #include "GameManager.h"
+
+#include <ctime>
+
 #include "PrintUtils.h"
 #include "DeltaTime.h"
 
-#include <ctime>
 #include "SceneObjectSpawner.h"
+
+#include "CollisionDetection.h"
 
 
 
@@ -36,7 +40,7 @@ void GameManager::Init()
 	spawner.SpawnObject(Vector3(0, 0, 1), { "2" });
 	spawner.SpawnObject(Vector3(1, 0, 0), { "1" });
 
-	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(SceneManager::GetInstance()->FindComponent("SceneObject"), 15);
+	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(SceneManager::GetInstance()->FindComponent("VisualBody"), 15);
 
 	AddComponent(SceneManager::GetInstance());
 
@@ -46,7 +50,14 @@ void GameManager::Init()
 
 void GameManager::FixedUpdate()
 {
-	
+	std::vector<GameLoopObject *> allPhysicsBodies = FindComponentsTree("PhysicsBody");
+
+	std::vector<BVIntersections::ContactInfo> allCollisions = CollisionDetection::DetectCollisions(allPhysicsBodies);
+
+	for (BVIntersections::ContactInfo contact : allCollisions)
+	{
+		// Collision response goes here
+	}
 }
 
 void GameManager::Update()

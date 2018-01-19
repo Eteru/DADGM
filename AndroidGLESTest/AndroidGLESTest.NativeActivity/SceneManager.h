@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-#include "SceneObject.h"
+#include "VisualBody.h"
 #include "ResourceManager.h"
 #include "Camera.h"
 #include "Fog.h"
@@ -18,14 +18,9 @@ public:
 
 	static SceneManager *GetInstance();
 
+	virtual void Destroy() override;
 	void SetEngine(engine *eng);
 	bool LoadFromFile(std::string filepath);
-
-	virtual void Init() override;
-	virtual void FixedUpdate() override;
-	virtual void Update() override;
-	virtual void Draw() override;
-	virtual void Destroy() override;
 
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;

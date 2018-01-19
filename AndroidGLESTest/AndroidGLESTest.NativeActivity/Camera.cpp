@@ -138,11 +138,6 @@ void Camera::RestoreDefaults()
 	UpdateWorldView();
 }
 
-void Camera::Init()
-{
-	// Not sure anything should happen here
-}
-
 void Camera::FixedUpdate()
 {
 	if (nullptr != m_followedObject)
@@ -168,22 +163,12 @@ void Camera::Update()
 {
 	if (nullptr != m_followedObject)
 	{
-		Vector3 obj_pos = dynamic_cast<SceneObject*>(m_followedObject)->m_transform.GetPosition();
+		Vector3 obj_pos = dynamic_cast<VisualBody*>(m_followedObject)->m_transform.GetPosition();
 		
 		m_target = obj_pos;
 	}
 
 	UpdateWorldView();
-}
-
-void Camera::Draw()
-{
-	// No camera draw required, only if we draw something for debug
-}
-
-void Camera::Destroy()
-{
-	// nothing to destroy
 }
 
 std::string Camera::ToString()

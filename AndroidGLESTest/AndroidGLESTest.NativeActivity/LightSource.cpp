@@ -87,30 +87,13 @@ LightSource::LightType LightSource::GetType() const
 	return m_type;
 }
 
-void LightSource::Init()
-{
-}
-
-void LightSource::FixedUpdate()
-{
-
-}
-
 void LightSource::Update()
 {
 	if (nullptr != m_followedObject)
 	{
-		SceneObject *so = dynamic_cast<SceneObject *>(m_followedObject);
+		VisualBody *so = dynamic_cast<VisualBody *>(m_followedObject);
 		m_transform.m_pos = so->m_transform.GetPosition();
 	}
-}
-
-void LightSource::Draw()
-{
-}
-
-void LightSource::Destroy()
-{
 }
 
 std::string LightSource::ToString()

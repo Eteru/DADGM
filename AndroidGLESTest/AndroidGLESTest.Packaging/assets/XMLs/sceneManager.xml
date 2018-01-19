@@ -96,7 +96,7 @@
   <objects>
     <object>
       <id>1</id>
-      <model>2</model>
+      <model>3</model>
       <shader>3</shader>
       <type>normal</type>
       <depthTest>true</depthTest>

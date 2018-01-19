@@ -1,6 +1,5 @@
 
 #include "SceneManager.h"
-#include "Terrain.h"
 
 #include <android/asset_manager.h>
 
@@ -126,40 +125,6 @@ bool SceneManager::LoadFromFile(std::string filepath)
 	return true;
 }
 
-void SceneManager::Update()
-{
-// 	for (auto & obj : m_objects) {
-// 		obj.second->Update();
-// 	}
-
-	// Collision detection
-// 	for (auto obj = m_objects.begin(); obj != m_objects.end(); ++obj) {
-// 		for (auto obj2 = std::next(obj); obj2 != m_objects.end(); ++obj2) {
-// 			if ("SkyBox" == obj2->second->GetName()) {
-// 				continue;
-// 			}
-// 
-// 			if (true == obj->second->Collides(obj2->second)) {
-// 				std::cout << obj->second->GetName() << " collides with " << obj2->second->GetName() << std::endl;
-// 			}
-// 		}
-// 
-// 		if (true == obj->second->Contains(m_cameras[m_active_camera]->GetPosition())) {
-// 			std::cout << "Camera collides with " << obj->second->GetName() << std::endl;
-// 		}
-// 	}
-// 
-// 	/// TODO: this is just for test, remove it after
-// 	m_cameras[m_active_camera]->FixedUpdate();
-// 	m_cameras[m_active_camera]->Update();
-}
-
-void SceneManager::Draw()
-{
-// 	for (auto & obj : m_objects) {
-// 		obj.second->Draw();
-// 	}
-}
 
 void SceneManager::Destroy()
 {
@@ -167,20 +132,6 @@ void SceneManager::Destroy()
 		delete m_instance;
 		m_instance = nullptr;
 	}
-}
-
-void SceneManager::Init()
-{
-// 	SceneObjectSpawner spawner("2", "3");
-// 
-// 	spawner.SpawnObject(Vector3(0, 10, -10), { "1" });
-// 	spawner.SpawnObject(Vector3(1, 10, -10), { "2" });
-// 	spawner.SpawnObject(Vector3(0, 10, -15), { "3" });
-}
-
-void SceneManager::FixedUpdate()
-{
-	
 }
 
 std::string SceneManager::ToString()
@@ -448,7 +399,7 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 
 	bool wired = XMLUtils::GetBoolValueSafe(pObject, "wired", false);
 
-	SceneObject *object = nullptr;
+	VisualBody *object = nullptr;
 
 	switch (ot)
 	{
@@ -459,17 +410,17 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	}
 	case OT_TERRAIN:
 	{
-		uint32_t blockSize = XMLUtils::GetIntValueSafe(pObject, "blockSize", 4);
-		uint32_t cellSize = XMLUtils::GetIntValueSafe(pObject, "cellSize", 1);
-		float offsetY = XMLUtils::GetFloatValueSafe(pObject, "offsetY", 0.f);
-		Vector3 heights = XMLUtils::GetVectorValueRGBSafe(pObject, "heights", Vector3(0.f));
-
-		Terrain *t = new Terrain(pos, rot, scale, heights, depthTest, name);
-		t->SetBlockSize(blockSize);
-		t->SetCellSize(cellSize);
-		t->SetOffsetY(offsetY);
-
-		object = t;
+// 		uint32_t blockSize = XMLUtils::GetIntValueSafe(pObject, "blockSize", 4);
+// 		uint32_t cellSize = XMLUtils::GetIntValueSafe(pObject, "cellSize", 1);
+// 		float offsetY = XMLUtils::GetFloatValueSafe(pObject, "offsetY", 0.f);
+// 		Vector3 heights = XMLUtils::GetVectorValueRGBSafe(pObject, "heights", Vector3(0.f));
+// 
+// 		Terrain *t = new Terrain(pos, rot, scale, heights, depthTest, name);
+// 		t->SetBlockSize(blockSize);
+// 		t->SetCellSize(cellSize);
+// 		t->SetOffsetY(offsetY);
+// 
+// 		object = t;
 		break;
 	}
 	case OT_SKYBOX:
@@ -479,7 +430,7 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	}
 	case OT_NORMAL:
 	{
-		object = new SceneObject(pos, rot, scale, name, depthTest);
+		object = new VisualBody(pos, rot, scale, name, depthTest);
 		break;
 	}
 	default:
@@ -511,31 +462,31 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 // 	}
 
 	// Trajectory
-	rapidxml::xml_node<> *pTrajectory = pObject->first_node("trajectory");
-	if (nullptr != pTrajectory)
-	{
-		uint32_t iter_count = XMLUtils::GetIntValueSafe(pTrajectory, "iteration-count", 1);
-		float traj_speed = XMLUtils::GetFloatValueSafe(pTrajectory, "speed", 1.f);
-		std::string type = XMLUtils::GetStringValueSafe(pTrajectory, "type", "");
-		std::string direction = XMLUtils::GetStringValueSafe(pTrajectory, "direction", "");
-
-
-		Trajectory *tj = new Trajectory(iter_count, traj_speed, Trajectory::GetDirectionTypeFromString(direction), Trajectory::GetTrajectoryTypeFromString(type));
-
-		tj->AddPoint(pos);
-
-		// add points
-		rapidxml::xml_node<> *pTrajectoryPoints = pTrajectory->first_node("points");
-
-		if (nullptr != pTrajectoryPoints)
-		{
-			for (rapidxml::xml_node<> *pTjPoint = pTrajectoryPoints->first_node("point"); pTjPoint; pTjPoint = pTjPoint->next_sibling())
-			{
-				tj->AddPoint(XMLUtils::GetVectorValueXYZSafe(pTjPoint, Vector3(0.f)));
-			}
-		}
-		object->SetTrajectory(tj);
-	}
+// 	rapidxml::xml_node<> *pTrajectory = pObject->first_node("trajectory");
+// 	if (nullptr != pTrajectory)
+// 	{
+// 		uint32_t iter_count = XMLUtils::GetIntValueSafe(pTrajectory, "iteration-count", 1);
+// 		float traj_speed = XMLUtils::GetFloatValueSafe(pTrajectory, "speed", 1.f);
+// 		std::string type = XMLUtils::GetStringValueSafe(pTrajectory, "type", "");
+// 		std::string direction = XMLUtils::GetStringValueSafe(pTrajectory, "direction", "");
+// 
+// 
+// 		Trajectory *tj = new Trajectory(iter_count, traj_speed, Trajectory::GetDirectionTypeFromString(direction), Trajectory::GetTrajectoryTypeFromString(type));
+// 
+// 		tj->AddPoint(pos);
+// 
+// 		// add points
+// 		rapidxml::xml_node<> *pTrajectoryPoints = pTrajectory->first_node("points");
+// 
+// 		if (nullptr != pTrajectoryPoints)
+// 		{
+// 			for (rapidxml::xml_node<> *pTjPoint = pTrajectoryPoints->first_node("point"); pTjPoint; pTjPoint = pTjPoint->next_sibling())
+// 			{
+// 				tj->AddPoint(XMLUtils::GetVectorValueXYZSafe(pTjPoint, Vector3(0.f)));
+// 			}
+// 		}
+// 		object->SetTrajectory(tj);
+// 	}
 
 	object->SetWired(wired);
 

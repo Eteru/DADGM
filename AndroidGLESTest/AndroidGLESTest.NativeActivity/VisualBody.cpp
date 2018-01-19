@@ -1,12 +1,12 @@
 
 #include "Vertex.h"
 #include "SceneManager.h"
-#include "SceneObject.h"
+#include "VisualBody.h"
 
 
-SceneObject::SceneObject(Vector3 pos, Vector3 rot, Vector3 scale, std::string name, bool depth_test)
+VisualBody::VisualBody(Vector3 pos, Vector3 rot, Vector3 scale, std::string name, bool depth_test)
 	: m_depth_test(depth_test), m_is_wired(false), m_name(name),
-	m_model(nullptr), m_shader(nullptr), m_trajectory(nullptr)
+	m_model(nullptr), m_shader(nullptr)
 {
 	m_transform = Transform(pos, rot, scale);
 
@@ -15,32 +15,20 @@ SceneObject::SceneObject(Vector3 pos, Vector3 rot, Vector3 scale, std::string na
 }
 
 
-SceneObject::~SceneObject()
+VisualBody::~VisualBody()
 {
 	
 }
 
-void SceneObject::Init()
+void VisualBody::Init()
 {
 }
 
-void SceneObject::FixedUpdate()
-{
-// 	if (nullptr != m_trajectory)
-// 	{
-// 		m_trajectory->NextPosition(m_transform.m_pos, m_transform.m_rot);
-// 	}
-
-	
-	m_bb.SetMinBB(m_model->GetMinPos());
-	m_bb.SetMaxBB(m_model->GetMaxPos());
-}
-
-void SceneObject::Update()
+void VisualBody::Update()
 {	
 }
 
-void SceneObject::Draw()
+void VisualBody::Draw()
 {
 	glUseProgram(m_shader->GetProgramID());
 
@@ -55,30 +43,26 @@ void SceneObject::Draw()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void SceneObject::Destroy()
+void VisualBody::Destroy()
 {
-	if (nullptr != m_trajectory) {
-		delete m_trajectory;
-		m_trajectory = nullptr;
-	}
 }
 
-std::string SceneObject::ToString()
+std::string VisualBody::ToString()
 {
-	return std::string("TODO SceneObject string");
+	return std::string("TODO VisualBody string");
 }
 
-std::string SceneObject::GetClassName()
+std::string VisualBody::GetClassName()
 {
-	return std::string("SceneObject");
+	return std::string("VisualBody");
 }
 
-void SceneObject::SetWired(bool is_wired)
+void VisualBody::SetWired(bool is_wired)
 {
 	m_is_wired = is_wired;
 }
 
-void SceneObject::SetBlend(bool use_blend)
+void VisualBody::SetBlend(bool use_blend)
 {
 	if (true == use_blend) {
 		glEnable(GL_BLEND);
@@ -89,22 +73,17 @@ void SceneObject::SetBlend(bool use_blend)
 	}
 }
 
-void SceneObject::SetModel(Model * model)
+void VisualBody::SetModel(Model * model)
 {
 	m_model = model;
 }
 
-void SceneObject::SetShader(Shader * shader)
+void VisualBody::SetShader(Shader * shader)
 {
 	m_shader = shader;
 }
 
-void SceneObject::SetTrajectory(Trajectory * trajectory)
-{
-	m_trajectory = trajectory;
-}
-
-void SceneObject::AddTexture(Texture * texture)
+void VisualBody::AddTexture(Texture * texture)
 {
 	m_textures.push_back(texture);
 }
@@ -114,17 +93,7 @@ void SceneObject::AddTexture(Texture * texture)
 // 	m_light_ids.push_back(id);
 // }
 
-bool SceneObject::Collides(SceneObject * obj)
-{
-	return GetBB().Collides(obj->GetBB());
-}
-
-bool SceneObject::Contains(const Vector3 & point)
-{
-	return GetBB().Contains(point);
-}
-
-void SceneObject::SharedDrawElements()
+void VisualBody::SharedDrawElements()
 {
 	Shaders objShader = m_shader->GetShaderData();
 	Camera *cam = SceneManager::GetInstance()->GetActiveCamera();

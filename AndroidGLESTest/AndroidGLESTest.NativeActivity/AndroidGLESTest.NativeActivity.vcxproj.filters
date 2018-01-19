@@ -13,13 +13,10 @@
     <ClCompile Include="PrintUtils.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shaders.cpp" />
-    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGA.cpp" />
-    <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="XMLUtils.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -27,6 +24,11 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TimeLerp.cpp" />
     <ClCompile Include="SceneObjectSpawner.cpp" />
+    <ClCompile Include="VisualBody.cpp" />
+    <ClCompile Include="BoundingSphere.cpp" />
+    <ClCompile Include="BVIntersections.cpp" />
+    <ClCompile Include="PhysicsBody.cpp" />
+    <ClCompile Include="CollisionDetection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -42,13 +44,10 @@
     <ClInclude Include="PrintUtils.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Structs.h" />
-    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Trajectory.h" />
     <ClInclude Include="UniqueID.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="XMLUtils.h" />
@@ -58,5 +57,10 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TimeLerp.h" />
     <ClInclude Include="SceneObjectSpawner.h" />
+    <ClInclude Include="VisualBody.h" />
+    <ClInclude Include="BoundingSphere.h" />
+    <ClInclude Include="BVIntersections.h" />
+    <ClInclude Include="PhysicsBody.h" />
+    <ClInclude Include="CollisionDetection.h" />
   </ItemGroup>
 </Project>
