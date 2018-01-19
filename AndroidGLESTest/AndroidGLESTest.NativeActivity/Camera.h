@@ -59,7 +59,7 @@ public:
 	void RotateOY(int dir);
 	void RotateOZ(int dir);
 
-	void SetFollowingObject(GameLoopObject *obj, const float x, const float z);
+	void SetFollowingObject(GameLoopObject *obj, const float radius);
 
 	void UpdateWorldView();
 	void RestoreDefaults();
@@ -102,14 +102,9 @@ private:
 	GLfloat m_fov;
 	GLfloat m_aspect;
 
-	// following object
-	Vector3 m_offset;
-	Vector3 m_moveDisplacement;
-	std::string m_object_to_follow_id;
-	
 
-	float m_theta;
-	float m_phi;
+	// following object
+	GLfloat m_radius;
 
 	GameLoopObject *m_followedObject;
 };

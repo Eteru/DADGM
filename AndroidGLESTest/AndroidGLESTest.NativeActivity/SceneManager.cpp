@@ -171,11 +171,11 @@ void SceneManager::Destroy()
 
 void SceneManager::Init()
 {
-	SceneObjectSpawner spawner("2", "3");
-
-	spawner.SpawnObject(Vector3(0, 10, -10), { "1" });
-	spawner.SpawnObject(Vector3(1, 10, -10), { "2" });
-	spawner.SpawnObject(Vector3(0, 10, -15), { "3" });
+// 	SceneObjectSpawner spawner("2", "3");
+// 
+// 	spawner.SpawnObject(Vector3(0, 10, -10), { "1" });
+// 	spawner.SpawnObject(Vector3(1, 10, -10), { "2" });
+// 	spawner.SpawnObject(Vector3(0, 10, -15), { "3" });
 }
 
 void SceneManager::FixedUpdate()
@@ -380,7 +380,7 @@ bool SceneManager::ParseObjects(rapidxml::xml_node<> *pRoot)
 	if (nullptr == pObjects)
 	{
 		std::cerr << "Objects are missing" << std::endl;
-		return false;
+		return true;
 	}
 
 	for (rapidxml::xml_node<> *pObject = pObjects->first_node("object"); pObject; pObject = pObject->next_sibling())
@@ -741,14 +741,14 @@ bool SceneManager::ParseCameraLinks(rapidxml::xml_node<> *pNode)
 
 		if (nullptr == cam)
 		{
-			PrintUtils::PrintI("Camera->Object: Light component not found. Skipping...");
+			PrintUtils::PrintI("Camera->Object: Camera component not found. Skipping...");
 			continue;
 		}
 
 		PrintUtils::PrintI("Camera->Object: Found both");
 
-		Vector3 offset = XMLUtils::GetVectorValueXYZSafe(pObject, "offset", Vector3(0.f));
-		cam->SetFollowingObject(obj, offset.x, offset.z);
+		float offset = XMLUtils::GetFloatValueSafe(pObject, "radius", 0);
+		cam->SetFollowingObject(obj, offset);
 	}
 
 	return true;

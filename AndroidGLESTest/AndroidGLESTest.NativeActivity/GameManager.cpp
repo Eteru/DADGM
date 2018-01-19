@@ -3,6 +3,7 @@
 #include "DeltaTime.h"
 
 #include <ctime>
+#include "SceneObjectSpawner.h"
 
 
 
@@ -24,7 +25,18 @@ void GameManager::Init()
 	m_lastFrameTime = m_initTime;
 	DeltaTime::SetDt(0);
 
-	SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
+	
+	//SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
+	SceneManager::GetInstance()->LoadFromFile("XMLs/hartaDeTest.xml");
+
+	SceneObjectSpawner spawner("2", "3");
+	
+	spawner.SpawnObject(Vector3(0, 0, 0), { "1" });
+	spawner.SpawnObject(Vector3(1, 0, 1), { "3" });
+	spawner.SpawnObject(Vector3(0, 0, 1), { "2" });
+	spawner.SpawnObject(Vector3(1, 0, 0), { "1" });
+
+	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(SceneManager::GetInstance()->FindComponent("SceneObject"), 15);
 
 	AddComponent(SceneManager::GetInstance());
 

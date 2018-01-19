@@ -26,11 +26,12 @@ void SceneObject::Init()
 
 void SceneObject::FixedUpdate()
 {
-	if (nullptr != m_trajectory)
-	{
-		m_trajectory->NextPosition(m_transform.m_pos, m_transform.m_rot);
-	}
+// 	if (nullptr != m_trajectory)
+// 	{
+// 		m_trajectory->NextPosition(m_transform.m_pos, m_transform.m_rot);
+// 	}
 
+	
 	m_bb.SetMinBB(m_model->GetMinPos());
 	m_bb.SetMaxBB(m_model->GetMaxPos());
 }

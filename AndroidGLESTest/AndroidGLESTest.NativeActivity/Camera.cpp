@@ -5,16 +5,14 @@
 
 Camera::Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat aspectRatio, GLfloat moveSpeed, GLfloat rotateSpeed, GLfloat cnear, GLfloat cfar, GLfloat fov)
 	: m_target(target), m_up(up), m_aspect(aspectRatio), m_moveSpeed(moveSpeed), m_rotateSpeed(rotateSpeed), m_near(cnear), m_far(cfar), m_fov(fov),
-	m_default_position(position), m_default_target(target), m_default_up(up), m_object_to_follow_id("")
+	m_default_position(position), m_default_target(target), m_default_up(up)
 {
 	m_transform.m_pos = position;
 	m_transform.m_lerp = false;
-	m_offset = position;
+	m_followedObject = nullptr;
 	UpdateWorldView();
 
 	m_P.SetPerspective(m_fov, aspectRatio, m_near, m_far);
-	m_theta = 0.f;
-	m_phi = 0.f;
 }
 
 Camera::~Camera()
@@ -78,12 +76,11 @@ void Camera::RotateOY(int dir)
 }
 
 void Camera::RotateOYTPS(const float rads)
-{
-	Matrix m = Matrix().SetRotationY(rads);
-	Vector3 diff = (m_transform.GetPosition() - m_target);
-	Vector4 diff4(diff.x, diff.y, diff.z, 1);
+{	
+	Matrix rot = Matrix().SetTranslation(-m_target.x, -m_target.y, -m_target.z) * Matrix().SetRotationY(rads) * Matrix().SetTranslation(m_target);
 
-	m_transform.m_pos = m * diff4 + m_target;
+	Vector4 v(m_transform.m_pos);	
+	m_transform.m_pos = v * rot;
 }
 
 void Camera::RotateOZ(int dir)
@@ -119,15 +116,15 @@ void Camera::MoveTPS(const int x, const int y)
 // 	m_offset = Vector3(finalDisp.x, m_offset.y, finalDisp.z);
 }
 
-void Camera::SetFollowingObject(GameLoopObject *obj, const float x, const float z)
+void Camera::SetFollowingObject(GameLoopObject *obj, const float radius)
 {
 	m_followedObject = obj;
-	m_offset = /*m_transform.m_pos + */Vector3(x, 0, z);
 
-	m_moveDisplacement = m_followedObject->m_transform.m_pos + 15;
+	//m_transform.m_pos += m_offset;
 
-	m_transform.m_pos += m_offset;
-	
+	m_radius = radius;
+	m_target = obj->m_transform.m_pos;
+
 }
 
 void Camera::RestoreDefaults()
@@ -151,24 +148,19 @@ void Camera::FixedUpdate()
 	if (nullptr != m_followedObject)
 	{
 		Vector3 dir = m_transform.m_pos - m_followedObject->m_transform.m_pos;
-		dir = dir.Normalize();
+		if (dir.Length() == 0)
+		{
+			dir = Vector3(-1, -1, -1).Normalize();
+		}
+		else
+		{
+			dir = dir.Normalize();
+		}
 
-		m_transform.m_pos = m_followedObject->m_transform.m_pos + dir * m_offset.x;
-		//m_transform.m_pos = m_followedObject->m_transform.m_pos;
+		float oldY = m_transform.m_pos.y;
 
-		//m_offset -= m_transform.m_pos;
-		//m_transform.m_pos = m_followedObject->m_transform.m_pos + m_offset;
-// 		m_transform.m_pos = m_followedObject->m_transform.m_pos + m_moveDisplacement;
-// 		m_moveDisplacement = m_transform.m_pos;
-
-
-		//m_offset = m_transform.m_pos;
-
-		// 		m_transform.m_pos.x = m_followedObject->m_transform.m_pos.x + m_xz_offset.x;
-		// 		m_transform.m_pos.z = m_followedObject->m_transform.m_pos.z + m_xz_offset.y;
-		// 
-		// 		m_transform.m_pos += m_movementOffset;
-		// 		m_movementOffset = Vector3(0.f);
+		m_transform.m_pos = m_followedObject->m_transform.m_pos + dir * m_radius;
+		m_transform.m_pos.y = oldY;
 	}
 }
 
@@ -221,12 +213,10 @@ void Camera::OnTouchDrag(const int xPrev, const int yPrev, const int x, const in
 	{
 		const float PI = 3.14159;
 
-		m_theta += static_cast<float>(dX) * PI / m_width;
-		m_phi += static_cast<float>(dY) * 2 * PI / m_height;
-		//MoveTPS(x, y);
 
 		RotateOYTPS(2 * PI * dX / m_width);
 	}
+
 	// 	if (0 != dX)
 	// 	{
 	// 		MoveOX(dX > 0 ? 1 : -1);
@@ -255,16 +245,23 @@ Vector2 Camera::WorldToScreen(const Vector3 &worldPos)
 void Camera::UpdateWorldView()
 {
 	Vector3 actualPos = m_transform.GetPosition();
-	m_zAxis = -(m_target - actualPos).Normalize();
-	m_yAxis = m_up.Normalize();
-	m_xAxis = m_zAxis.Cross(m_yAxis).Normalize();
 
-	m_R.m[0][0] = m_xAxis.x; m_R.m[0][1] = m_xAxis.y;  m_R.m[0][2] = m_xAxis.z;  m_R.m[0][3] = 0.0f;
-	m_R.m[1][0] = m_yAxis.x;  m_R.m[1][1] = m_yAxis.y; m_R.m[1][2] = m_yAxis.z;  m_R.m[1][3] = 0.0f;
-	m_R.m[2][0] = m_zAxis.x;  m_R.m[2][1] = m_zAxis.y;  m_R.m[2][2] = m_zAxis.z; m_R.m[2][3] = 0.0f;
-	m_R.m[3][0] = 0.0f;  m_R.m[3][1] = 0.0f;  m_R.m[3][2] = 0.0f;  m_R.m[3][3] = 1.0f;
+	m_zAxis = (actualPos - m_target).Normalize();
+// 	m_yAxis = m_up.Normalize();
+// 	m_xAxis = m_zAxis.Cross(m_yAxis).Normalize();
+
+	Vector3 crs = Math::Cross(Vector3(0, 1, 0), m_zAxis);
+	m_xAxis = crs.Length() == 0? Vector3(1, 0, 0) : Math::Normalize(crs);
+	m_yAxis = Math::Cross(m_zAxis, m_xAxis);
+
+	m_R.m[0][0] = m_xAxis.x; m_R.m[0][1] = m_xAxis.y; m_R.m[0][2] = m_xAxis.z; m_R.m[0][3] = 0.0f;
+	m_R.m[1][0] = m_yAxis.x; m_R.m[1][1] = m_yAxis.y; m_R.m[1][2] = m_yAxis.z; m_R.m[1][3] = 0.0f;
+	m_R.m[2][0] = m_zAxis.x; m_R.m[2][1] = m_zAxis.y; m_R.m[2][2] = m_zAxis.z; m_R.m[2][3] = 0.0f;
+	m_R.m[3][0] = 0.0f;		 m_R.m[3][1] = 0.0f;	  m_R.m[3][2] = 0.0f;      m_R.m[3][3] = 1.0f;
 
 	Vector3 neg_pos = -actualPos;
 	m_worldMatrix = m_R * Matrix().SetTranslation(actualPos);
 	m_viewMatrix = Matrix().SetTranslation(neg_pos) * m_R.Transpose();
+
+	m_up = m_yAxis;	
 }

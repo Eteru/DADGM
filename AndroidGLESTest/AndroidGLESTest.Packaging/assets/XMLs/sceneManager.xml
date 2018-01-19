@@ -45,13 +45,9 @@
 		<cameraObjectLinks>
 			<cameraObjectLink>
 				<cameraID>1</cameraID>
-				<objectID>2</objectID>
+				<objectID>3</objectID>
 				<objectType>SceneObject</objectType>
-				<offset>			
-					<x>50</x>
-					<y>0</y>
-					<z>50</z>
-				</offset>
+				<radius>30</radius>
 			</cameraObjectLink>
 		</cameraObjectLinks>
 	</cameras>
@@ -100,7 +96,7 @@
   <objects>
     <object>
       <id>1</id>
-      <model>1</model>
+      <model>2</model>
       <shader>3</shader>
       <type>normal</type>
       <depthTest>true</depthTest>
@@ -144,7 +140,7 @@
 
     <object>
       <id>2</id>
-      <model>1</model>
+      <model>2</model>
       <shader>3</shader>
       <type>normal</type>
       <depthTest>true</depthTest>
@@ -308,7 +304,7 @@
         </texture>
       </textures>
       <position>
-        <x>0</x>
+        <x>100</x>
         <y>0</y>
         <z>-150</z>
       </position>
