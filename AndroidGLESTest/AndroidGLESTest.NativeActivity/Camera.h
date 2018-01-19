@@ -11,34 +11,9 @@ public:
 	Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat aspectRatio, GLfloat moveSpeed = 44.9f, GLfloat rotateSpeed = 0.5f, GLfloat cnear = 0.2f, GLfloat cfar = 1000.f, GLfloat fov = 45.F);
 	~Camera();
 
-	inline void SetPosition(Vector3 position)
-	{
-		m_position = position;
-	}
-
-	inline void SetTarget(Vector3 target)
-	{
-		m_target = target;
-	}
-
-	inline void SetUp(Vector3 up)
-	{
-		m_up = up;
-	}
-
-	inline void SetMoveSpeed(GLfloat moveSpeed)
-	{
-		m_moveSpeed = moveSpeed;
-	}
-
-	inline void SetRotateSpeed(GLfloat rotateSpeed)
-	{
-		m_rotateSpeed = rotateSpeed;
-	}
-
 	inline Vector3 GetPosition()
 	{
-		return m_position;
+		return m_transform.GetPosition();
 	}
 
 	inline Vector3 GetTarget()
@@ -72,6 +47,10 @@ public:
 		return m_P;
 	}
 
+
+	void MoveTPS(const int x, const int y);
+
+	void RotateOYTPS(const float rads);
 	void MoveOX(int dir);
 	void MoveOY(int dir);
 	void MoveOZ(int dir);
@@ -95,13 +74,16 @@ public:
 	virtual void OnTouchUp(const int x, const int y) override;
 	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 
+	Vector2 WorldToScreen(const Vector3 &worldPos);
+
+	int m_width;
+	int m_height;
 private:
 	Matrix m_viewMatrix;
 	Matrix m_worldMatrix;
 	Matrix m_R;
 	Matrix m_P;
-
-	Vector3 m_position;
+	
 	Vector3 m_target;
 	Vector3 m_up;
 
@@ -121,8 +103,13 @@ private:
 	GLfloat m_aspect;
 
 	// following object
-	Vector2 m_xz_offset;
+	Vector3 m_offset;
+	Vector3 m_moveDisplacement;
 	std::string m_object_to_follow_id;
+	
+
+	float m_theta;
+	float m_phi;
 
 	GameLoopObject *m_followedObject;
 };

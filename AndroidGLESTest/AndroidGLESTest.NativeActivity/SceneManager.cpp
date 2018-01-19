@@ -259,7 +259,7 @@ bool SceneManager::ParseCamera(rapidxml::xml_node<> *pCamera)
 	Vector3 target = XMLUtils::GetVectorValueXYZSafe(pCamera, "target", Vector3(0.f, 0.f, -1.f));
 	Vector3 up = XMLUtils::GetVectorValueXYZSafe(pCamera, "up", Vector3(0.f, 1.f, 0.f));
 
-	float translateSpeed = XMLUtils::GetIntValueSafe(pCamera, "translationSpeed", 10);
+	float translateSpeed = XMLUtils::GetFloatValueSafe(pCamera, "translationSpeed", 10);
 	float rotationSpeed = XMLUtils::GetFloatValueSafe(pCamera, "rotationSpeed", 0.3f);
 	float fov = XMLUtils::GetIntValueSafe(pCamera, "fov", 45);
 	float cnear = XMLUtils::GetFloatValueSafe(pCamera, "near", 0.2f);
@@ -270,40 +270,14 @@ bool SceneManager::ParseCamera(rapidxml::xml_node<> *pCamera)
 
 	auto cam = new Camera(pos, target, up, aspectRatio, translateSpeed, rotationSpeed, cnear, cfar, fov);
 
+	cam->m_width = m_engine->width;
+	cam->m_height = m_engine->height;
+
 	UniqueID::BlacklistID(cam->GetClassName(), camID);
 	cam->SetID(camID);
 
-	//m_cameras[id] = cam;
-
 	InputManager::RegisterListener(cam);
 	AddComponent(cam);
-
-
-	rapidxml::xml_node<> *pFollowing = pCamera->first_node("following");
-	if (nullptr != pFollowing)
-	{
-		int folObjIDRaw = XMLUtils::GetIntValueSafe(pFollowing, "object", -1);
-
-		if (-1 == folObjIDRaw)
-		{
-			return true;
-		}
-
-		size_t followObjID = static_cast<size_t>(folObjIDRaw);
-		
-		rapidxml::xml_node<> *pCamOffest = pFollowing->first_node("offset");
-		if (nullptr == pCamOffest)
-		{
-			return true;
-		}
-
-		float offsetX = XMLUtils::GetFloatValueSafe(pCamOffest, "x", 20.f);
-		float offsetZ = XMLUtils::GetFloatValueSafe(pCamOffest, "z", 20.f);
-
-		SceneObject *obj = dynamic_cast<SceneObject *>(FindComponent("SceneObject", followObjID));
-
-		cam->SetFollowingObject(obj, offsetX, offsetZ);
-	}
 
 	return true;
 }
@@ -385,16 +359,6 @@ bool SceneManager::ParseLight(rapidxml::xml_node<> *pLight)
 	ls->SetID(lightID);
 	UniqueID::BlacklistID(ls->GetClassName(), lightID);
 
-// 	if (-1 != followedObjectID)
-// 	{
-// 		SceneObject *pObj = dynamic_cast<SceneObject*>(FindComponent("SceneObject", followedObjectID));
-// 
-// 		if (nullptr != pObj)
-// 		{
-// 			ls->SetFollowedObject(pObj);
-// 		}
-// 	}
-
 	ls->SetType(lightType);
 	ls->SetDirection(direction);
 	ls->SetPosition(position);
@@ -433,9 +397,7 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	{
 		LOGI("Object ID is missing. Fix the XML. Skipping...");
 		return false;
-	}
-
-	
+	}	
 
 	rapidxml::xml_node<> *pShader = pObject->first_node("shader");
 	if (nullptr == pShader)
@@ -471,16 +433,6 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 			texture_ids.push_back(XMLUtils::GetStringValue(pTexture, "id"));
 		}
 	}
-
-// 	rapidxml::xml_node<> *pObjLights = pObject->first_node("lights");
-// 	std::vector<std::string> light_ids;
-// 	if (nullptr != pObjLights)
-// 	{
-// 		for (rapidxml::xml_node<> *pObjLight = pObjLights->first_node("light"); pObjLight; pObjLight = pObjLight->next_sibling())
-// 		{
-// 			light_ids.push_back(pObjLight->value());
-// 		}
-// 	}
 
 	Vector3 pos = XMLUtils::GetVectorValueXYZSafe(pObject, "position", Vector3(0.f));
 	Vector3 rot = XMLUtils::GetVectorValueXYZSafe(pObject, "rotation", Vector3(0.f));

@@ -33,8 +33,10 @@ public:
 
 	inline const BoundingBox GetBB()
 	{
-		m_bb.SetMinBB(Vector3(Vector4(m_bb.GetMinBB(), 1.f) * m_M));
-		m_bb.SetMaxBB(Vector3(Vector4(m_bb.GetMaxBB(), 1.f) * m_M));
+		Matrix modelMat = m_transform.GetModel();
+
+		m_bb.SetMinBB(Vector3(Vector4(m_bb.GetMinBB(), 1.f) * modelMat));
+		m_bb.SetMaxBB(Vector3(Vector4(m_bb.GetMaxBB(), 1.f) * modelMat));
 
 		return m_bb;
 	}
@@ -42,11 +44,6 @@ public:
 	inline const std::string & GetName() const
 	{
 		return m_name;
-	}
-
-	inline Vector3 GetPosition() const
-	{
-		return m_position;
 	}
 
 // 	virtual void Init();
@@ -61,10 +58,6 @@ protected:
 	bool m_depth_test;
 	bool m_is_wired;
 
-	Vector3 m_position;
-	Vector3 m_rotation;
-	Vector3 m_scale;
-	Matrix m_M;
 	Model *m_model;
 	Shader *m_shader;
 	Trajectory *m_trajectory;
@@ -75,5 +68,4 @@ protected:
 	BoundingBox m_bb;
 
 	void SharedDrawElements();
-	void GeneralUpdate();
 };

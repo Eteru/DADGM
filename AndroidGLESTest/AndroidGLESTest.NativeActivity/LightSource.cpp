@@ -4,9 +4,10 @@
 
 LightSource::LightSource(float shininess, float diff_coef, float spec_coef, Vector3 diff_color, Vector3 spec_color)
 	: m_shininess(shininess), m_diffuse_coef(diff_coef), m_specular_coef(spec_coef), m_diffuse_color(diff_color),
-	m_specular_color(spec_color), m_spot_angle(0.f), m_position(Vector3(0,0,0)), m_type(NO_LIGHT), m_direction(Vector3(0, 0, 0))
+	m_specular_color(spec_color), m_spot_angle(0.f), m_type(NO_LIGHT), m_direction(Vector3(0, 0, 0))
 {
 	m_followedObject = nullptr;
+	m_transform.m_lerp = false;
 }
 
 LightSource::~LightSource()
@@ -28,7 +29,7 @@ void LightSource::SetType(std::string type)
 
 void LightSource::SetPosition(Vector3 pos)
 {
-	m_position = pos;
+	m_transform.m_pos = pos;
 }
 
 void LightSource::SetDirection(Vector3 dir)
@@ -43,7 +44,7 @@ void LightSource::SetSpotAngle(float angle)
 
 Vector3 LightSource::GetPosition()
 {
-	return m_position;
+	return m_transform.GetPosition();
 }
 
 Vector3 LightSource::GetDirection()
@@ -93,15 +94,15 @@ void LightSource::Init()
 void LightSource::FixedUpdate()
 {
 
-	if (nullptr != m_followedObject)
-	{
-		SceneObject *so = dynamic_cast<SceneObject *>(m_followedObject);
-		m_position = so->GetPosition();
-	}
 }
 
 void LightSource::Update()
 {
+	if (nullptr != m_followedObject)
+	{
+		SceneObject *so = dynamic_cast<SceneObject *>(m_followedObject);
+		m_transform.m_pos = so->m_transform.GetPosition();
+	}
 }
 
 void LightSource::Draw()

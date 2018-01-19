@@ -10,6 +10,7 @@
 
 GameManager::GameManager()
 {
+	m_parent = nullptr;
 }
 
 GameManager::~GameManager()
@@ -70,6 +71,9 @@ void GameManager::UpdateTree()
 
 	float timeSpentMili = (float)timeSpentNano / 1000000.f;
 
+	float timeSinceLastFrame = std::chrono::duration_cast<std::chrono::nanoseconds>(crtTime - m_lastFrameTime).count() / 1000000.f;
+	DeltaTime::SetDt(timeSinceLastFrame / 1000.f);
+	m_lastFrameTime = crtTime;
 
 	if (timeSpentMili >= DeltaTime::PHYSICS_TIME_STEP_MS)
 	{
@@ -78,12 +82,9 @@ void GameManager::UpdateTree()
 		m_lastFixedTime = crtTime;
 	}
 
-	float timeSinceLastFrame = std::chrono::duration_cast<std::chrono::nanoseconds>(crtTime - m_lastFrameTime).count() / 1000000.f;
 
 	//PrintUtils::PrintI("Calling Update after " + PrintUtils::ToString(timeSinceLastFrame) + " ms");
 
-	DeltaTime::SetDt(timeSinceLastFrame / 1000.f);
-	m_lastFrameTime = crtTime;
 
 	_Update();
 }

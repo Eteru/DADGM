@@ -61,16 +61,27 @@ public:
 	//Vector's operations
 	GLfloat Length();
 	Vector3 & Normalize();
-	Vector3 operator + (Vector3 & vector);
-	Vector3 & operator += (Vector3 & vector);
+	//Vector3 operator + (Vector3 & vector);
+	Vector3 & operator += (const Vector3 & vector);
+	Vector3 & operator -= (const Vector3 & vector);
+	Vector3 & operator *= (const Vector3 & vector);
+	Vector3 & operator /= (const Vector3 & vector);
+
+	Vector3 & operator += (const GLfloat k);
+	Vector3 & operator -= (const GLfloat k);
+	Vector3 & operator *= (const GLfloat k);
+	Vector3 & operator /= (const GLfloat k);
+
 	Vector3 operator - ();
-	Vector3 operator - (Vector3 & vector);
-	Vector3 & operator -= (Vector3 & vector);
-	Vector3 operator * (GLfloat k);
-	Vector3 & operator *= (GLfloat k);
-	Vector3 operator / (GLfloat k);
-	Vector3 & operator /= (GLfloat k);
+	//Vector3 operator - (Vector3 & vector);
+	//Vector3 operator * (GLfloat k);
+	//Vector3 operator + (GLfloat k);
+	//Vector3 operator - (GLfloat k);
+	//Vector3 operator / (GLfloat k);
+
 	Vector3 & operator = (const Vector3 & vector);
+
+
 	Vector3 Modulate(Vector3 & vector);
 	GLfloat Distance(const Vector3 & vector);
 	GLfloat Dot(Vector3 & vector);
@@ -87,6 +98,54 @@ public:
 	GLfloat z;
 
 };
+
+inline Vector3 operator + (Vector3 lhs, const Vector3 &rhs)
+{
+	lhs += rhs;
+	return lhs;
+}
+
+inline Vector3 operator - (Vector3 lhs, const Vector3 &rhs)
+{
+	lhs -= rhs;
+	return lhs;
+}
+
+inline Vector3 operator * (Vector3 lhs, const Vector3 &rhs)
+{
+	lhs *= rhs;
+	return lhs;
+}
+
+inline Vector3 operator / (Vector3 lhs, const Vector3 &rhs)
+{
+	lhs /= rhs;
+	return lhs;
+}
+
+inline Vector3 operator + (Vector3 lhs, const GLfloat &rhs)
+{
+	lhs += rhs;
+	return lhs;
+}
+
+inline Vector3 operator - (Vector3 lhs, const GLfloat &rhs)
+{
+	lhs -= rhs;
+	return lhs;
+}
+
+inline Vector3 operator * (Vector3 lhs, const GLfloat &rhs)
+{
+	lhs *= rhs;
+	return lhs;
+}
+
+inline Vector3 operator / (Vector3 lhs, const GLfloat &rhs)
+{
+	lhs /= rhs;
+	return lhs;
+}
 
 //Vector4
 
@@ -189,6 +248,46 @@ public:
 class Math
 {
 public:
+
+	static Vector3 RotateAround(const Vector3 &v, const Vector3 &axis, const float rads)
+	{
+
+		GLfloat cosA = std::cos(rads);
+		GLfloat sinA = std::cos(rads);
+
+		Vector3 crs = Cross(axis, v);
+
+		return v * cosA + crs * sinA + (1 - cosA) * Dot(axis, v) * axis;
+	}
+
+	static Vector3 RotateTowards(Vector3 &v1, Vector3 &v2, const float rads)
+	{
+		Vector3 crs = Cross(v1, v2);
+
+		return RotateAround(v1, Normalize(crs), rads);		
+	}
+
+	static float Clamp(const GLfloat value, const GLfloat min, const GLfloat max)
+	{
+		return value < min ? min : value > max ? max : value;
+	}
+
+	static GLfloat Lerp(const GLfloat a, const GLfloat b, const float t)
+	{
+		float tClamped = Clamp(t, 0.f, 1.f);
+		return (1 - tClamped) * a + tClamped * b;
+	}
+
+	static Vector2 Lerp(const Vector2 &a, const Vector2 &b, const GLfloat t)
+	{
+		return Vector2(Lerp(a.x, b.x, t), Lerp(a.y, b.y, t));
+	}
+
+	static Vector3 Lerp(const Vector3 &a, const Vector3 &b, const GLfloat t)
+	{
+		return Vector3(Lerp(a.x, b.x, t), Lerp(a.y, b.y, t), Lerp(a.z, b.z, t));
+	}	
+	
 	static GLfloat Length(const Vector2 v)
 	{
 		return std::sqrt(v.x * v.x + v.y * v.y);
@@ -209,7 +308,7 @@ public:
 		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 	}
 
-	static Vector3 Cross(const Vector3 v1, const Vector3 v2)
+	static Vector3 Cross(const Vector3 &v1, const Vector3 &v2)
 	{
 		return Vector3(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
 	}
@@ -222,6 +321,11 @@ public:
 	static GLfloat Distance(const Vector3 v1, const Vector3 v2)
 	{
 		return std::sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y) + (v1.z - v2.z) * (v1.z - v2.z));
+	}
+
+	static Vector3 Normalize(Vector3 &v)
+	{
+		return v.Normalize();
 	}
 
 private:

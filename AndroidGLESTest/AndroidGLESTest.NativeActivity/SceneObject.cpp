@@ -5,9 +5,11 @@
 
 
 SceneObject::SceneObject(Vector3 pos, Vector3 rot, Vector3 scale, std::string name, bool depth_test)
-	: m_position(pos), m_rotation(rot), m_scale(scale), m_depth_test(depth_test), m_is_wired(false), m_name(name),
+	: m_depth_test(depth_test), m_is_wired(false), m_name(name),
 	m_model(nullptr), m_shader(nullptr), m_trajectory(nullptr)
 {
+	m_transform = Transform(pos, rot, scale);
+
 	/*if (true == depth_test)
 		glEnable(GL_DEPTH_TEST);*/
 }
@@ -24,18 +26,17 @@ void SceneObject::Init()
 
 void SceneObject::FixedUpdate()
 {
+	if (nullptr != m_trajectory)
+	{
+		m_trajectory->NextPosition(m_transform.m_pos, m_transform.m_rot);
+	}
+
 	m_bb.SetMinBB(m_model->GetMinPos());
 	m_bb.SetMaxBB(m_model->GetMaxPos());
 }
 
 void SceneObject::Update()
-{
-	if (nullptr != m_trajectory)
-	{
-		m_trajectory->NextPosition(m_position, m_rotation);
-	}
-
-	GeneralUpdate();
+{	
 }
 
 void SceneObject::Draw()
@@ -160,22 +161,24 @@ void SceneObject::SharedDrawElements()
 		glVertexAttribPointer(objShader.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(Vector3) * 3));
 	}
 
+	Matrix modelMat = m_transform.GetModel();
+
 	if (objShader.nmMatrixUniform != -1)
 	{
-		Matrix MV = m_M * cam->GetView();
+		Matrix MV = modelMat * cam->GetView();
 		Matrix NM = MV.Inverse().Transpose();
 		glUniformMatrix4fv(objShader.nmMatrixUniform, 1, GL_FALSE, reinterpret_cast<GLfloat*>(NM.m));
 	}
 
 	if (objShader.vmMatrixUniform != -1)
 	{
-		Matrix MV = m_M * cam->GetView();
+		Matrix MV = modelMat * cam->GetView();
 		glUniformMatrix4fv(objShader.vmMatrixUniform, 1, GL_FALSE, reinterpret_cast<GLfloat*>(MV.m));
 	}
 
 	if (objShader.matrixUniform != -1)
 	{
-		Matrix MVP = m_M * cam->GetView() * cam->GetProjection();
+		Matrix MVP = modelMat * cam->GetView() * cam->GetProjection();
 		glUniformMatrix4fv(objShader.matrixUniform, 1, GL_FALSE, reinterpret_cast<GLfloat*>(MVP.m));
 	}
 
@@ -183,7 +186,7 @@ void SceneObject::SharedDrawElements()
 
 	if (objShader.fogAlphaUniform != -1)
 	{
-		float distance = m_position.Distance(cam->GetPosition());
+		float distance = m_transform.GetPosition().Distance(cam->GetPosition());
 		float alpha = fog.ComputeAlpha(distance);
 		glUniform1f(objShader.fogAlphaUniform, alpha);
 	}
@@ -286,13 +289,4 @@ void SceneObject::SharedDrawElements()
 		GL_UNSIGNED_SHORT,   // type
 		(void*)0           // element array buffer offset
 	);
-}
-
-void SceneObject::GeneralUpdate()
-{
-	m_M = Matrix().SetScale(m_scale) *
-		(Matrix().SetRotationX(m_rotation.x) *
-			Matrix().SetRotationY(m_rotation.y) *
-			Matrix().SetRotationZ(m_rotation.z)) *
-		Matrix().SetTranslation(m_position);
 }

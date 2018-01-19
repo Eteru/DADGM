@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include "Math.h"
+#include "TimeLerp.h"
+
 
 class Trajectory
 {
@@ -23,6 +25,8 @@ private:
 	int8_t m_movement_dir;
 	int m_iterations;
 	float m_speed;
+	Vector3 m_lastCheckpoint;
+	Vec3TimeLerp m_crtLerp;
 	Direction m_direction;
 	Type m_type;
 	size_t m_next_point;

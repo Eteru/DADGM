@@ -52,8 +52,7 @@ private:
 	float m_diffuse_coef;
 	float m_specular_coef;
 	Vector3 m_diffuse_color;
-	Vector3 m_specular_color;
-	Vector3 m_position;
+	Vector3 m_specular_color;	
 	Vector3 m_direction;
 
 	GameLoopObject *m_followedObject;

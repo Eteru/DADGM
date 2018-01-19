@@ -4,6 +4,8 @@
 #include <unordered_map>
 
 #include "PrintUtils.h"
+#include "Transform.h"
+#include "DeltaTime.h"
 
 class GameLoopObject
 {
@@ -42,6 +44,7 @@ public:
 	GameLoopObject * GetParent() const { return m_parent; }
 	void SetParent(GameLoopObject * val) { m_parent = val; }
 
+	Transform m_transform;
 protected:
 
 	virtual void _FixedUpdate() final;
@@ -53,6 +56,7 @@ protected:
 
 	GameLoopObject *m_parent;
 	std::unordered_map<std::string, std::vector<GameLoopObject *>> m_children;
+
 
 };
 
@@ -124,7 +128,25 @@ inline std::string GameLoopObject::ToStringTree(int indent /*= 0*/)
 
 inline void GameLoopObject::_FixedUpdate()
 {
+	// Save current transform	
+	m_transform.SaveCurrentParams();
+
+	// In FixedUpdate, the next transform is computed (every GLO is responsible for this)
 	FixedUpdate();
+
+
+	// Afterwards, its position is considered an offset from the parent, if the bool is true
+	if (m_transform.m_relative)
+	{
+		if (nullptr != m_parent)
+		{
+			m_transform.m_pos += m_parent->m_transform.m_pos;
+			m_transform.m_rot += m_parent->m_transform.m_rot;
+			m_transform.m_scale *= m_parent->m_transform.m_scale;
+		}
+	}
+
+	m_transform.ResetLerps();
 
 	for (auto kvPair : m_children)
 	{
@@ -137,6 +159,7 @@ inline void GameLoopObject::_FixedUpdate()
 
 inline void GameLoopObject::_Update()
 {
+	m_transform.StepLerps(DeltaTime::GetDt() / DeltaTime::PHYSICS_TIME_STEP);
 	Update();
 
 	for (auto kvPair : m_children)

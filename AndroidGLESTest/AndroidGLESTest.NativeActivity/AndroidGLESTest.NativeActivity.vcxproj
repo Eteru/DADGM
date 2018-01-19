@@ -234,7 +234,9 @@
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TimeLerp.h" />
     <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="UniqueID.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="XMLUtils.h" />
@@ -261,7 +263,9 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGA.cpp" />
+    <ClCompile Include="TimeLerp.cpp" />
     <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="XMLUtils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

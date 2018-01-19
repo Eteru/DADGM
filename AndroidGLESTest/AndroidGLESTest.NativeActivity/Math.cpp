@@ -125,12 +125,12 @@ Vector3 & Vector3::Normalize()
 	return *this;
 }
 
-Vector3 Vector3::operator + (Vector3 & vector)
-{
-	return Vector3(x + vector.x, y + vector.y, z + vector.z);
-}
+// Vector3 Vector3::operator + (Vector3 & vector)
+// {
+// 	return Vector3(x + vector.x, y + vector.y, z + vector.z);
+// }
 
-Vector3 & Vector3::operator += (Vector3 & vector)
+Vector3 & Vector3::operator += (const Vector3 & vector)
 {
 	x += vector.x;
 	y += vector.y;
@@ -139,17 +139,31 @@ Vector3 & Vector3::operator += (Vector3 & vector)
 	return *this;
 }
 
+Vector3 & Vector3::operator+=(GLfloat k)
+{
+	x += k;
+	y += k;
+	z += k;
+
+	return *this;
+}
+
+// Vector3 Vector3::operator+(GLfloat k)
+// {
+// 	return Vector3(x + k, y + k, z + k);
+// }
+
 Vector3 Vector3::operator - ()
 {
 	return Vector3(-x, -y, -z);
 }
 
-Vector3 Vector3::operator - (Vector3 & vector)
-{
-	return Vector3(x - vector.x, y - vector.y, z - vector.z);
-}
+// Vector3 Vector3::operator - (Vector3 & vector)
+// {
+// 	return Vector3(x - vector.x, y - vector.y, z - vector.z);
+// }
 
-Vector3 & Vector3::operator -= (Vector3 & vector)
+Vector3 & Vector3::operator -= (const Vector3 & vector)
 {
 	x -= vector.x;
 	y -= vector.y;
@@ -158,12 +172,26 @@ Vector3 & Vector3::operator -= (Vector3 & vector)
 	return *this;
 }
 
-Vector3 Vector3::operator * (GLfloat k)
+Vector3 & Vector3::operator-=(const GLfloat k)
 {
-	return Vector3(x * k, y * k, z * k);
+	x -= k;
+	y -= k;
+	z -= k;
+
+	return *this;
 }
 
-Vector3 & Vector3::operator *= (GLfloat k)
+// Vector3 Vector3::operator-(GLfloat k)
+// {
+// 	return Vector3(x - k, y - k, z - k);
+// }
+
+// Vector3 Vector3::operator * (GLfloat k)
+// {
+// 	return Vector3(x * k, y * k, z * k);
+// }
+
+Vector3 & Vector3::operator *= (const GLfloat k)
 {
 	x *= k;
 	y *= k;
@@ -172,11 +200,11 @@ Vector3 & Vector3::operator *= (GLfloat k)
 	return *this;
 }
 
-Vector3 Vector3::operator / (GLfloat k)
-{
-	GLfloat kInv = 1.0f / k;
-	return Vector3(x * kInv, y * kInv, z * kInv);
-}
+// Vector3 Vector3::operator / (GLfloat k)
+// {
+// 	GLfloat kInv = 1.0f / k;
+// 	return Vector3(x * kInv, y * kInv, z * kInv);
+// }
 	
 Vector3 & Vector3::operator /= (GLfloat k)
 {
@@ -195,6 +223,24 @@ Vector3 & Vector3::operator = (const Vector3 & vector)
 GLfloat Vector3::operator [] (unsigned int idx)
 {
 	return (&x)[idx];
+}
+
+Vector3 & Vector3::operator*=(const Vector3 &vector)
+{
+	x *= vector.x;
+	y *= vector.y;
+	z *= vector.z;
+
+	return *this;
+}
+
+Vector3 & Vector3::operator/=(const Vector3 &vector)
+{
+	x /= vector.x;
+	y /= vector.y;
+	z /= vector.z;
+
+	return *this;
 }
 
 Vector3 Vector3::Modulate(Vector3 & vector)
