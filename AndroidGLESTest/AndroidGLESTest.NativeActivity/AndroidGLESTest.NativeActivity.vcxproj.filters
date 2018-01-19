@@ -26,6 +26,7 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TimeLerp.cpp" />
+    <ClCompile Include="SceneObjectSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -56,5 +57,6 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TimeLerp.h" />
+    <ClInclude Include="SceneObjectSpawner.h" />
   </ItemGroup>
 </Project>
