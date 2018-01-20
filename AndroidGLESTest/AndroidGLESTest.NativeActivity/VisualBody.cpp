@@ -8,7 +8,7 @@ VisualBody::VisualBody(Vector3 pos, Vector3 rot, Vector3 scale, std::string name
 	: m_depth_test(depth_test), m_is_wired(false), m_name(name),
 	m_model(nullptr), m_shader(nullptr)
 {
-	m_transform = Transform(pos, rot, scale);
+	m_transform = Transform(pos, rot, scale, &(m_parent->m_transform));
 
 	/*if (true == depth_test)
 		glEnable(GL_DEPTH_TEST);*/
@@ -21,7 +21,7 @@ VisualBody::~VisualBody()
 }
 
 void VisualBody::Init()
-{
+{	
 }
 
 void VisualBody::Update()
@@ -88,6 +88,11 @@ void VisualBody::AddTexture(Texture * texture)
 	m_textures.push_back(texture);
 }
 
+void VisualBody::FixedUpdate()
+{
+	//m_transform.SetPos(m_transform.GetLocalPos() + Vector3(1, 0, 0));
+}
+
 // void SceneObject::AddLightID(std::string id)
 // {
 // 	m_light_ids.push_back(id);
@@ -131,7 +136,7 @@ void VisualBody::SharedDrawElements()
 		glVertexAttribPointer(objShader.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(Vector3) * 3));
 	}
 
-	Matrix modelMat = m_transform.GetModel();
+	Matrix modelMat = m_transform.GetLerpModel();
 
 	if (objShader.nmMatrixUniform != -1)
 	{
@@ -156,7 +161,7 @@ void VisualBody::SharedDrawElements()
 
 	if (objShader.fogAlphaUniform != -1)
 	{
-		float distance = m_transform.GetPosition().Distance(cam->GetPosition());
+		float distance = m_transform.GetWorldLerpPos().Distance(cam->m_transform.GetWorldPos());
 		float alpha = fog.ComputeAlpha(distance);
 		glUniform1f(objShader.fogAlphaUniform, alpha);
 	}
@@ -204,7 +209,7 @@ void VisualBody::SharedDrawElements()
 		if (objShader.lightPositionUniform[count] != -1)
 		{
 			//Vector3 pos = ls.second->GetPosition();
-			Vector3 pos = (LightSource::SPOT_LIGHT == ls->GetType()) ? cam->GetPosition() : ls->GetPosition();
+			Vector3 pos = (LightSource::SPOT_LIGHT == ls->GetType()) ? cam->m_transform.GetWorldPos() : ls->GetPosition();
 			glUniform3fv(objShader.lightPositionUniform[count], 1, &pos.x);
 		}
 

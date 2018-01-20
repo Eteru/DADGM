@@ -17,7 +17,7 @@ SceneObjectSpawner::~SceneObjectSpawner()
 	// resources are eliminated by the managers
 }
 
-VisualBody * SceneObjectSpawner::SpawnObject(const Vector3 pos, const std::vector<std::string>& texture_ids)
+VisualBody * SceneObjectSpawner::SpawnObject(const Vector3 pos, const std::vector<std::string> & texture_ids, GameLoopObject *parent)
 {
 	if (nullptr == m_model ||
 		nullptr == m_shader)
@@ -43,7 +43,7 @@ VisualBody * SceneObjectSpawner::SpawnObject(const Vector3 pos, const std::vecto
 
 	so->SetID(UniqueID::GetID(so->GetClassName()));
 
-	SceneManager::GetInstance()->AddComponent(so);
+	parent->AddComponent(so);
 
 	return so;
 }

@@ -12,14 +12,25 @@ public:
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 
+	void SetTarget(Vector3 worldPos);
+	void SetTarget(GameLoopObject *obj);
+
+	Vector3 m_targetPos;
+	GameLoopObject *m_targetObj;
+	bool m_hasTarget;
+
 	bool m_kinematic;
 
-	Vector3 m_forward;
+	Vector3 m_linearVelEngine;
+	Vector3 m_linearVelImpact;
 
-	Vector3 m_linearVel;
-	Vector3 m_angularVel;
+	Vector3 m_angularVelEngine;
+	Vector3 m_angularVelImpact;
+
+	Vector3 m_forward;
 	float m_acceleration;
 	float m_topSpeed;
-	float m_turningSpeed;
+	float m_turningAcceleration;
 	float m_mass;
+	float m_damping;
 };

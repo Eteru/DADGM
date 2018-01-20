@@ -110,7 +110,7 @@ Vector3::Vector3(const Vector4 & vector)
 {
 }
 
-GLfloat Vector3::Length()
+GLfloat Vector3::Length() const
 {
 	return std::sqrt(x*x + y*y + z*z);
 }

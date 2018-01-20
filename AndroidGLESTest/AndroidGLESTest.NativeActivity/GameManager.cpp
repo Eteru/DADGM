@@ -9,6 +9,10 @@
 
 #include "CollisionDetection.h"
 
+#include "Robot.h"
+#include "UniqueID.h"
+
+
 
 
 
@@ -16,6 +20,7 @@
 GameManager::GameManager()
 {
 	m_parent = nullptr;
+	m_transform.m_relative = false;
 }
 
 GameManager::~GameManager()
@@ -35,14 +40,45 @@ void GameManager::Init()
 
 	SceneObjectSpawner spawner("2", "3");
 	
-	spawner.SpawnObject(Vector3(0, 0, 0), { "1" });
-	spawner.SpawnObject(Vector3(1, 0, 1), { "3" });
-	spawner.SpawnObject(Vector3(0, 0, 1), { "2" });
-	spawner.SpawnObject(Vector3(1, 0, 0), { "1" });
+	spawner.SpawnObject(Vector3(1, 0, 1), { "3" }, SceneManager::GetInstance());
+	spawner.SpawnObject(Vector3(0, 0, 0), { "1" }, SceneManager::GetInstance());
+	spawner.SpawnObject(Vector3(0, 0, 1), { "2" }, SceneManager::GetInstance());
+	spawner.SpawnObject(Vector3(1, 0, 0), { "1" }, SceneManager::GetInstance());
 
-	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(SceneManager::GetInstance()->FindComponent("VisualBody"), 15);
+
+	PhysicsBody *testPB = new PhysicsBody();
+	testPB->SetID(UniqueID::GetID(testPB->GetClassName()));
+	testPB->m_transform.SetPos(Vector3(10, 1, 10));
+
+	testPB->m_topSpeed = 3;
+	testPB->m_acceleration = 3;
+	testPB->m_mass = 1.f;
+
+	AddComponent(testPB);
+
+	testPB->SetTarget(Vector3(3, 1, 3));
+
+	BoundingSphere *bv = new BoundingSphere();
+	bv->SetID(UniqueID::GetID(bv->GetClassName()));
+	bv->m_radius = 1.f;
+
+	testPB->AddComponent(bv);
+
+	SceneObjectSpawner spawner2("2", "3");
+    spawner2.SpawnObject(Vector3(0.f), { "3" }, testPB);
+
+
+	Robot *testRobot = new Robot();
+	testRobot->SetID(UniqueID::GetID(testRobot->GetClassName()));
+	testPB->AddComponent(testRobot);
+
+
+
+	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(FindComponent("PhysicsBody"), 15);
 
 	AddComponent(SceneManager::GetInstance());
+
+
 
 	PrintUtils::PrintI(ToStringTree());
 	
@@ -50,7 +86,10 @@ void GameManager::Init()
 
 void GameManager::FixedUpdate()
 {
-	std::vector<GameLoopObject *> allPhysicsBodies = FindComponentsTree("PhysicsBody");
+ 	std::vector<GameLoopObject *> allPhysicsBodies = FindComponentsTree("PhysicsBody");
+
+	//PrintUtils::PrintD("Found " + PrintUtils::ToString(allPhysicsBodies.size()) + " physicsBodies");
+
 
 	std::vector<BVIntersections::ContactInfo> allCollisions = CollisionDetection::DetectCollisions(allPhysicsBodies);
 
@@ -62,7 +101,7 @@ void GameManager::FixedUpdate()
 
 void GameManager::Update()
 {
-	
+
 }
 
 void GameManager::Draw()

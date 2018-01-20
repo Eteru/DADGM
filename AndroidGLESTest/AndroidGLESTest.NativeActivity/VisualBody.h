@@ -35,6 +35,9 @@ public:
 		return m_name;
 	}
 
+
+	virtual void FixedUpdate() override;
+
 protected:
 	bool m_depth_test;
 	bool m_is_wired;

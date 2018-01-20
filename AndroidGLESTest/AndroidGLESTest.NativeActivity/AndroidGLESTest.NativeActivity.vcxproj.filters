@@ -29,6 +29,7 @@
     <ClCompile Include="BVIntersections.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
+    <ClCompile Include="Robot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -62,5 +63,6 @@
     <ClInclude Include="BVIntersections.h" />
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="Robot.h" />
   </ItemGroup>
 </Project>

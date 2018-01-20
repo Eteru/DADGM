@@ -91,8 +91,8 @@ bool BVIntersections::TestIntersection(PhysicsBody *o1, PhysicsBody *o2, Contact
 
 Vector3 BVIntersections::ClosestPoint(Vector3 p, BoundingBox *box)
 {
-	Vector3 minCoords = box->m_transform.m_pos - box->m_halfExtents;
-	Vector3 maxCoords = box->m_transform.m_pos + box->m_halfExtents;
+	Vector3 minCoords = box->m_transform.GetWorldPos() - box->m_halfExtents;
+	Vector3 maxCoords = box->m_transform.GetWorldPos() + box->m_halfExtents;
 
 	GLfloat resultX = std::min(std::max(p.x, minCoords.x), maxCoords.x);
 	GLfloat resultY = std::min(std::max(p.y, minCoords.y), maxCoords.y);
@@ -103,27 +103,27 @@ Vector3 BVIntersections::ClosestPoint(Vector3 p, BoundingBox *box)
 
 bool BVIntersections::TestIntersection(BoundingBox *box1, BoundingBox *box2, ContactInfo &result)
 {
-	if (std::abs(box1->m_transform.GetPosition().x - box2->m_transform.GetPosition().x) > box1->m_halfExtents.x + box2->m_halfExtents.x) return false;
-	if (std::abs(box1->m_transform.GetPosition().y - box2->m_transform.GetPosition().y) > box1->m_halfExtents.y + box2->m_halfExtents.y) return false;
-	if (std::abs(box1->m_transform.GetPosition().z - box2->m_transform.GetPosition().z) > box1->m_halfExtents.z + box2->m_halfExtents.z) return false;
+	if (std::abs(box1->m_transform.GetWorldPos().x - box2->m_transform.GetWorldPos().x) > box1->m_halfExtents.x + box2->m_halfExtents.x) return false;
+	if (std::abs(box1->m_transform.GetWorldPos().y - box2->m_transform.GetWorldPos().y) > box1->m_halfExtents.y + box2->m_halfExtents.y) return false;
+	if (std::abs(box1->m_transform.GetWorldPos().z - box2->m_transform.GetWorldPos().z) > box1->m_halfExtents.z + box2->m_halfExtents.z) return false;
 
 	result.m_o1 = dynamic_cast<PhysicsBody *>(box1->GetParent());
 	result.m_o2 = dynamic_cast<PhysicsBody *>(box2->GetParent());
-	result.m_n = (box2->m_transform.GetPosition() - box1->m_transform.GetPosition()).Normalize();
-	result.m_p = box1->m_transform.GetPosition() + result.m_n * box1->m_halfExtents;
+	result.m_n = (box2->m_transform.GetWorldPos() - box1->m_transform.GetWorldPos()).Normalize();
+	result.m_p = box1->m_transform.GetWorldPos() + result.m_n * box1->m_halfExtents;
 
 	return true;
 }
 
 bool BVIntersections::TestIntersection(BoundingSphere *sphere1, BoundingSphere *sphere2, ContactInfo &result)
 {
-	if (sphere1->m_transform.GetPosition().Distance(sphere2->m_transform.GetPosition()) < sphere1->m_radius + sphere2->m_radius)
+	if (sphere1->m_transform.GetWorldPos().Distance(sphere2->m_transform.GetWorldPos()) < sphere1->m_radius + sphere2->m_radius)
 	{
 
 		result.m_o1 = dynamic_cast<PhysicsBody *>(sphere1->GetParent());
 		result.m_o2 = dynamic_cast<PhysicsBody *>(sphere2->GetParent());
-		result.m_n = (sphere2->m_transform.GetPosition() - sphere1->m_transform.GetPosition()).Normalize();
-		result.m_p = sphere1->m_transform.GetPosition() + result.m_n * sphere1->m_radius;
+		result.m_n = (sphere2->m_transform.GetWorldPos() - sphere1->m_transform.GetWorldPos()).Normalize();
+		result.m_p = sphere1->m_transform.GetWorldPos() + result.m_n * sphere1->m_radius;
 		return true;
 	}
 
@@ -132,16 +132,16 @@ bool BVIntersections::TestIntersection(BoundingSphere *sphere1, BoundingSphere *
 
 bool BVIntersections::TestIntersection(BoundingBox *box, BoundingSphere *sphere, ContactInfo &result)
 {
-	Vector3 closestPointOnBox = ClosestPoint(sphere->m_transform.GetPosition(), box);
+	Vector3 closestPointOnBox = ClosestPoint(sphere->m_transform.GetWorldPos(), box);
 
-	Vector3 v = closestPointOnBox - sphere->m_transform.GetPosition();
+	Vector3 v = closestPointOnBox - sphere->m_transform.GetWorldPos();
 
 	if (Math::Dot(v, v) <= sphere->m_radius * sphere->m_radius)
 	{
 		result.m_o1 = dynamic_cast<PhysicsBody *>(sphere->GetParent());;
 		result.m_o2 = dynamic_cast<PhysicsBody *>(box->GetParent());;
-		result.m_n = (closestPointOnBox - sphere->m_transform.GetPosition()).Normalize();
-		result.m_p = sphere->m_transform.GetPosition() + result.m_n * sphere->m_radius;
+		result.m_n = (closestPointOnBox - sphere->m_transform.GetWorldPos()).Normalize();
+		result.m_p = sphere->m_transform.GetWorldPos() + result.m_n * sphere->m_radius;
 
 		return true;
 	}

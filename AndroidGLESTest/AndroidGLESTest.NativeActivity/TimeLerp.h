@@ -13,6 +13,7 @@ public:
 	Vector3 Step(const GLfloat t);
 
 private:
+	Vector3 m_value;
 	Vector3 m_start;
 	Vector3 m_end;
 	GLfloat m_crtCoef;
@@ -28,6 +29,7 @@ public:
 
 
 private:
+	GLfloat m_value;
 	GLfloat m_start;
 	GLfloat m_end;
 	GLfloat m_crtCoef;

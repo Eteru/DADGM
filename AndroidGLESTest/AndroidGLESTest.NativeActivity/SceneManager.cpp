@@ -16,6 +16,9 @@ SceneManager *SceneManager::m_instance = nullptr;
 
 SceneManager::SceneManager()
 {
+	m_parent = nullptr;
+	m_transform.m_relative = false;
+	m_transform.SetScale(Vector3(1.f));
 }
 
 
@@ -43,7 +46,7 @@ SceneManager::~SceneManager()
 SceneManager * SceneManager::GetInstance()
 {
 	if (nullptr == m_instance) {
-		m_instance = new SceneManager;
+		m_instance = new SceneManager();
 	}
 
 	return m_instance;

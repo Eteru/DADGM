@@ -11,11 +11,6 @@ public:
 	Camera(Vector3 position, Vector3 target, Vector3 up, GLfloat aspectRatio, GLfloat moveSpeed = 44.9f, GLfloat rotateSpeed = 0.5f, GLfloat cnear = 0.2f, GLfloat cfar = 1000.f, GLfloat fov = 45.F);
 	~Camera();
 
-	inline Vector3 GetPosition()
-	{
-		return m_transform.GetPosition();
-	}
-
 	inline Vector3 GetTarget()
 	{
 		return m_target;
@@ -47,18 +42,7 @@ public:
 		return m_P;
 	}
 
-
-	void MoveTPS(const int x, const int y);
-
 	void RotateOYTPS(const float rads);
-	void MoveOX(int dir);
-	void MoveOY(int dir);
-	void MoveOZ(int dir);
-
-	void RotateOX(int dir);
-	void RotateOY(int dir);
-	void RotateOZ(int dir);
-
 	void SetFollowingObject(GameLoopObject *obj, const float radius);
 
 	void UpdateWorldView();

@@ -54,6 +54,7 @@ protected:
 	virtual void _Update() final;
 	virtual void _Draw() final;
 	virtual void _Destroy() final;
+	virtual void _Init() final;
 
 	size_t m_ID;
 
@@ -74,10 +75,20 @@ inline void GameLoopObject::OnTouchDown(const int x, const int y) {}
 inline void GameLoopObject::OnTouchUp(const int x, const int y) {}
 inline void GameLoopObject::OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) {}
 
+inline void GameLoopObject::_Init()
+{
+	if (nullptr != m_parent)
+	{
+		m_transform.SetParent(m_transform);
+	}
+
+	Init();
+}
+
 inline void GameLoopObject::AddComponent(GameLoopObject *component)
 {
-	component->Init();
 	component->SetParent(this);
+	component->_Init();
 	m_children[component->GetClassName()].push_back(component);
 }
 
@@ -128,7 +139,7 @@ inline std::vector<GameLoopObject *> GameLoopObject::FindComponents(const std::s
 
 inline std::vector<GameLoopObject *> GameLoopObject::FindComponentsTree(const std::string className)
 {
-	static std::vector<GameLoopObject *> result;
+	std::vector<GameLoopObject *> result;
 
 	_FindComponentsTree(className, result);
 
@@ -138,7 +149,10 @@ inline std::vector<GameLoopObject *> GameLoopObject::FindComponentsTree(const st
 inline void GameLoopObject::_FindComponentsTree(const std::string className, std::vector<GameLoopObject *> &result)
 {
 	std::vector<GameLoopObject *> comps = FindComponents(className);
-	result.insert(result.end(), comps.begin(), comps.end());
+	if (!comps.empty())
+	{
+		result.insert(result.end(), comps.begin(), comps.end());
+	}
 
 	for (auto kvPair : m_children)
 	{
@@ -147,6 +161,8 @@ inline void GameLoopObject::_FindComponentsTree(const std::string className, std
 			child->_FindComponentsTree(className, result);
 		}
 	}
+
+
 }
 
 inline std::string GameLoopObject::ToStringTree(int indent /*= 0*/)
@@ -177,18 +193,25 @@ inline void GameLoopObject::_FixedUpdate()
 	// Save current transform	
 	m_transform.SaveCurrentParams();
 
-	// In FixedUpdate, the next transform is computed (every GLO is responsible for this)
-	FixedUpdate();
-
-
-	// Afterwards, its position is considered an offset from the parent, if the bool is true
 	if (m_transform.m_relative)
 	{
 		if (nullptr != m_parent)
 		{
-			m_transform.m_pos += m_parent->m_transform.m_pos;
-			m_transform.m_rot += m_parent->m_transform.m_rot;
-			m_transform.m_scale *= m_parent->m_transform.m_scale;
+			m_transform.SetParentPos(m_parent->m_transform.GetWorldPos());
+			m_transform.SetParentRot(m_parent->m_transform.GetWorldRot());
+			m_transform.SetParentScale(m_parent->m_transform.GetWorldScale());
+		}
+	}
+
+
+	// In FixedUpdate, the next transform is computed (every GLO is responsible for this)
+	FixedUpdate();
+
+	if (m_transform.m_relative)
+	{
+		if (nullptr != m_parent)
+		{
+			m_transform.ComputeWorld();
 		}
 	}
 

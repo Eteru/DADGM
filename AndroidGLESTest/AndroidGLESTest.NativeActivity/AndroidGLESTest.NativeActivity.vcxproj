@@ -231,6 +231,7 @@
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="PrintUtils.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Robot.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="VisualBody.h" />
     <ClInclude Include="SceneObjectSpawner.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PrintUtils.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Robot.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="VisualBody.cpp" />
     <ClCompile Include="SceneObjectSpawner.cpp" />

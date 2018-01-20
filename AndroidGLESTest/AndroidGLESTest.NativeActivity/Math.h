@@ -59,7 +59,7 @@ public:
 	Vector3(const GLfloat uniformValue) : x(uniformValue), y(uniformValue), z(uniformValue) {}
 	
 	//Vector's operations
-	GLfloat Length();
+	GLfloat Length() const;
 	Vector3 & Normalize();
 	//Vector3 operator + (Vector3 & vector);
 	Vector3 & operator += (const Vector3 & vector);
@@ -249,6 +249,11 @@ class Math
 {
 public:
 
+	static Vector3 SetLength(Vector3 &v, const float length)
+	{
+		return v * (length / v.Length());
+	}
+
 	static Vector3 RotateAround(const Vector3 &v, const Vector3 &axis, const float rads)
 	{
 
@@ -323,9 +328,9 @@ public:
 		return std::sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y) + (v1.z - v2.z) * (v1.z - v2.z));
 	}
 
-	static Vector3 Normalize(Vector3 &v)
+	static Vector3 Normalize(const Vector3 &v)
 	{
-		return v.Normalize();
+		return v * (1.f / v.Length());
 	}
 
 private:
