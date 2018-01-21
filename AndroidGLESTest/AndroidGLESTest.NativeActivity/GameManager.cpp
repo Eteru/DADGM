@@ -11,6 +11,7 @@
 
 #include "Robot.h"
 #include "UniqueID.h"
+#include "MapManager.h"
 
 
 
@@ -28,60 +29,41 @@ GameManager::~GameManager()
 }
 
 void GameManager::Init()
-{	
+{
 	m_initTime = std::chrono::high_resolution_clock::now();
 	m_lastFixedTime = m_initTime;
 	m_lastFrameTime = m_initTime;
 	DeltaTime::SetDt(0);
 
-	
+	SceneManager::GetInstance()->SetID(UniqueID::GetID(SceneManager::GetInstance()->GetClassName()));
+
 	//SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 	SceneManager::GetInstance()->LoadFromFile("XMLs/hartaDeTest.xml");
 
-	SceneObjectSpawner spawner("2", "3");
 	
-	spawner.SpawnObject(Vector3(1, 0, 1), { "3" }, SceneManager::GetInstance());
-	spawner.SpawnObject(Vector3(0, 0, 0), { "1" }, SceneManager::GetInstance());
-	spawner.SpawnObject(Vector3(0, 0, 1), { "2" }, SceneManager::GetInstance());
-	spawner.SpawnObject(Vector3(1, 0, 0), { "1" }, SceneManager::GetInstance());
 
+	MapManager *mapManager = new MapManager();
+	mapManager->SetID(UniqueID::GetID(mapManager->GetClassName()));
+	mapManager->Init();
 
-	PhysicsBody *testPB = new PhysicsBody();
-	testPB->SetID(UniqueID::GetID(testPB->GetClassName()));
-	testPB->m_transform.SetPos(Vector3(10, 1, 10));
+	AddComponent(mapManager);
 
-	testPB->m_topSpeed = 3;
-	testPB->m_acceleration = 3;
-	testPB->m_mass = 1.f;
-
-	AddComponent(testPB);
-
-	testPB->SetTarget(Vector3(3, 1, 3));
-
-	BoundingSphere *bv = new BoundingSphere();
-	bv->SetID(UniqueID::GetID(bv->GetClassName()));
-	bv->m_radius = 1.f;
-
-	testPB->AddComponent(bv);
-
-	SceneObjectSpawner spawner2("2", "3");
-    spawner2.SpawnObject(Vector3(0.f), { "3" }, testPB);
-
-
-	Robot *testRobot = new Robot();
-	testRobot->SetID(UniqueID::GetID(testRobot->GetClassName()));
-	testPB->AddComponent(testRobot);
+	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(3, 3));
+	robotPB->m_topSpeed = 3;
+	robotPB->m_acceleration = 3;
+	robotPB->m_mass = 1.f;
+	robotPB->SetTarget(Vector3(10, GameConstants::WALL_HEIGHT, 10));
+	AddComponent(robotPB);
 
 
 
-	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(FindComponent("PhysicsBody"), 15);
+	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(robotPB, 15);
 
 	AddComponent(SceneManager::GetInstance());
 
 
 
 	PrintUtils::PrintI(ToStringTree());
-	
 }
 
 void GameManager::FixedUpdate()
@@ -106,12 +88,12 @@ void GameManager::Update()
 
 void GameManager::Draw()
 {
-	
+
 }
 
 void GameManager::Destroy()
 {
-	
+
 }
 
 std::string GameManager::GetClassName()
@@ -137,7 +119,7 @@ void GameManager::UpdateTree()
 	DeltaTime::SetDt(timeSinceLastFrame / 1000.f);
 	m_lastFrameTime = crtTime;
 
-	if (timeSpentMili >= DeltaTime::PHYSICS_TIME_STEP_MS)
+	if (timeSpentMili >= GameConstants::PHYSICS_TIME_STEP_MS)
 	{
 		//PrintUtils::PrintI("Calling Fixed Update after " + PrintUtils::ToString(timeSpentMili) + " ms");
 		_FixedUpdate();

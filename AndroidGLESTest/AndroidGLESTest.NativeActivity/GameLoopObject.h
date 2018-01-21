@@ -6,6 +6,7 @@
 #include "PrintUtils.h"
 #include "Transform.h"
 #include "DeltaTime.h"
+#include "GameConstants.h"
 
 class GameLoopObject
 {
@@ -54,7 +55,6 @@ protected:
 	virtual void _Update() final;
 	virtual void _Draw() final;
 	virtual void _Destroy() final;
-	virtual void _Init() final;
 
 	size_t m_ID;
 
@@ -75,20 +75,12 @@ inline void GameLoopObject::OnTouchDown(const int x, const int y) {}
 inline void GameLoopObject::OnTouchUp(const int x, const int y) {}
 inline void GameLoopObject::OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) {}
 
-inline void GameLoopObject::_Init()
-{
-	if (nullptr != m_parent)
-	{
-		m_transform.SetParent(m_transform);
-	}
-
-	Init();
-}
-
 inline void GameLoopObject::AddComponent(GameLoopObject *component)
 {
 	component->SetParent(this);
-	component->_Init();
+	m_transform.SetParent(m_transform);
+
+	
 	m_children[component->GetClassName()].push_back(component);
 }
 
@@ -228,7 +220,7 @@ inline void GameLoopObject::_FixedUpdate()
 
 inline void GameLoopObject::_Update()
 {
-	m_transform.StepLerps(DeltaTime::GetDt() / DeltaTime::PHYSICS_TIME_STEP);
+	m_transform.StepLerps(DeltaTime::GetDt() / GameConstants::PHYSICS_TIME_STEP);
 	Update();
 
 	for (auto kvPair : m_children)

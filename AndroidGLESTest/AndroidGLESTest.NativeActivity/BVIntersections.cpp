@@ -52,6 +52,11 @@ bool BVIntersections::TestIntersection(PhysicsBody *o1, PhysicsBody *o2, Contact
 		return false;
 	}
 
+	if (!o1->m_kinematic && !o2->m_kinematic)
+	{
+		return false;
+	}
+
 	GameLoopObject *bv1;
 	GameLoopObject *bv2;
 

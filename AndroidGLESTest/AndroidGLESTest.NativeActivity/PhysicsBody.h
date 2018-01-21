@@ -12,11 +12,14 @@ public:
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 
+
+	void OnContact(PhysicsBody *other);
 	void SetTarget(Vector3 worldPos);
-	void SetTarget(GameLoopObject *obj);
 
 	Vector3 m_targetPos;
-	GameLoopObject *m_targetObj;
+
+	GameLoopObject *m_linkedObject;
+
 	bool m_hasTarget;
 
 	bool m_kinematic;

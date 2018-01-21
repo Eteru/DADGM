@@ -30,6 +30,8 @@
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="Robot.cpp" />
+    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="MapCell.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -64,5 +66,8 @@
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="Robot.h" />
+    <ClInclude Include="GameConstants.h" />
+    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="MapCell.h" />
   </ItemGroup>
 </Project>

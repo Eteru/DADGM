@@ -72,10 +72,9 @@ void Camera::Update()
 			dir = dir.Normalize();
 		}
 
-		float oldY = m_transform.GetWorldPos().y;
 
 		Vector3 newPos = obj_pos + dir * m_radius;
-		newPos.y = oldY;
+		newPos.y = GameConstants::CAMERA_HEIGHT;
 
 		m_transform.SetPos(newPos);
 	}

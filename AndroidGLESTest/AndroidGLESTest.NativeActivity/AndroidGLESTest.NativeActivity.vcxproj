@@ -220,10 +220,13 @@
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="DeltaTime.h" />
     <ClInclude Include="Fog.h" />
+    <ClInclude Include="GameConstants.h" />
     <ClInclude Include="GameLoopObject.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LightSource.h" />
+    <ClInclude Include="MapCell.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="pch.h" />
@@ -259,6 +262,8 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapCell.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
