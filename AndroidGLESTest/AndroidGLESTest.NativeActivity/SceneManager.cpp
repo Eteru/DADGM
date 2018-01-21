@@ -24,23 +24,23 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-// 	for (auto it = m_objects.begin(); it != m_objects.end();) {
-// 		delete it->second;
-// 		it->second = nullptr;
-// 		it = m_objects.erase(it);
-// 	}
-// 
-// 	for (auto it = m_cameras.begin(); it != m_cameras.end();) {
-// 		delete it->second;
-// 		it->second = nullptr;
-// 		it = m_cameras.erase(it);
-// 	}
-// 
-// 	for (auto it = m_lights.begin(); it != m_lights.end();) {
-// 		delete it->second;
-// 		it->second = nullptr;
-// 		it = m_lights.erase(it);
-// 	}
+	// 	for (auto it = m_objects.begin(); it != m_objects.end();) {
+	// 		delete it->second;
+	// 		it->second = nullptr;
+	// 		it = m_objects.erase(it);
+	// 	}
+	// 
+	// 	for (auto it = m_cameras.begin(); it != m_cameras.end();) {
+	// 		delete it->second;
+	// 		it->second = nullptr;
+	// 		it = m_cameras.erase(it);
+	// 	}
+	// 
+	// 	for (auto it = m_lights.begin(); it != m_lights.end();) {
+	// 		delete it->second;
+	// 		it->second = nullptr;
+	// 		it = m_lights.erase(it);
+	// 	}
 }
 
 SceneManager * SceneManager::GetInstance()
@@ -129,6 +129,53 @@ bool SceneManager::LoadFromFile(std::string filepath)
 }
 
 
+std::pair<Vector2, std::vector<std::string>> SceneManager::LoadMapFromFile(std::string filepath)
+{
+	AAssetManager* mgr = m_engine->app->activity->assetManager;
+	AAsset* file = AAssetManager_open(mgr, filepath.c_str(), AASSET_MODE_BUFFER);
+
+	if (NULL == file)
+		std::pair<Vector2, std::vector<std::string>>();
+
+	long fsize = AAsset_getLength(file);
+	char *string = new char[fsize + 1];
+
+	AAsset_read(file, string, fsize);
+	AAsset_close(file);
+
+	string[fsize] = '\0';
+
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(string);
+
+	rapidxml::xml_node<> *pRoot = doc.first_node();
+
+	Vector2 dims = XMLUtils::GetVec2ValueXYSafe(pRoot, "dims", Vector2(0, 0));
+
+	std::vector<std::string> mapString(dims.x, std::string(dims.y, '0'));
+
+	bool padding = XMLUtils::GetBoolValueSafe(pRoot, "wallPadding", false);
+
+	if (padding)
+	{
+		for (int i = 0; i < dims.x; ++i)
+		{
+			for (int j = 0; j < dims.y; ++j)
+			{
+				if (i == 0 || j == 0 || i == dims.x - 1 || j == dims.y - 1)
+				{
+					mapString[i][j] = '1';
+				}
+			}
+		}
+	}
+
+	ParseMapLines(pRoot, dims, mapString);
+
+
+	return std::make_pair(dims, mapString);
+}
+
 void SceneManager::Destroy()
 {
 	if (nullptr != m_instance) {
@@ -191,7 +238,7 @@ bool SceneManager::ParseCameras(rapidxml::xml_node<> *pRoot)
 	{
 		size_t activeCameraID = static_cast<size_t>(activeCameraIDRaw);
 		m_activeCamera = dynamic_cast<Camera *>(FindComponent("Camera", activeCameraID));
-	}	
+	}
 
 	return true;
 }
@@ -274,7 +321,7 @@ bool SceneManager::ParseLights(rapidxml::xml_node<> *pRoot)
 		if (!ParseLight(pLight))
 		{
 			return false;
-		}		
+		}
 	}
 
 	return true;
@@ -297,7 +344,7 @@ bool SceneManager::ParseLight(rapidxml::xml_node<> *pLight)
 		LOGI("Light ID %u is already taken. Fix the XML. Skipping...", lightID);
 		return false;
 	}
-	
+
 
 	//int followedObjectID = XMLUtils::GetIntValueSafe(pLight, "associatedObject", -1);
 	std::string lightType = XMLUtils::GetStringValueSafe(pLight, "type", "");
@@ -312,7 +359,7 @@ bool SceneManager::ParseLight(rapidxml::xml_node<> *pLight)
 	float shininess = XMLUtils::GetFloatValueSafe(pLight, "shininess", 0.f);
 	float spotAngle = XMLUtils::GetFloatValueSafe(pLight, "spotAngle", 0.f);
 
-	
+
 	LightSource *ls = new LightSource(shininess, diffCoef, specCoef, diffuseColor, specularColor);
 
 	ls->SetID(lightID);
@@ -356,7 +403,7 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	{
 		LOGI("Object ID is missing. Fix the XML. Skipping...");
 		return false;
-	}	
+	}
 
 	rapidxml::xml_node<> *pShader = pObject->first_node("shader");
 	if (nullptr == pShader)
@@ -413,17 +460,17 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 	}
 	case OT_TERRAIN:
 	{
-// 		uint32_t blockSize = XMLUtils::GetIntValueSafe(pObject, "blockSize", 4);
-// 		uint32_t cellSize = XMLUtils::GetIntValueSafe(pObject, "cellSize", 1);
-// 		float offsetY = XMLUtils::GetFloatValueSafe(pObject, "offsetY", 0.f);
-// 		Vector3 heights = XMLUtils::GetVectorValueRGBSafe(pObject, "heights", Vector3(0.f));
-// 
-// 		Terrain *t = new Terrain(pos, rot, scale, heights, depthTest, name);
-// 		t->SetBlockSize(blockSize);
-// 		t->SetCellSize(cellSize);
-// 		t->SetOffsetY(offsetY);
-// 
-// 		object = t;
+		// 		uint32_t blockSize = XMLUtils::GetIntValueSafe(pObject, "blockSize", 4);
+		// 		uint32_t cellSize = XMLUtils::GetIntValueSafe(pObject, "cellSize", 1);
+		// 		float offsetY = XMLUtils::GetFloatValueSafe(pObject, "offsetY", 0.f);
+		// 		Vector3 heights = XMLUtils::GetVectorValueRGBSafe(pObject, "heights", Vector3(0.f));
+		// 
+		// 		Terrain *t = new Terrain(pos, rot, scale, heights, depthTest, name);
+		// 		t->SetBlockSize(blockSize);
+		// 		t->SetCellSize(cellSize);
+		// 		t->SetOffsetY(offsetY);
+		// 
+		// 		object = t;
 		break;
 	}
 	case OT_SKYBOX:
@@ -459,37 +506,37 @@ bool SceneManager::ParseObject(rapidxml::xml_node<> *pObject)
 		object->AddTexture(ResourceManager::GetInstance()->LoadTexture(texID));
 	}
 
-// 	for (std::string lightID : light_ids)
-// 	{
-// 		object->AddLightID(lightID);
-// 	}
+	// 	for (std::string lightID : light_ids)
+	// 	{
+	// 		object->AddLightID(lightID);
+	// 	}
 
-	// Trajectory
-// 	rapidxml::xml_node<> *pTrajectory = pObject->first_node("trajectory");
-// 	if (nullptr != pTrajectory)
-// 	{
-// 		uint32_t iter_count = XMLUtils::GetIntValueSafe(pTrajectory, "iteration-count", 1);
-// 		float traj_speed = XMLUtils::GetFloatValueSafe(pTrajectory, "speed", 1.f);
-// 		std::string type = XMLUtils::GetStringValueSafe(pTrajectory, "type", "");
-// 		std::string direction = XMLUtils::GetStringValueSafe(pTrajectory, "direction", "");
-// 
-// 
-// 		Trajectory *tj = new Trajectory(iter_count, traj_speed, Trajectory::GetDirectionTypeFromString(direction), Trajectory::GetTrajectoryTypeFromString(type));
-// 
-// 		tj->AddPoint(pos);
-// 
-// 		// add points
-// 		rapidxml::xml_node<> *pTrajectoryPoints = pTrajectory->first_node("points");
-// 
-// 		if (nullptr != pTrajectoryPoints)
-// 		{
-// 			for (rapidxml::xml_node<> *pTjPoint = pTrajectoryPoints->first_node("point"); pTjPoint; pTjPoint = pTjPoint->next_sibling())
-// 			{
-// 				tj->AddPoint(XMLUtils::GetVectorValueXYZSafe(pTjPoint, Vector3(0.f)));
-// 			}
-// 		}
-// 		object->SetTrajectory(tj);
-// 	}
+		// Trajectory
+	// 	rapidxml::xml_node<> *pTrajectory = pObject->first_node("trajectory");
+	// 	if (nullptr != pTrajectory)
+	// 	{
+	// 		uint32_t iter_count = XMLUtils::GetIntValueSafe(pTrajectory, "iteration-count", 1);
+	// 		float traj_speed = XMLUtils::GetFloatValueSafe(pTrajectory, "speed", 1.f);
+	// 		std::string type = XMLUtils::GetStringValueSafe(pTrajectory, "type", "");
+	// 		std::string direction = XMLUtils::GetStringValueSafe(pTrajectory, "direction", "");
+	// 
+	// 
+	// 		Trajectory *tj = new Trajectory(iter_count, traj_speed, Trajectory::GetDirectionTypeFromString(direction), Trajectory::GetTrajectoryTypeFromString(type));
+	// 
+	// 		tj->AddPoint(pos);
+	// 
+	// 		// add points
+	// 		rapidxml::xml_node<> *pTrajectoryPoints = pTrajectory->first_node("points");
+	// 
+	// 		if (nullptr != pTrajectoryPoints)
+	// 		{
+	// 			for (rapidxml::xml_node<> *pTjPoint = pTrajectoryPoints->first_node("point"); pTjPoint; pTjPoint = pTjPoint->next_sibling())
+	// 			{
+	// 				tj->AddPoint(XMLUtils::GetVectorValueXYZSafe(pTjPoint, Vector3(0.f)));
+	// 			}
+	// 		}
+	// 		object->SetTrajectory(tj);
+	// 	}
 
 	object->SetWired(wired);
 
@@ -706,4 +753,131 @@ bool SceneManager::ParseCameraLinks(rapidxml::xml_node<> *pNode)
 	}
 
 	return true;
+}
+
+void SceneManager::ParseMapLines(rapidxml::xml_node<> *pNode, Vector2 dims, std::vector<std::string> &mapString)
+{
+	rapidxml::xml_node<> *pLines = pNode->first_node("lines");
+	if (nullptr == pLines)
+	{
+		return;
+	}
+
+	for (rapidxml::xml_node<> *pLine = pLines->first_node("line"); pLine; pLine = pLine->next_sibling())
+	{
+		ParseMapLine(pLine, dims, mapString);
+	}
+
+}
+
+void SceneManager::ParseMapLine(rapidxml::xml_node<> *pNode, Vector2 dims, std::vector<std::string> &mapString)
+{
+	std::string cellType = XMLUtils::GetStringValueSafe(pNode, "cellType", "");
+
+	if ("wall" == cellType)
+	{
+		Vector2 from = XMLUtils::GetVec2ValueXYSafe(pNode, "from", Vector2(-1.f));
+		Vector2 to = XMLUtils::GetVec2ValueXYSafe(pNode, "to", Vector2(-1.f));
+
+		bool invalidFrom = from.x < 0 || from.x > dims.x - 1 || from.y < 0 || from.y > dims.y - 1;
+		bool invalidTo = to.x < 0 || to.x > dims.x - 1 || to.y < 0 || to.y > dims.y - 1;
+
+		if (from.x == -1 || to.x == -1 || invalidFrom || invalidTo)
+		{
+			return;
+		}	
+
+		std::vector<Vector2> line = Line(from, to);
+
+		for (auto point : line)
+		{
+			mapString[point.x][point.y] = '1';
+		}
+	}
+}
+
+std::vector<Vector2> SceneManager::LineLow(Vector2 from, Vector2 to)
+{
+	std::vector<Vector2> result;
+	int dx = to.x - from.x;
+	int dy = to.y - from.y;
+
+	int	yi = 1;
+
+	if (dy < 0)
+	{
+		yi = -1;
+		dy = -dy;
+	}
+
+	int D = 2 * dy - dx;
+	int y = from.y;
+
+
+	for (int x = from.x; x <= to.x; ++x)
+	{
+		result.push_back(Vector2(x, y));
+
+		if (D > 0)
+		{
+			y += yi;
+			D -= 2 * dx;
+		}
+
+		D += 2 * dy;
+	}
+
+	return result;
+}
+
+std::vector<Vector2> SceneManager::LineHigh(Vector2 from, Vector2 to)
+{
+	std::vector<Vector2> result;
+	int dx = to.x - from.x;
+	int dy = to.y - from.y;
+
+	int	xi = 1;
+
+	if (dx < 0)
+	{
+		xi = -1;
+		dx = -dx;
+	}
+
+	int D = 2 * dx - dy;
+	int x = from.x;
+
+
+	for (int y = from.y; y <= to.y; ++y)
+	{
+		result.push_back(Vector2(x, y));
+
+		if (D > 0)
+		{
+			x += xi;
+			D -= 2 * dy;
+		}
+
+		D += 2 * dx;
+	}
+
+	return result;
+}
+
+std::vector<Vector2> SceneManager::Line(Vector2 from, Vector2 to)
+{
+	if (std::abs(to.y - from.y) < std::abs(to.x - from.x))
+	{
+		if (from.x > to.x)
+			return LineLow(to, from);
+
+		return LineLow(from, to);
+	}
+	else
+	{
+		if (from.y > to.y)
+			return LineHigh(to, from);
+
+		return LineHigh(from, to);
+	}
 }

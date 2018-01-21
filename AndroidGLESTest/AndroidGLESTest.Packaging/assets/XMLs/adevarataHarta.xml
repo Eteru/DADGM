@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<dims>
+		<x>15</x>
+        <y>15</y>        
+	</dims>
+	
+	<wallPadding>true</wallPadding>	
+	
+	<lines>
+		<line>
+			<cellType>wall</cellType>			
+			<from>
+				<x>0</x>
+				<y>3</y>
+			</from>		
+			<to>
+				<x>3</x>
+				<y>3</y>
+			</to>
+		</line>
+		
+		<line>
+			<cellType>wall</cellType>
+			<from>
+				<x>6</x>
+				<y>0</y>
+			</from>		
+			<to>
+				<x>6</x>
+				<y>3</y>
+			</to>
+		</line>
+		
+		<line>
+			<cellType>wall</cellType>
+			<from>
+				<x>7</x>
+				<y>0</y>
+			</from>		
+			<to>
+				<x>7</x>
+				<y>3</y>
+			</to>
+		</line>		
+			
+		<line>
+			<cellType>wall</cellType>
+			<from>
+				<x>14</x>
+				<y>8</y>
+			</from>		
+			<to>
+				<x>7</x>
+				<y>8</y>
+			</to>
+		</line>
+
+	</lines>
+
+</map>

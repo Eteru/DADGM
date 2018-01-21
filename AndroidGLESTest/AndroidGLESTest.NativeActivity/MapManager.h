@@ -12,5 +12,7 @@ public:
 
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
+private:
 
+	void SpawnFromString(Vector2 dims, std::vector<std::string> &string);
 };

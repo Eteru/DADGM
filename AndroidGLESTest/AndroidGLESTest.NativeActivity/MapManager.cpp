@@ -1,17 +1,16 @@
 #include "MapManager.h"
 #include "SceneObjectSpawner.h"
 
+#include "SceneManager.h"
+
+
+
 void MapManager::Init()
 {
-	int testMax = 15;
-	for (int i = 0; i < testMax; ++i)
-	{
-		for (int j = 0; j < testMax; ++j)
-		{
-			MapCell *cell = SceneObjectSpawner::SpawnMapCell(Vector2(i, j), i == 0 || j == 0 || i == testMax - 1 || j == testMax - 1 ? SceneObjectSpawner::MapObjectType::WALL : SceneObjectSpawner::MapObjectType::GROUND);
-			AddComponent(cell);
-		}
-	}
+
+	auto pr = SceneManager::GetInstance()->LoadMapFromFile("XMLs/adevarataHarta.xml");
+
+	SpawnFromString(pr.first, pr.second);
 }
 
 void MapManager::FixedUpdate()
@@ -30,5 +29,31 @@ std::string MapManager::ToString()
 std::string MapManager::GetClassName()
 {
 	return std::string("MapManager");
+}
+
+void MapManager::SpawnFromString(Vector2 dims, std::vector<std::string> &string)
+{
+
+	for (int i = 0; i < dims.x; ++i)
+	{
+		for (int j = 0; j < dims.y; ++j)
+		{
+
+			MapCell *cell;
+			if ('0' == string[i][j])
+			{
+				cell = SceneObjectSpawner::SpawnMapCell(Vector2(i, j), SceneObjectSpawner::MapObjectType::GROUND);
+			}
+			else if ('1' == string[i][j])
+			{
+				cell = SceneObjectSpawner::SpawnMapCell(Vector2(i, j), SceneObjectSpawner::MapObjectType::WALL);
+			}
+
+			if (nullptr != cell)
+			{
+				AddComponent(cell);
+			}
+		}
+	}
 }
 

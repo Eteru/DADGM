@@ -33,4 +33,7 @@ namespace XMLUtils
 	Vector3 GetVectorValueRGB(const rapidxml::xml_node<> *pNode, const std::string childName);
 	Vector3 GetVectorValueRGBSafe(const rapidxml::xml_node<> *pNode, const Vector3 defaultValue);
 	Vector3 GetVectorValueRGBSafe(const rapidxml::xml_node<> *pNode, const std::string childName, const Vector3 defaultValue);
+
+	Vector2 GetVec2ValueXYSafe(const rapidxml::xml_node<> *pNode, const Vector2 defaultValue);
+	Vector2 GetVec2ValueXYSafe(const rapidxml::xml_node<> *pNode, const std::string childName, const Vector2 defaultValue);
 }

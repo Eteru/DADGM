@@ -109,3 +109,13 @@ Vector3 XMLUtils::GetVectorValueRGBSafe(const rapidxml::xml_node<> *pNode, const
 {
 	return nullptr == pNode ? defaultValue : GetVectorValueRGBSafe(pNode->first_node(childName.c_str()), defaultValue);
 }
+
+Vector2 XMLUtils::GetVec2ValueXYSafe(const rapidxml::xml_node<> *pNode, const std::string childName, const Vector2 defaultValue)
+{
+	return nullptr == pNode ? defaultValue : GetVec2ValueXYSafe(pNode->first_node(childName.c_str()), defaultValue);
+}
+
+Vector2 XMLUtils::GetVec2ValueXYSafe(const rapidxml::xml_node<> *pNode, const Vector2 defaultValue)
+{
+	return nullptr == pNode ? defaultValue : Vector2(GetFloatValueSafe(pNode->first_node("x"), defaultValue.x), GetFloatValueSafe(pNode->first_node("y"), defaultValue.y));
+}
