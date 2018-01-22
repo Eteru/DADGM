@@ -136,6 +136,8 @@
     <Content Include="assets\Models\witch.nfg" />
     <Content Include="assets\Models\Woman1.nfg" />
     <Content Include="assets\Models\Woman2.nfg" />
+    <Content Include="assets\Shaders\DebugShader.fs" />
+    <Content Include="assets\Shaders\DebugShader.vs" />
     <Content Include="assets\Shaders\LineShaderFS.fs" />
     <Content Include="assets\Shaders\LineShaderVS.vs" />
     <Content Include="assets\Shaders\ObjShaderFS.fs" />

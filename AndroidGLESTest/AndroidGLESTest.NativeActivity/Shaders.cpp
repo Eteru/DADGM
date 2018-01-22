@@ -1,6 +1,7 @@
 
 #include "Shaders.h"
 #include "SceneManager.h"
+#include "PrintUtils.h"
 #include <string>
 #include <sstream>
 #include <EGL\egl.h>
@@ -13,7 +14,8 @@ void esLogMessage(const char *formatStr, ...)
 	va_start(params, formatStr);
 	vsprintf(buf, formatStr, params);
 
-	printf("%s", buf);
+	//printf("%s", buf);
+	PrintUtils::PrintD(buf);
 	//OutputDebugString(buf);
 
 	va_end(params);
@@ -124,7 +126,7 @@ GLuint esLoadProgram(GLuint vertexShader, GLuint fragmentShader)
 			glGetProgramInfoLog(programObject, infoLen, NULL, infoLog);
 			esLogMessage("Error linking program:\n%s\n", infoLog);
 
-			delete infoLog;
+			delete[] infoLog;
 		}
 
 		glDeleteProgram(programObject);
@@ -160,6 +162,7 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 	texHeightsUniform = glGetUniformLocation(program, "u_heights");
 	vmMatrixUniform = glGetUniformLocation(program, "u_vm");
 	nmMatrixUniform = glGetUniformLocation(program, "u_nm");
+	colorUniform = glGetUniformLocation(program, "u_color");
 	matrixUniform = glGetUniformLocation(program, "u_matrix");
 	texUniform[0] = glGetUniformLocation(program, "u_texture_0");
 	texUniform[1] = glGetUniformLocation(program, "u_texture_1");

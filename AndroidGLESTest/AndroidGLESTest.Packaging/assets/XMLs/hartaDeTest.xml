@@ -2,9 +2,9 @@
 <sceneManager>
 
   <backgroundColor>
-    <r>0.0</r>
+    <r>1.0</r>
     <g>1.0</g>
-    <b>0.0</b>
+    <b>1.0</b>
   </backgroundColor>
   
 
@@ -125,6 +125,12 @@
       </direction>
     </light>
   </lights>
+
+  <debug>
+    <cube>2</cube>
+    <sphere>3</sphere>
+    <shader>2</shader>
+  </debug>
 
   <debugSettings>
     <objectAxes>

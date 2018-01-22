@@ -17,6 +17,10 @@
 			<vs>Shaders/terrainShader.vs</vs>
 			<fs>Shaders/terrainShader.fs</fs>
 	</shader>
+    <shader id="2">
+      <vs>Shaders/DebugShader.vs</vs>
+      <fs>Shaders/DebugShader.fs</fs>
+    </shader>
 	<shader id="10">
 		<vs>Shaders/vertexShader.vs</vs>
 		<fs>Shaders/fragmentShader.fs</fs>

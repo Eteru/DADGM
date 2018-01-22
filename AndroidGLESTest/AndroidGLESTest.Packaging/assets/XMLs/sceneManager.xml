@@ -2,9 +2,9 @@
 <sceneManager>
 
   <backgroundColor>
-    <r>0.0</r>
+    <r>1.0</r>
     <g>1.0</g>
-    <b>0.0</b>
+    <b>1.0</b>
   </backgroundColor>
 
   <links>
@@ -192,7 +192,7 @@
       </trajectory>
     </object>
 
-    <object>
+    <!--<object>
       <id>3</id>
       <model>3</model>
       <shader>3</shader>
@@ -243,53 +243,7 @@
         </points>
       </trajectory>
     </object>
-
-    <object>
-      <id>4</id>
-      <shader>1</shader>
-      <type>terrain</type>
-      <depthTest>true</depthTest>
-      <blend>true</blend>
-      <name>teren</name>
-      <textures>
-        <texture>
-          <id>1</id>
-        </texture>
-        <texture>
-          <id>2</id>
-        </texture>
-        <texture>
-          <id>3</id>
-        </texture>
-        <texture>
-          <id>5</id>
-        </texture>
-      </textures>
-      <position>
-        <x>0</x>
-        <y>-2</y>
-        <z>-5</z>
-      </position>
-      <rotation>
-        <x>0</x>
-        <y>0</y>
-        <z>0</z>
-      </rotation>
-      <scale>
-        <x>1</x>
-        <y>1</y>
-        <z>1</z>
-      </scale>
-      <heights>
-        <r>3</r>
-        <g>2</g>
-        <b>-1</b>
-      </heights>
-      <blockSize>80</blockSize>
-      <cellSize>1</cellSize>
-      <offsetY>-2</offsetY>
-    </object>
-
+-->
     <object>
       <id>7</id>
       <model>3</model>
@@ -402,6 +356,12 @@
       </direction>
     </light>
   </lights>
+
+  <debug>
+    <cube>2</cube>
+    <sphere>3</sphere>
+    <shader>2</shader>
+  </debug>
 
   <debugSettings>
     <objectAxes>

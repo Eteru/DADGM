@@ -218,6 +218,7 @@
     <ClInclude Include="BVIntersections.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="DebugDrawPrimitives.h" />
     <ClInclude Include="DeltaTime.h" />
     <ClInclude Include="Fog.h" />
     <ClInclude Include="GameConstants.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="BVIntersections.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
+    <ClCompile Include="DebugDrawPrimitives.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="Fog.cpp" />
     <ClCompile Include="GameManager.cpp" />
