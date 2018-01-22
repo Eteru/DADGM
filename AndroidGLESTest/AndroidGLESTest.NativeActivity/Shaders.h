@@ -19,6 +19,7 @@ public:
 	GLint matrixUniform;
 	GLint nmMatrixUniform;
 	GLint vmMatrixUniform;
+	GLint colorUniform;
 	// texture blending
 	GLint texUniform[4];
 	// skybox texture

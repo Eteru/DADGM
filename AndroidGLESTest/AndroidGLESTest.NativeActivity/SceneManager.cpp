@@ -11,6 +11,7 @@
 #include "InputManager.h"
 #include "UniqueID.h"
 #include "SceneObjectSpawner.h"
+#include "DebugDrawPrimitives.h"
 
 SceneManager *SceneManager::m_instance = nullptr;
 
@@ -109,6 +110,13 @@ bool SceneManager::LoadFromFile(std::string filepath)
 	{
 		return false;
 	}
+
+	// debug
+	if (!ParseDebug(pRoot))
+	{
+		return false;
+	}
+
 	//ambiental light
 	//lights
 	//debug settings
@@ -751,6 +759,30 @@ bool SceneManager::ParseCameraLinks(rapidxml::xml_node<> *pNode)
 		float offset = XMLUtils::GetFloatValueSafe(pObject, "radius", 0);
 		cam->SetFollowingObject(obj, offset);
 	}
+
+	return true;
+}
+
+bool SceneManager::ParseDebug(rapidxml::xml_node<>* pRoot)
+{
+	rapidxml::xml_node<> *pDebug = pRoot->first_node("debug");
+	if (nullptr == pDebug)
+	{
+		PrintUtils::PrintI("Found no debug settings");
+		return true;
+	}
+
+	DebugSettings ds;
+
+	ds.cube_id = XMLUtils::GetStringValueSafe(pDebug, "cube", "");
+	ds.sphere_id = XMLUtils::GetStringValueSafe(pDebug, "sphere", "");
+	ds.shader_id = XMLUtils::GetStringValueSafe(pDebug, "shader", "");
+
+	ResourceManager::GetInstance()->LoadModel(ds.cube_id);
+	ResourceManager::GetInstance()->LoadModel(ds.sphere_id);
+	ResourceManager::GetInstance()->LoadShader(ds.shader_id);
+
+	DebugDrawPrimitives::SetDebugSettings(ds);
 
 	return true;
 }

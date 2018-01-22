@@ -33,6 +33,7 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapCell.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="DebugDrawPrimitives.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -71,5 +72,6 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapCell.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="DebugDrawPrimitives.h" />
   </ItemGroup>
 </Project>

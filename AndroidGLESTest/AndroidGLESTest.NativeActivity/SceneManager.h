@@ -91,6 +91,9 @@ private:
 	bool ParseLightLinks(rapidxml::xml_node<> *pNode);
 	bool ParseCameraLinks(rapidxml::xml_node<> *pNode);
 
+	bool ParseDebug(rapidxml::xml_node<> *pRoot);
+
+
 	void ParseMapLines(rapidxml::xml_node<> *pNode, Vector2 dims, std::vector<std::string> &mapString);
 	void ParseMapLine(rapidxml::xml_node<> *pNode, Vector2 dims, std::vector<std::string> &mapString);
 

@@ -65,3 +65,10 @@ struct ShaderResource
 	std::string vs_path;
 	std::string fs_path;
 };
+
+struct DebugSettings
+{
+	std::string cube_id;
+	std::string sphere_id;
+	std::string shader_id;
+};

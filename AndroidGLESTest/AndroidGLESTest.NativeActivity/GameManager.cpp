@@ -12,7 +12,7 @@
 #include "Robot.h"
 #include "UniqueID.h"
 #include "MapManager.h"
-
+#include "DebugDrawPrimitives.h"
 
 
 
@@ -55,8 +55,6 @@ void GameManager::Init()
 	robotPB->SetTarget(Vector3(10, GameConstants::WALL_HEIGHT, 10));
 	AddComponent(robotPB);
 
-
-
 	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(robotPB, 15);
 
 	AddComponent(SceneManager::GetInstance());
@@ -88,7 +86,10 @@ void GameManager::Update()
 
 void GameManager::Draw()
 {
+	DebugDrawPrimitives::DrawCube(Vector3(10.f, 0.f, 10.f), Vector3(0.f), Vector3(100.f), DebugDrawPrimitives::COLOR_RED);
+	DebugDrawPrimitives::DrawSphere(Vector3(10.f, 0.f, 10.f), Vector3(0.f), Vector3(100.f), DebugDrawPrimitives::COLOR_BLUE);
 
+	DebugDrawPrimitives::DrawLine(Vector3(-100.f), Vector3(100.f), DebugDrawPrimitives::COLOR_YELLOW);
 }
 
 void GameManager::Destroy()

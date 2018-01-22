@@ -1,5 +1,6 @@
 
 #include "Shader.h"
+#include "PrintUtils.h"
 #include <cstdlib>
 
 Shader::Shader() : m_loaded(false), m_sr(nullptr)
@@ -29,6 +30,7 @@ bool Shader::Load()
 		return false;
 	}
 
+	PrintUtils::PrintD("Loading shader " + m_sr->id);
 	m_loaded = true;
 	return true;
 }
