@@ -32,6 +32,7 @@
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapCell.cpp" />
+    <ClCompile Include="Graph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -69,5 +70,6 @@
     <ClInclude Include="GameConstants.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapCell.h" />
+    <ClInclude Include="Graph.h" />
   </ItemGroup>
 </Project>

@@ -4,12 +4,23 @@
 		<model id="1">
 			<path>Models/Croco.nfg</path>
 		</model>
-    <model id="2">
-      <path>Models/Cube.nfg</path>
-    </model>
-    <model id="3">
-      <path>Models/Bila.nfg</path>
-    </model>
+
+		<model id="2">
+		  <path>Models/Cube.nfg</path>
+		</model>
+		
+		<model id="3">
+		  <path>Models/Bila.nfg</path>
+		</model>
+		
+		<model id="4">
+			<path>Models/DebugSphere.nfg</path>
+		</model>
+		
+		<model id="5">
+			<path>Models/DebugCube.nfg</path>
+		</model>
+	
 		<!-- si aici se adauga toate modelele -->
 	</models>
 	<shaders>

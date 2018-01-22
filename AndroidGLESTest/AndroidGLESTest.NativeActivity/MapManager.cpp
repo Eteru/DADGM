@@ -10,7 +10,12 @@ void MapManager::Init()
 
 	auto pr = SceneManager::GetInstance()->LoadMapFromFile("XMLs/adevarataHarta.xml");
 
-	SpawnFromString(pr.first, pr.second);
+	m_mapDims = pr.first;
+	m_mapString = pr.second;
+
+	SpawnFromString(m_mapDims, m_mapString);
+
+	m_graph.InitFromMapString(m_mapDims, m_mapString);
 }
 
 void MapManager::FixedUpdate()

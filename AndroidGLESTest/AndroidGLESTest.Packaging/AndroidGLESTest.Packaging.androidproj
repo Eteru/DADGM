@@ -123,6 +123,8 @@
     <Content Include="assets\Models\bus.nfg" />
     <Content Include="assets\Models\Croco.nfg" />
     <Content Include="assets\Models\Cube.nfg" />
+    <Content Include="assets\Models\DebugCube.nfg" />
+    <Content Include="assets\Models\DebugSphere.nfg" />
     <Content Include="assets\Models\fire.nfg" />
     <Content Include="assets\Models\Goliath.nfg" />
     <Content Include="assets\Models\House.nfg" />
