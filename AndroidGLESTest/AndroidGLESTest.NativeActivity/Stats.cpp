@@ -32,8 +32,8 @@ void Stats::AddAdditiveCoefficient(const float coef)
 
 void Stats::AddMultiplicativeCoefficient(const float coef)
 {
-	m_stat_increase.multiplicative_coef += coef;
-	m_value_final = m_value_after_additives * m_stat_increase.multiplicative_coef;
+	m_stat_increase.multiplicative_coef *= coef;
+	m_value_final = m_value_after_additives * (1.f + m_stat_increase.multiplicative_coef);
 }
 
 void Stats::DecreaseFlatAmount(const uint32_t value)
@@ -72,7 +72,7 @@ void Stats::DecreaseMultiplicativeCoefficient(const float coef)
 	}
 	else
 	{
-		m_stat_increase.multiplicative_coef -= coef;
+		m_stat_increase.multiplicative_coef /= coef;
 	}
 
 	AddMultiplicativeCoefficient(0.f);
