@@ -3,7 +3,7 @@
 
 #include "GameLoopObject.h"
 #include "SceneManager.h"
-
+#include "MapManager.h"
 
 class GameManager : public GameLoopObject
 {
@@ -15,6 +15,7 @@ public:
 	virtual void FixedUpdate() override;
 	virtual void Update() override;
 	virtual void Draw() override;
+	virtual void DebugDraw() override;
 	virtual void Destroy() override;
 
 	virtual std::string ToString() override;
@@ -27,9 +28,14 @@ public:
 	void DrawTree();
 	void DestroyTree();
 
+
+
 private:
+	MapManager * m_mapManager;
 
 	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> m_initTime;
 	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> m_lastFixedTime; // last fixed update
 	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> m_lastFrameTime;
+
+
 };

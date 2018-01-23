@@ -1,13 +1,96 @@
 #include "Graph.h"
+#include "PrintUtils.h"
+
+#include <unordered_set>
+#include <queue>
+#include <functional>
+#include <algorithm>
+#include <set>
 
 Graph::Graph()
 {
 
 }
 
+GraphNode * Graph::NodeAt(Vector2 coords) const
+{
+	if (!IsInBounds(coords))
+		return nullptr;
+
+	return m_nodes[coords.x][coords.y];
+}
+
+std::vector<Vector2> Graph::FindPath(Vector2 from, Vector2 to)
+{
+	std::unordered_set<GraphNode *> closedSet;
+	std::unordered_set<GraphNode *> openSet;
+
+	openSet.insert(NodeAt(from));
+	std::unordered_map<GraphNode *, GraphNode *> cameFrom;
+
+
+	for (int i = 0; i < m_nodes.size(); ++i)
+	{
+		for (int j = 0; j < m_nodes[i].size(); ++j)
+		{
+			m_nodes[i][j]->m_gScore = 50000.f;
+			m_nodes[i][j]->m_fScore = 50000.f;
+		}
+	}
+
+	NodeAt(from)->m_gScore = 0;
+	NodeAt(from)->m_fScore = Distance(NodeAt(from), NodeAt(to));
+
+	while (!openSet.empty())
+	{
+
+		GraphNode *current = *std::min_element(openSet.begin(), openSet.end(), m_cmp);
+
+		if (current == NodeAt(to))
+		{
+			return ReconstructPath(cameFrom, current);
+		}
+
+
+		closedSet.insert(current);
+		openSet.erase(current);
+
+
+
+
+		for (auto outEdge : current->m_outEdges)
+		{
+			GraphNode *neighbor = outEdge->m_p2;
+
+			if (closedSet.count(neighbor) == 1)
+			{
+				continue;
+			}
+
+			if (openSet.count(neighbor) == 0)
+			{
+				openSet.insert(neighbor);
+			}
+
+			float tentativeGScore = current->m_gScore + outEdge->m_w;
+			if (tentativeGScore >= neighbor->m_gScore)
+			{
+				continue;
+			}
+
+			cameFrom[neighbor] = current;
+			neighbor->m_gScore = tentativeGScore;
+			neighbor->m_fScore = tentativeGScore + Distance(neighbor, NodeAt(to));
+		}
+	}
+
+	return std::vector<Vector2>();
+}
+
 void Graph::InitFromMapString(const Vector2 dims, const std::vector<std::string> mapString)
 {
 	m_nodes = std::vector<std::vector<GraphNode*>>(dims.x);
+	m_dims = dims;
 
 	for (int i = 0; i < m_nodes.size(); ++i)
 	{
@@ -25,12 +108,12 @@ void Graph::InitFromMapString(const Vector2 dims, const std::vector<std::string>
 		{
 			if (mapString[i][j] == '0')
 			{
-				for (auto neighbor : GetAllNeighbors(m_nodes[i][j]))
+				for (auto neighbor : GetAllNeighbors(m_nodes[i][j], mapString))
 				{
 					if (mapString[neighbor->m_mapCoords.x][neighbor->m_mapCoords.y] == '0')
 					{
 						m_nodes[i][j]->m_outEdges.push_back(new DirectedGraphEdge(m_nodes[i][j], neighbor, 1));
-						m_nodes[i][j]->m_inEdges.push_back(new DirectedGraphEdge(neighbor, m_nodes[i][j], 1));
+						//m_nodes[i][j]->m_inEdges.push_back(new DirectedGraphEdge(neighbor, m_nodes[i][j], 1));
 					}
 				}
 			}
@@ -40,33 +123,89 @@ void Graph::InitFromMapString(const Vector2 dims, const std::vector<std::string>
 
 int Graph::Distance(const GraphNode *from, const GraphNode *to)
 {
-	return static_cast<int>(std::ceil(Math::Distance(from->m_mapCoords, to->m_mapCoords)));
+	return static_cast<int>(std::floor(Math::Distance(from->m_mapCoords, to->m_mapCoords)));
 }
 
-std::vector<GraphNode *> Graph::GetAllNeighbors(GraphNode *node) const
+std::vector<Vector2> Graph::ReconstructPath(std::unordered_map<GraphNode *, GraphNode *> &cameFrom, GraphNode *node)
 {
-	std::vector<Vector2> rawCoords({ Vector2(-1, -1) , Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1) , Vector2(0, 1), Vector2(1, -1) , Vector2(1, 0), Vector2(1, 1) });
+	std::vector<Vector2> result({ node->m_mapCoords });
 
-	for (int i = 0; i < rawCoords.size(); ++i)
+	GraphNode *crawler = node;
+
+	while (cameFrom.count(crawler))
 	{
-		rawCoords[i] += node->m_mapCoords;
+		crawler = cameFrom[crawler];
+		result.push_back(crawler->m_mapCoords);
 	}
+
+	std::reverse(result.begin(), result.end());
+
+	return result;
+}
+
+std::vector<GraphNode *> Graph::GetAllNeighbors(GraphNode *node, const std::vector<std::string> &mapString) const
+{
+	Vector2 upRaw = Vector2(0, 1);
+	Vector2 downRaw = Vector2(0, -1);
+	Vector2 leftRaw = Vector2(-1, 0);
+	Vector2 rightRaw = Vector2(1, 0);
+
+	Vector2 up = upRaw + node->m_mapCoords;
+	Vector2 down = downRaw + node->m_mapCoords;
+	Vector2 left = leftRaw + node->m_mapCoords;
+	Vector2 right = rightRaw + node->m_mapCoords;
+
+	std::vector<Vector2> coords;
+
+	if (IsInBounds(up))
+		coords.push_back(up);
+
+	if (IsInBounds(down))
+		coords.push_back(down);
+
+	if (IsInBounds(left))
+		coords.push_back(up);
+
+	if (IsInBounds(right))
+		coords.push_back(right);
+
+
+
+	Vector2 vec = upRaw + leftRaw + node->m_mapCoords;
+	if (CheckAdjacent(up, left, vec, mapString))
+		coords.push_back(vec);
+
+	vec = upRaw + rightRaw + node->m_mapCoords;
+	if (CheckAdjacent(up, right, vec, mapString))
+		coords.push_back(vec);
+
+	vec = downRaw + leftRaw + node->m_mapCoords;
+	if (CheckAdjacent(down, left, vec, mapString))
+		coords.push_back(vec);
+
+	vec = downRaw + rightRaw + node->m_mapCoords;
+	if (CheckAdjacent(down, right, vec, mapString))
+		coords.push_back(vec);
 
 
 	std::vector<GraphNode *> result;
 
-	for (int i = 0; i < rawCoords.size(); ++i)
+	for (int i = 0; i < coords.size(); ++i)
 	{
-		if (IsInBounds(rawCoords[i]))
-		{
-			result.push_back(m_nodes[rawCoords[i].x][rawCoords[i].y]);
-		}
+		result.push_back(NodeAt(coords[i]));
 	}
 
 	return result;
 }
 
-bool Graph::IsInBounds(const Vector2 coord) const
+bool Graph::CheckAdjacent(Vector2 v1, Vector2 v2, Vector2 adj, const std::vector<std::string> &mapString) const
+{
+	bool cond = mapString[v1.x][v1.y] == '0' && mapString[v2.x][v2.y] == '0';
+
+	return IsInBounds(v1) && IsInBounds(v2) && cond;
+}
+
+bool Graph::IsInBounds(Vector2 coord) const
 {
 	return !(coord.x < 0 || coord.x >= m_dims.x || coord.y < 0 || coord.y >= m_dims.y);
 }
@@ -78,11 +217,11 @@ GraphNode::GraphNode(const Vector2 mapCoords)
 
 GraphNode::~GraphNode()
 {
-	for (auto edge : m_inEdges)
-	{
-		delete edge;
-		edge = nullptr;
-	}
+	// 	for (auto edge : m_inEdges)
+	// 	{
+	// 		delete edge;
+	// 		edge = nullptr;
+	// 	}
 
 	for (auto edge : m_outEdges)
 	{

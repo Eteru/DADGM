@@ -1,11 +1,12 @@
 #include "PhysicsBody.h"
+#include "DebugDrawPrimitives.h"
 
 
 
 PhysicsBody::PhysicsBody()
 {
 	m_kinematic = true;
-	m_damping = 0.01f;
+	m_damping = 0.02f;
 	m_targetPos = Vector3(0.f);
 	m_linearVelEngine = Vector3(0.f);
 	m_linearVelImpact = Vector3(0.f);
@@ -16,6 +17,8 @@ PhysicsBody::PhysicsBody()
 
 void PhysicsBody::Init()
 {
+
+	m_debugDraw = true;
 }
 
 void PhysicsBody::FixedUpdate()
@@ -25,21 +28,17 @@ void PhysicsBody::FixedUpdate()
 		return;
 	}
 
-	if (m_hasTarget)
+
+	Vector3 dir = m_targetPos - m_transform.GetWorldPos();
+
+
+
+	if (m_hasTarget && dir.Length() > 0)
 	{
-		Vector3 dir = m_targetPos - m_transform.GetWorldPos();
-
-		if (dir.Length() < m_acceleration)
-		{
-			m_hasTarget = false;
-		}
-
-		dir.Normalize();
-
-		Vector3 timeStepSpeed = dir * (m_acceleration * GameConstants::PHYSICS_TIME_STEP);
+		Vector3 timeStepSpeed = Math::SetLength(dir, m_acceleration * GameConstants::PHYSICS_TIME_STEP);
 
 		m_linearVelEngine += timeStepSpeed;
-		m_linearVelEngine = Math::SetLength(m_linearVelEngine, m_topSpeed * GameConstants::PHYSICS_TIME_STEP);
+		m_linearVelEngine = Math::ClampLength(m_linearVelEngine, m_topSpeed * GameConstants::PHYSICS_TIME_STEP);
 	}
 	else
 	{
@@ -56,6 +55,11 @@ void PhysicsBody::FixedUpdate()
 	ps.y = GameConstants::WALL_HEIGHT;
 
 	m_transform.SetPos(ps);
+
+	if (Math::Length(m_targetPos - m_transform.GetWorldPos()) < GameConstants::CELL_SIZE / 2)
+	{
+		m_hasTarget = false;
+	}
 }
 
 std::string PhysicsBody::ToString()
@@ -77,4 +81,17 @@ void PhysicsBody::SetTarget(Vector3 worldPos)
 {
 	m_targetPos = worldPos;
 	m_hasTarget = true;
+}
+
+void PhysicsBody::Draw()
+{
+
+}
+
+void PhysicsBody::DebugDraw()
+{
+	if (m_hasTarget)
+	{
+		DebugDrawPrimitives::DrawLine(m_transform.GetWorldPos(), m_targetPos, DebugDrawPrimitives::COLOR_RED);
+	}
 }

@@ -11,10 +11,8 @@
 
 #include "Robot.h"
 #include "UniqueID.h"
-#include "MapManager.h"
+
 #include "DebugDrawPrimitives.h"
-
-
 
 
 
@@ -42,17 +40,17 @@ void GameManager::Init()
 
 	
 
-	MapManager *mapManager = new MapManager();
-	mapManager->SetID(UniqueID::GetID(mapManager->GetClassName()));
-	mapManager->Init();
+	m_mapManager = new MapManager();
+	m_mapManager->SetID(UniqueID::GetID(m_mapManager->GetClassName()));
+	m_mapManager->Init();
 
-	AddComponent(mapManager);
+	AddComponent(m_mapManager);
 
-	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(3, 3));
-	robotPB->m_topSpeed = 3;
-	robotPB->m_acceleration = 3;
+	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(1, 1), m_mapManager);
+	robotPB->m_topSpeed = 5;
+	robotPB->m_acceleration = 2;
 	robotPB->m_mass = 1.f;
-	robotPB->SetTarget(Vector3(10, GameConstants::WALL_HEIGHT, 10));
+	
 	AddComponent(robotPB);
 
 	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(robotPB, 15);
@@ -61,7 +59,13 @@ void GameManager::Init()
 
 
 
+	Robot *robotelTest = dynamic_cast<Robot *>(robotPB->m_linkedObject);
+
+	robotelTest->MoveTowards(Vector2(13, 13));
+
 	PrintUtils::PrintI(ToStringTree());
+
+	m_debugDraw = true;
 }
 
 void GameManager::FixedUpdate()
@@ -77,6 +81,7 @@ void GameManager::FixedUpdate()
 	{
 		// Collision response goes here
 	}
+
 }
 
 void GameManager::Update()
@@ -86,10 +91,26 @@ void GameManager::Update()
 
 void GameManager::Draw()
 {
-	DebugDrawPrimitives::DrawCube(Vector3(10.f, 0.f, 10.f), Vector3(0.f), Vector3(100.f), DebugDrawPrimitives::COLOR_RED);
-	DebugDrawPrimitives::DrawSphere(Vector3(10.f, 0.f, 10.f), Vector3(0.f), Vector3(100.f), DebugDrawPrimitives::COLOR_BLUE);
+// 	DebugDrawPrimitives::DrawCube(Vector3(10.f, 0.f, 10.f), Vector3(0.f), Vector3(0.5f), DebugDrawPrimitives::COLOR_RED);
+// 	DebugDrawPrimitives::DrawSphere(Vector3(10.f, 2.f, 11.f), Vector3(0.f), Vector3(1.f), DebugDrawPrimitives::COLOR_BLUE);
+// 
+// 	DebugDrawPrimitives::DrawLine(Vector3(-1.f), Vector3(1.f), DebugDrawPrimitives::COLOR_YELLOW);
 
-	DebugDrawPrimitives::DrawLine(Vector3(-100.f), Vector3(100.f), DebugDrawPrimitives::COLOR_YELLOW);
+	
+}
+
+void GameManager::DebugDraw()
+{	
+// 	MapManager *manager = dynamic_cast<MapManager *>(FindComponent("MapManager"));
+// 
+// 	static std::vector<Vector2> path = manager->FindPath(Vector2(1, 1), Vector2(13, 13));
+// 
+// 	DebugDrawPrimitives::DrawSphere(Vector3(1, GameConstants::WALL_HEIGHT, 1), 0.5, DebugDrawPrimitives::COLOR_RED);
+// 	for (int i = 0; i < path.size() - 1; ++i)
+// 	{
+// 		PrintUtils::PrintD("WAA " + path[i].ToString());
+// 		DebugDrawPrimitives::DrawLine(Vector3(path[i].x, GameConstants::WALL_HEIGHT, path[i].y), Vector3(path[i + 1].x, GameConstants::WALL_HEIGHT, path[i + 1].y), DebugDrawPrimitives::COLOR_RED);
+// 	}
 }
 
 void GameManager::Destroy()
@@ -137,6 +158,7 @@ void GameManager::UpdateTree()
 void GameManager::DrawTree()
 {
 	_Draw();
+	_DebugDraw();
 }
 
 void GameManager::DestroyTree()

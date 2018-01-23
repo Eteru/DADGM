@@ -247,11 +247,32 @@ public:
 
 class Math
 {
-public:
+public:	
 
-	static Vector3 SetLength(Vector3 &v, const float length)
+
+	static Vector3 SetLength(const Vector3 &v, const float length)
 	{
-		return v * (length / v.Length());
+		float vLen = Length(v);
+
+		if (vLen == 0)
+			return Vector3(0.f);
+
+		return v * (length / vLen);
+	}
+
+	static Vector3 ClampLength(const Vector3 &v, const float length)
+	{
+		float vLen = Length(v);
+
+		if (vLen == 0)
+			return Vector3(0.f);
+
+		if (vLen > length)
+		{
+			return v * (length / vLen);
+		}
+
+		return v;
 	}
 
 	static Vector3 RotateAround(const Vector3 &v, const Vector3 &axis, const float rads)

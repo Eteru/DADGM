@@ -10,5 +10,8 @@ public:
 	virtual std::string GetClassName() override;
 
 	GLfloat m_radius;
+
+	virtual void Draw() override;
+
 private:
 };

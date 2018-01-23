@@ -37,6 +37,7 @@
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="MovementController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -79,5 +80,6 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="MovementController.h" />
   </ItemGroup>
 </Project>

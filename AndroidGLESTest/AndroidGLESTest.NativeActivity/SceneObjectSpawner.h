@@ -18,12 +18,9 @@ namespace SceneObjectSpawner
 
 	enum MapObjectType { GROUND = 0, WALL = 1 };
 
-	Vector2 ToMapCoords(const Vector3 worldCoords);
-	Vector3 ToWorldCoords(const Vector2 mapCoords, MapObjectType type);
-
 	MapCell * SpawnMapCell(const Vector2 mapCoords, const MapObjectType cellType);
 
-	PhysicsBody *SpawnRobot(const Vector2 mapCoords);
+	PhysicsBody *SpawnRobot(const Vector2 mapCoords, MapManager *mapManager);
 
 	static Texture *ChooseRandomTexture(const MapObjectType type);
 	static Model *GetMapCellModel();

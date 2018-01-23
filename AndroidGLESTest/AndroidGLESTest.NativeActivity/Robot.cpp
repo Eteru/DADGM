@@ -3,6 +3,10 @@
 #include "UniqueID.h"
 #include "BoundingSphere.h"
 
+#include "PhysicsBody.h"
+#include "MapManager.h"
+#include "MovementController.h"
+
 Robot::Robot()
 {
 
@@ -10,7 +14,11 @@ Robot::Robot()
 
 void Robot::Init()
 {
-	
+	m_movementController = new MovementController();
+	m_movementController->SetID(UniqueID::GetID(m_movementController->GetClassName()));
+	m_movementController->Init();
+
+	AddComponent(m_movementController);
 }
 
 void Robot::FixedUpdate()
@@ -20,6 +28,19 @@ void Robot::FixedUpdate()
 // 	{
 // 		m_transform.SetPos(m_physicsBody->m_transform.GetLocalPos());
 // 	}
+
+	if (nullptr == m_physicsBody)
+	{
+		return;
+	}
+
+	if (!m_physicsBody->m_hasTarget)
+	{
+		if (!m_movementController->IsEmpty())
+		{
+			m_physicsBody->SetTarget(GameConstants::ToWorldCoords(m_movementController->NextPoint(), GameConstants::WALL_HEIGHT));
+		}
+	}
 }
 
 void Robot::Update()
@@ -50,4 +71,20 @@ std::string Robot::ToString()
 std::string Robot::GetClassName()
 {
 	return std::string("Robot");
+}
+
+void Robot::MoveTowards(const Vector2 pos)
+{
+	if (nullptr == m_mapManager || nullptr == m_physicsBody || nullptr == m_movementController)
+	{
+		return;
+	}
+
+	
+	std::vector<Vector2> path = m_mapManager->FindPath(GameConstants::ToMapCoords(m_physicsBody->m_transform.GetWorldPos()), pos);
+
+	if (!path.empty())
+	{
+		m_movementController->SetPath(path);
+	}
 }

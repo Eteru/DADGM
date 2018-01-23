@@ -127,8 +127,8 @@
   </lights>
 
   <debug>
-    <cube>2</cube>
-    <sphere>3</sphere>
+    <cube>5</cube>
+    <sphere>4</sphere>
     <shader>2</shader>
   </debug>
 

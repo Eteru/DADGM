@@ -233,6 +233,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MovementController.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="android_native_app_glue.h" />
     <ClInclude Include="PhysicsBody.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MovementController.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PrintUtils.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

@@ -16,4 +16,16 @@ namespace GameConstants
 	const float WALL_HEIGHT = CELL_SIZE;
 	const float CAMERA_HEIGHT = 10.f * CELL_SIZE;
 
+
+	//Astea nu stiu unde altundeva sa le pun :(
+	inline Vector2 ToMapCoords(const Vector3 worldPos)
+	{
+		return Vector2(worldPos.x, worldPos.z) / GameConstants::CELL_SIZE;
+	}
+
+	inline Vector3 ToWorldCoords(const Vector2 mapCoords, float height)
+	{
+		return Vector3(mapCoords.x, height, mapCoords.y) * GameConstants::CELL_SIZE;
+	}
+
 }

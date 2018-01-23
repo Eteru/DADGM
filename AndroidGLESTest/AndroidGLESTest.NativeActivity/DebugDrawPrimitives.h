@@ -10,6 +10,10 @@ public:
 	static void SetDebugSettings(DebugSettings ds);
 
 	static void DrawLine(Vector3 begin, Vector3 end, const Vector4 & color);
+
+	static void DrawAAB(const Vector3 pos, const Vector3 halfExtents, const Vector4 &color);
+	static void DrawSphere(const Vector3 pos, const float radius, const Vector4 &color);
+
 	static void DrawCube(Vector3 pos, Vector3 rot, Vector3 scale, const Vector4 & color);
 	static void DrawSphere(Vector3 pos, Vector3 rot, Vector3 scale, const Vector4 & color);
 

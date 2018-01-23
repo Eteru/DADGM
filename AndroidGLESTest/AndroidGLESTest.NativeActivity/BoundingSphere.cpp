@@ -1,4 +1,5 @@
 #include "BoundingSphere.h"
+#include "DebugDrawPrimitives.h"
 
 BoundingSphere::BoundingSphere() : m_radius(1.f)
 {
@@ -18,4 +19,9 @@ std::string BoundingSphere::ToString()
 std::string BoundingSphere::GetClassName()
 {
 	return std::string("BoundingSphere");
+}
+
+void BoundingSphere::Draw()
+{
+	DebugDrawPrimitives::DrawSphere(m_transform.GetWorldPos(), m_radius, DebugDrawPrimitives::COLOR_BLUE);
 }

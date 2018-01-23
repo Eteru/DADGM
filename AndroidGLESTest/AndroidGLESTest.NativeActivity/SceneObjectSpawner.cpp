@@ -50,16 +50,6 @@
 // 	return so;
 // }
 
-Vector2 SceneObjectSpawner::ToMapCoords(const Vector3 worldCoords)
-{
-	return Vector2(worldCoords.x, worldCoords.z);
-}
-
-Vector3 SceneObjectSpawner::ToWorldCoords(const Vector2 mapCoords, MapObjectType type)
-{
-	return Vector3(mapCoords.x, type == GROUND ? GameConstants::GROUND_HEIGHT : GameConstants::WALL_HEIGHT, mapCoords.y);
-}
-
 MapCell * SceneObjectSpawner::SpawnMapCell(const Vector2 mapCoords, const MapObjectType cellType)
 {
 	Model *cubeModel = GetMapCellModel();
@@ -68,7 +58,7 @@ MapCell * SceneObjectSpawner::SpawnMapCell(const Vector2 mapCoords, const MapObj
 
 	MapCell *cell = new MapCell();
 	cell->SetID(UniqueID::GetID(cell->GetClassName()));
-	cell->m_transform.SetPos(ToWorldCoords(mapCoords, cellType));
+	cell->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, cellType == GROUND ? GameConstants::GROUND_HEIGHT : GameConstants::WALL_HEIGHT));
 	cell->Init();
 
 	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.5f), "MapCell", true);
@@ -106,11 +96,12 @@ MapCell * SceneObjectSpawner::SpawnMapCell(const Vector2 mapCoords, const MapObj
 	return cell;
 }
 
-PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords)
+PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager *mapManager)
 {
 	PhysicsBody *pb = new PhysicsBody();
 	pb->SetID(UniqueID::GetID(pb->GetClassName()));
-	pb->m_transform.SetPos(ToWorldCoords(mapCoords, MapObjectType::WALL));
+	pb->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, GameConstants::WALL_HEIGHT));
+	pb->m_transform.ComputeWorld();
 	pb->m_kinematic = true;
 	pb->Init();
 
@@ -123,6 +114,8 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords)
 
 	Robot *robot = new Robot();
 	robot->SetID(UniqueID::GetID(robot->GetClassName()));
+	robot->SetMapManager(mapManager);
+	robot->SetPhysicsBody(pb);
 	robot->Init();
 
 	pb->m_linkedObject = robot;

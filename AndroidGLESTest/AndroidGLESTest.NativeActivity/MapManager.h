@@ -13,6 +13,10 @@ public:
 
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
+
+	virtual void Draw() override;
+
+	std::vector<Vector2> FindPath(Vector2 from, Vector2 to);
 private:
 	void SpawnFromString(Vector2 dims, std::vector<std::string> &string);
 

@@ -3,6 +3,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "Math.h"
+
 #include "PrintUtils.h"
 #include "Transform.h"
 #include "DeltaTime.h"
@@ -17,11 +19,11 @@ public:
 	virtual void FixedUpdate();
 	virtual void Update();
 	virtual void Draw();
+	virtual void DebugDraw();
 	virtual void Destroy();
 
 	virtual std::string ToString() = 0;
 	virtual std::string GetClassName() = 0;
-
 
 	virtual void OnTouchDown(const int x, const int y);
 	virtual void OnTouchUp(const int x, const int y);
@@ -55,11 +57,13 @@ protected:
 	virtual void _Update() final;
 	virtual void _Draw() final;
 	virtual void _Destroy() final;
+	virtual void _DebugDraw() final;
 
 	size_t m_ID;
 
 	GameLoopObject *m_parent;
 	std::unordered_map<std::string, std::vector<GameLoopObject *>> m_children;
+	bool m_debugDraw;
 private:
 	void _FindComponentsTree(const std::string className, std::vector<GameLoopObject *> &result);
 
@@ -70,6 +74,8 @@ inline void GameLoopObject::Init() {}
 inline void GameLoopObject::FixedUpdate() {}
 inline void GameLoopObject::Update() {}
 inline void GameLoopObject::Draw() {}
+inline void GameLoopObject::DebugDraw() {}
+
 inline void GameLoopObject::Destroy() {}
 inline void GameLoopObject::OnTouchDown(const int x, const int y) {}
 inline void GameLoopObject::OnTouchUp(const int x, const int y) {}
@@ -256,4 +262,18 @@ inline void GameLoopObject::_Destroy()
 	}
 
 	Destroy();
+}
+
+inline void GameLoopObject::_DebugDraw()
+{
+	if (m_debugDraw)
+		DebugDraw();
+
+	for (auto kvPair : m_children)
+	{
+		for (auto component : kvPair.second)
+		{
+			component->_DebugDraw();
+		}
+	}
 }

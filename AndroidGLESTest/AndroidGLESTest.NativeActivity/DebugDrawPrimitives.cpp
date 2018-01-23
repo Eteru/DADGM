@@ -63,7 +63,18 @@ void DebugDrawPrimitives::DrawLine(Vector3 begin, Vector3 end, const Vector4 & c
 	}
 	
 
-	Draw(m_line_vbo, m_line_ibo, 2, Matrix().SetIdentity(), color);
+	static Matrix identityMatrix = Matrix().SetIdentity();
+	Draw(m_line_vbo, m_line_ibo, 2, identityMatrix, color);
+}
+
+void DebugDrawPrimitives::DrawAAB(const Vector3 pos, const Vector3 halfExtents, const Vector4 &color)
+{
+	DrawCube(pos, Vector3(0.f), halfExtents, color);
+}
+
+void DebugDrawPrimitives::DrawSphere(const Vector3 pos, const float radius, const Vector4 &color)
+{
+	DrawSphere(pos, Vector3(0.f), Vector3(radius), color);
 }
 
 void DebugDrawPrimitives::DrawCube(Vector3 pos, Vector3 rot, Vector3 scale, const Vector4 & color)

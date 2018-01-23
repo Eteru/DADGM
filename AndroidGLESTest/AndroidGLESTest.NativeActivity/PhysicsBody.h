@@ -36,4 +36,10 @@ public:
 	float m_turningAcceleration;
 	float m_mass;
 	float m_damping;
+
+	virtual void Draw() override;
+
+
+	virtual void DebugDraw() override;
+
 };
