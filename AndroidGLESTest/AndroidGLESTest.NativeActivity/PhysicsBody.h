@@ -36,6 +36,7 @@ public:
 	float m_turningAcceleration;
 	float m_mass;
 	float m_damping;
+	float m_inertia;
 
 	virtual void Draw() override;
 

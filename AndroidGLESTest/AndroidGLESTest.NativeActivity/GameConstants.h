@@ -20,7 +20,7 @@ namespace GameConstants
 	//Astea nu stiu unde altundeva sa le pun :(
 	inline Vector2 ToMapCoords(const Vector3 worldPos)
 	{
-		return Vector2(worldPos.x, worldPos.z) / GameConstants::CELL_SIZE;
+		return Vector2(roundf(worldPos.x / GameConstants::CELL_SIZE), roundf(worldPos.z / GameConstants::CELL_SIZE));
 	}
 
 	inline Vector3 ToWorldCoords(const Vector2 mapCoords, float height)

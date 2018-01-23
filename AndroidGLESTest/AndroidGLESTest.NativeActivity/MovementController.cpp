@@ -57,6 +57,11 @@ Vector2 MovementController::NextPoint()
 	return result;
 }
 
+void MovementController::ArrivedAtCheckpoint()
+{
+
+}
+
 bool MovementController::IsEmpty()
 {
 	return m_path.empty();

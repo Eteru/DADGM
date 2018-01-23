@@ -17,6 +17,7 @@ public:
 	virtual void Draw() override;
 
 	std::vector<Vector2> FindPath(Vector2 from, Vector2 to);
+	std::vector<Vector2> GetAllFreeCells();
 private:
 	void SpawnFromString(Vector2 dims, std::vector<std::string> &string);
 

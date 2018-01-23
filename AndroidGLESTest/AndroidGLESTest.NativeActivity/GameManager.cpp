@@ -13,6 +13,7 @@
 #include "UniqueID.h"
 
 #include "DebugDrawPrimitives.h"
+#include "RigidCollisionResponse.h"
 
 
 
@@ -47,9 +48,8 @@ void GameManager::Init()
 	AddComponent(m_mapManager);
 
 	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(1, 1), m_mapManager);
-	robotPB->m_topSpeed = 5;
-	robotPB->m_acceleration = 2;
-	robotPB->m_mass = 1.f;
+	robotPB->m_topSpeed = 4;
+	robotPB->m_acceleration = 1;
 	
 	AddComponent(robotPB);
 
@@ -61,7 +61,7 @@ void GameManager::Init()
 
 	Robot *robotelTest = dynamic_cast<Robot *>(robotPB->m_linkedObject);
 
-	robotelTest->MoveTowards(Vector2(13, 13));
+	//robotelTest->MoveTowards(Vector2(13, 13));
 
 	PrintUtils::PrintI(ToStringTree());
 
@@ -79,7 +79,7 @@ void GameManager::FixedUpdate()
 
 	for (BVIntersections::ContactInfo contact : allCollisions)
 	{
-		// Collision response goes here
+		RigidCollisionResponse::ApplyImpulses(contact);
 	}
 
 }

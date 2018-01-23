@@ -58,7 +58,7 @@ MapCell * SceneObjectSpawner::SpawnMapCell(const Vector2 mapCoords, const MapObj
 
 	MapCell *cell = new MapCell();
 	cell->SetID(UniqueID::GetID(cell->GetClassName()));
-	cell->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, cellType == GROUND ? GameConstants::GROUND_HEIGHT : GameConstants::WALL_HEIGHT));
+	cell->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, cellType == GROUND ? GameConstants::GROUND_HEIGHT : GameConstants::WALL_HEIGHT));	
 	cell->Init();
 
 	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.5f), "MapCell", true);
@@ -80,7 +80,10 @@ MapCell * SceneObjectSpawner::SpawnMapCell(const Vector2 mapCoords, const MapObj
 	{
 		PhysicsBody *pb = new PhysicsBody();
 		pb->SetID(UniqueID::GetID(pb->GetClassName()));
-		pb->m_kinematic = false;
+		pb->m_mass = 10000000.f;
+		pb->m_kinematic = true;
+		pb->m_transform.ComputeWorld();
+		pb->m_inertia = Math::BoxInertiaY(pb->m_mass, 1.f, 1.f);
 		pb->m_linkedObject = cell;
 		pb->Init();
 
@@ -89,7 +92,13 @@ MapCell * SceneObjectSpawner::SpawnMapCell(const Vector2 mapCoords, const MapObj
 		bb->m_halfExtents = 0.5f * GameConstants::CELL_SIZE * Vector3(1.f);
 		bb->Init();
 
+// 		BoundingSphere *bs = new BoundingSphere();
+// 		bs->SetID(UniqueID::GetID(bs->GetClassName()));
+// 		bs->m_radius = 0.5f;
+// 		bs->Init();
+
 		pb->AddComponent(bb);
+		//pb->AddComponent(bs);
 		cell->AddComponent(pb);
 	}
 
@@ -102,12 +111,14 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	pb->SetID(UniqueID::GetID(pb->GetClassName()));
 	pb->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, GameConstants::WALL_HEIGHT));
 	pb->m_transform.ComputeWorld();
-	pb->m_kinematic = true;
+	pb->m_kinematic = false;
+	pb->m_mass = 1.f;
+	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 2.f);
 	pb->Init();
 
 	BoundingSphere *bs = new BoundingSphere();
 	bs->SetID(UniqueID::GetID(bs->GetClassName()));
-	bs->m_radius = GameConstants::CELL_SIZE;
+	bs->m_radius = GameConstants::CELL_SIZE / 2.f;
 	bs->Init();
 
 	pb->AddComponent(bs);

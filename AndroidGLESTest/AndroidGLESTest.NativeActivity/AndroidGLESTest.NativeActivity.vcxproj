@@ -239,6 +239,7 @@
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="PrintUtils.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="RigidCollisionResponse.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stats.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PrintUtils.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="RigidCollisionResponse.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Stats.cpp" />

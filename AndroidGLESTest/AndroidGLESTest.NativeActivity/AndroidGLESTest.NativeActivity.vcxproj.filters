@@ -38,6 +38,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="MovementController.cpp" />
+    <ClCompile Include="RigidCollisionResponse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -81,5 +82,6 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="MovementController.h" />
+    <ClInclude Include="RigidCollisionResponse.h" />
   </ItemGroup>
 </Project>

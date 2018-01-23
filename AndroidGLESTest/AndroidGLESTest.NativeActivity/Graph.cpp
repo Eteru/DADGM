@@ -110,9 +110,9 @@ void Graph::InitFromMapString(const Vector2 dims, const std::vector<std::string>
 			{
 				for (auto neighbor : GetAllNeighbors(m_nodes[i][j], mapString))
 				{
-					if (mapString[neighbor->m_mapCoords.x][neighbor->m_mapCoords.y] == '0')
+					if (mapString[neighbor.first->m_mapCoords.x][neighbor.first->m_mapCoords.y] == '0')
 					{
-						m_nodes[i][j]->m_outEdges.push_back(new DirectedGraphEdge(m_nodes[i][j], neighbor, 1));
+						m_nodes[i][j]->m_outEdges.push_back(new DirectedGraphEdge(m_nodes[i][j], neighbor.first, neighbor.second ? 1.41 : 1));
 						//m_nodes[i][j]->m_inEdges.push_back(new DirectedGraphEdge(neighbor, m_nodes[i][j], 1));
 					}
 				}
@@ -143,7 +143,7 @@ std::vector<Vector2> Graph::ReconstructPath(std::unordered_map<GraphNode *, Grap
 	return result;
 }
 
-std::vector<GraphNode *> Graph::GetAllNeighbors(GraphNode *node, const std::vector<std::string> &mapString) const
+std::vector<std::pair<GraphNode *, bool>> Graph::GetAllNeighbors(GraphNode *node, const std::vector<std::string> &mapString) const
 {
 	Vector2 upRaw = Vector2(0, 1);
 	Vector2 downRaw = Vector2(0, -1);
@@ -155,45 +155,38 @@ std::vector<GraphNode *> Graph::GetAllNeighbors(GraphNode *node, const std::vect
 	Vector2 left = leftRaw + node->m_mapCoords;
 	Vector2 right = rightRaw + node->m_mapCoords;
 
-	std::vector<Vector2> coords;
+
+	std::vector<std::pair<GraphNode *, bool>> result;
 
 	if (IsInBounds(up))
-		coords.push_back(up);
+		result.push_back(std::make_pair(NodeAt(up), false));
 
 	if (IsInBounds(down))
-		coords.push_back(down);
+		result.push_back(std::make_pair(NodeAt(down), false));
 
 	if (IsInBounds(left))
-		coords.push_back(up);
+		result.push_back(std::make_pair(NodeAt(left), false));
 
 	if (IsInBounds(right))
-		coords.push_back(right);
+		result.push_back(std::make_pair(NodeAt(right), false));
 
 
 
 	Vector2 vec = upRaw + leftRaw + node->m_mapCoords;
 	if (CheckAdjacent(up, left, vec, mapString))
-		coords.push_back(vec);
+		result.push_back(std::make_pair(NodeAt(vec), true));
 
 	vec = upRaw + rightRaw + node->m_mapCoords;
 	if (CheckAdjacent(up, right, vec, mapString))
-		coords.push_back(vec);
+		result.push_back(std::make_pair(NodeAt(vec), true));
 
 	vec = downRaw + leftRaw + node->m_mapCoords;
 	if (CheckAdjacent(down, left, vec, mapString))
-		coords.push_back(vec);
+		result.push_back(std::make_pair(NodeAt(vec), true));
 
 	vec = downRaw + rightRaw + node->m_mapCoords;
 	if (CheckAdjacent(down, right, vec, mapString))
-		coords.push_back(vec);
-
-
-	std::vector<GraphNode *> result;
-
-	for (int i = 0; i < coords.size(); ++i)
-	{
-		result.push_back(NodeAt(coords[i]));
-	}
+		result.push_back(std::make_pair(NodeAt(vec), true));
 
 	return result;
 }

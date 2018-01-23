@@ -40,6 +40,12 @@ void Robot::FixedUpdate()
 		{
 			m_physicsBody->SetTarget(GameConstants::ToWorldCoords(m_movementController->NextPoint(), GameConstants::WALL_HEIGHT));
 		}
+		else
+		{
+			auto allFreePoints = m_mapManager->GetAllFreeCells();
+
+			MoveTowards(allFreePoints[std::rand() % allFreePoints.size()]);
+		}
 	}
 }
 

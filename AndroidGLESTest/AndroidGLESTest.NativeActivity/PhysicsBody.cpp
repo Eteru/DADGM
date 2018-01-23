@@ -5,7 +5,7 @@
 
 PhysicsBody::PhysicsBody()
 {
-	m_kinematic = true;
+	m_kinematic = false;
 	m_damping = 0.02f;
 	m_targetPos = Vector3(0.f);
 	m_linearVelEngine = Vector3(0.f);
@@ -23,7 +23,7 @@ void PhysicsBody::Init()
 
 void PhysicsBody::FixedUpdate()
 {
-	if (!m_kinematic)
+	if (m_kinematic)
 	{
 		return;
 	}
@@ -42,14 +42,14 @@ void PhysicsBody::FixedUpdate()
 	}
 	else
 	{
-		m_linearVelEngine -= m_linearVelEngine * m_damping;
+		m_linearVelEngine *= (1.f - m_damping);
 		if (m_linearVelEngine.Length() <= 0.003f)
 		{
 			m_linearVelEngine = Vector3(0.f);
 		}
 	}
 
-	m_linearVelImpact -= m_linearVelImpact * m_damping;
+	m_linearVelImpact *= (1.f - m_damping);
 
 	Vector3 ps = m_transform.GetLocalPos() + m_linearVelEngine + m_linearVelImpact;
 	ps.y = GameConstants::WALL_HEIGHT;

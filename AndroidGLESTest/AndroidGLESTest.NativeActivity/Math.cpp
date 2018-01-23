@@ -20,12 +20,7 @@ Vector2 & Vector2::Normalize()
 	return *this;
 }
 
-Vector2 Vector2::operator + (Vector2 & vector)
-{
-	return Vector2(x + vector.x, y + vector.y);
-}
-
-Vector2 & Vector2::operator += (Vector2 & vector)
+Vector2 & Vector2::operator += (const Vector2 & vector)
 {
 	x += vector.x;
 	y += vector.y;
@@ -38,12 +33,7 @@ Vector2 Vector2::operator - ()
 	return Vector2(-x, -y);
 }
 
-Vector2 Vector2::operator - (Vector2 & vector)
-{
-	return Vector2(x - vector.x, y - vector.y);
-}
-
-Vector2 & Vector2::operator -= (Vector2 & vector)
+Vector2 & Vector2::operator -= (const Vector2 & vector)
 {
 	x -= vector.x;
 	y -= vector.y;
@@ -51,9 +41,12 @@ Vector2 & Vector2::operator -= (Vector2 & vector)
 	return *this;
 }
 
-Vector2 Vector2::operator * (GLfloat k)
+Vector2 & Vector2::operator+=(GLfloat k)
 {
-	return Vector2(x * k, y * k);
+	x += k;
+	y += k;
+
+	return *this;
 }
 
 Vector2 & Vector2::operator *= (GLfloat k)
@@ -62,12 +55,6 @@ Vector2 & Vector2::operator *= (GLfloat k)
 	y *= k;
 
 	return *this;
-}
-
-Vector2 Vector2::operator / (GLfloat k)
-{
-	GLfloat kInv = 1.0f / k;
-	return Vector2(x * kInv, y * kInv);
 }
 
 Vector2 & Vector2::operator /= (GLfloat k)
@@ -86,6 +73,30 @@ Vector2 & Vector2::operator = (const Vector2 & vector)
 GLfloat Vector2::operator [] (unsigned int idx)
 {
 	return (&x)[idx];
+}
+
+Vector2 & Vector2::operator*=(const Vector2 & vector)
+{
+	x *= vector.x;
+	y *= vector.y;
+
+	return *this;
+}
+
+Vector2 & Vector2::operator/=(const Vector2 & vector)
+{
+	x /= vector.x;
+	y /= vector.y;
+
+	return *this;
+}
+
+Vector2 & Vector2::operator-=(GLfloat k)
+{
+	x -= k;
+	y -= k;
+
+	return *this;
 }
 
 Vector2 Vector2::Modulate(Vector2 & vector)

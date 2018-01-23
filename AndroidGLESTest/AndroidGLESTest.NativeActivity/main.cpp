@@ -283,6 +283,8 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 * event loop for receiving input events and doing other things.
 */
 void android_main(struct android_app* state) {
+
+	srand(time(NULL));
 	struct engine engine;
 
 	memset(&engine, 0, sizeof(engine));

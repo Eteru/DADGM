@@ -4,6 +4,8 @@
 #include <GLES2\gl2.h>
 
 #include <string>
+#include <cstdlib>
+
 
 //Vector2
 
@@ -11,7 +13,7 @@ class Vector2
 {
 public:
 	//Constructors
-	Vector2() : x(0.0f), y(0.0f){}
+	Vector2() : x(0.0f), y(0.0f) {}
 	Vector2(GLfloat _x, GLfloat _y) : x(_x), y(_y) {}
 	Vector2(GLfloat * pArg) : x(pArg[0]), y(pArg[1]) {}
 	Vector2(const Vector2 & vector) : x(vector.x), y(vector.y) {}
@@ -20,15 +22,17 @@ public:
 	//Vector's operations
 	GLfloat Length();
 	Vector2 & Normalize();
-	Vector2 operator + (Vector2 & vector);
-	Vector2 & operator += (Vector2 & vector);
 	Vector2 operator - ();
-	Vector2 operator - (Vector2 & vector);
-	Vector2 & operator -= (Vector2 & vector);
-	Vector2 operator * (GLfloat k);
+	Vector2 & operator += (const Vector2 & vector);
+	Vector2 & operator -= (const Vector2 & vector);
+	Vector2 & operator *= (const Vector2 & vector);
+	Vector2 & operator /= (const Vector2 & vector);
+
+	Vector2 & operator += (GLfloat k);
+	Vector2 & operator -= (GLfloat k);
 	Vector2 & operator *= (GLfloat k);
-	Vector2 operator / (GLfloat k);
 	Vector2 & operator /= (GLfloat k);
+
 	Vector2 & operator = (const Vector2 & vector);
 	Vector2 Modulate(Vector2 & vector);
 	GLfloat Dot(Vector2 & vector);
@@ -42,6 +46,54 @@ public:
 	GLfloat x;
 	GLfloat y;
 };
+
+inline Vector2 operator + (Vector2 lhs, const Vector2 &rhs)
+{
+	lhs += rhs;
+	return lhs;
+}
+
+inline Vector2 operator - (Vector2 lhs, const Vector2 &rhs)
+{
+	lhs -= rhs;
+	return lhs;
+}
+
+inline Vector2 operator * (Vector2 lhs, const Vector2 &rhs)
+{
+	lhs *= rhs;
+	return lhs;
+}
+
+inline Vector2 operator / (Vector2 lhs, const Vector2 &rhs)
+{
+	lhs /= rhs;
+	return lhs;
+}
+
+inline Vector2 operator + (Vector2 lhs, const GLfloat &rhs)
+{
+	lhs += rhs;
+	return lhs;
+}
+
+inline Vector2 operator - (Vector2 lhs, const GLfloat &rhs)
+{
+	lhs -= rhs;
+	return lhs;
+}
+
+inline Vector2 operator * (Vector2 lhs, const GLfloat &rhs)
+{
+	lhs *= rhs;
+	return lhs;
+}
+
+inline Vector2 operator / (Vector2 lhs, const GLfloat &rhs)
+{
+	lhs /= rhs;
+	return lhs;
+}
 
 //Vector3
 
@@ -57,7 +109,7 @@ public:
 	Vector3(const Vector3 & vector) : x(vector.x), y(vector.y), z(vector.z) {}
 	Vector3(const Vector4 & vector);
 	Vector3(const GLfloat uniformValue) : x(uniformValue), y(uniformValue), z(uniformValue) {}
-	
+
 	//Vector's operations
 	GLfloat Length() const;
 	Vector3 & Normalize();
@@ -159,7 +211,7 @@ public:
 	Vector4(GLfloat _x, GLfloat _y, GLfloat _z) : x(_x), y(_y), z(_z), w(1.0f) {}
 	Vector4(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _w) : x(_x), y(_y), z(_z), w(_w) {}
 	Vector4(GLfloat * pArg) : x(pArg[0]), y(pArg[1]), z(pArg[2]), w(pArg[3]) {}
-	Vector4(const Vector3 & vector) : x(vector.x), y(vector.y), z(vector.z), w(1.0f){}
+	Vector4(const Vector3 & vector) : x(vector.x), y(vector.y), z(vector.z), w(1.0f) {}
 	Vector4(const Vector3 & vector, GLfloat _w) : x(vector.x), y(vector.y), z(vector.z), w(_w) {}
 	Vector4(const Vector4 & vector) : x(vector.x), y(vector.y), z(vector.z), w(vector.w) {}
 	Vector4(const GLfloat uniformValue) : x(uniformValue), y(uniformValue), z(uniformValue), w(uniformValue) {}
@@ -181,7 +233,7 @@ public:
 	GLfloat Dot(Vector4 & vector);
 
 	//matrix multiplication
-	Vector4 operator * ( Matrix & m );
+	Vector4 operator * (Matrix & m);
 
 	//access to elements
 	GLfloat operator [] (unsigned int idx);
@@ -190,7 +242,7 @@ public:
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
-	GLfloat w;	
+	GLfloat w;
 };
 
 //Matrix 4 X 4
@@ -211,7 +263,7 @@ public:
 	Matrix & SetRotationX(GLfloat angle);
 	Matrix & SetRotationY(GLfloat angle);
 	Matrix & SetRotationZ(GLfloat angle);
-	Matrix & SetRotationAngleAxis( float angle, float x, float y, float z );
+	Matrix & SetRotationAngleAxis(float angle, float x, float y, float z);
 
 	Matrix & SetScale(GLfloat scale);
 	Matrix & SetScale(GLfloat scaleX, GLfloat scaleY, GLfloat scaleZ);
@@ -247,8 +299,50 @@ public:
 
 class Math
 {
-public:	
+public:
 
+	static float RandomRange(const float a, const float b, const float resolution = 10000000.f)
+	{
+		float min = a * resolution;
+		float max = b * resolution;
+
+		return (min + std::rand() % static_cast<int>(max - min)) / resolution;
+	}
+
+	static float RandomAround(const float center, const float radius, const float resolution = 10000000.f)
+	{
+		return RandomRange(center - radius, center + radius, resolution);
+	}
+
+	static Vector2 RandomRange(const Vector2 a, const Vector2 b, const float resolution = 10000000.f)
+	{
+		return Vector2(RandomRange(a.x, b.x, resolution), RandomRange(a.y, b.y, resolution));
+	}
+
+	static Vector2 RandomAround(const Vector2 center, const float radius, const float resolution = 10000000.f)
+	{
+		return RandomRange(center - radius, center + radius, resolution);
+	}
+
+	static Vector3 RandomRange(const Vector3 a, const Vector3 b, const float resolution = 10000000.f)
+	{
+		return Vector3(RandomRange(a.x, b.x, resolution), RandomRange(a.y, b.y, resolution), RandomRange(a.z, b.z, resolution));
+	}
+
+	static Vector3 RandomAround(const Vector3 center, const float radius, const float resolution = 10000000.f)
+	{
+		return RandomRange(center - radius, center + radius, resolution);
+	}
+
+	static float SphereInertia(const float mass, const float radius)
+	{
+		return 0.4f * mass * radius * radius;
+	}
+
+	static float BoxInertiaY(const float mass, const float width, const float depth)
+	{
+		return 0.0833333 * mass * (width * width + depth * depth);
+	}
 
 	static Vector3 SetLength(const Vector3 &v, const float length)
 	{
@@ -290,7 +384,7 @@ public:
 	{
 		Vector3 crs = Cross(v1, v2);
 
-		return RotateAround(v1, Normalize(crs), rads);		
+		return RotateAround(v1, Normalize(crs), rads);
 	}
 
 	static float Clamp(const GLfloat value, const GLfloat min, const GLfloat max)
@@ -312,8 +406,8 @@ public:
 	static Vector3 Lerp(const Vector3 &a, const Vector3 &b, const GLfloat t)
 	{
 		return Vector3(Lerp(a.x, b.x, t), Lerp(a.y, b.y, t), Lerp(a.z, b.z, t));
-	}	
-	
+	}
+
 	static GLfloat Length(const Vector2 v)
 	{
 		return std::sqrt(v.x * v.x + v.y * v.y);
@@ -338,7 +432,7 @@ public:
 	{
 		return Vector3(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
 	}
-	
+
 	static GLfloat Distance(const Vector2 v1, const Vector2 v2)
 	{
 		return std::sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));

@@ -62,6 +62,24 @@ std::vector<Vector2> MapManager::FindPath(Vector2 from, Vector2 to)
 	return m_graph.FindPath(from, to);
 }
 
+std::vector<Vector2> MapManager::GetAllFreeCells()
+{
+	std::vector<Vector2> result;
+
+	for (int i = 0; i < m_mapString.size(); ++i)
+	{
+		for (int j = 0; j < m_mapString[i].size(); ++j)
+		{
+			if (m_mapString[i][j] == '0')
+			{
+				result.push_back(Vector2(i, j));
+			}
+		}
+	}
+
+	return result;
+}
+
 void MapManager::SpawnFromString(Vector2 dims, std::vector<std::string> &string)
 {
 

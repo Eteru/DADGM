@@ -52,7 +52,7 @@ bool BVIntersections::TestIntersection(PhysicsBody *o1, PhysicsBody *o2, Contact
 		return false;
 	}
 
-	if (!o1->m_kinematic && !o2->m_kinematic)
+	if (o1->m_kinematic && o2->m_kinematic)
 	{
 		return false;
 	}
@@ -89,7 +89,7 @@ bool BVIntersections::TestIntersection(PhysicsBody *o1, PhysicsBody *o2, Contact
 		return TestIntersection(dynamic_cast<BoundingBox *>(bv2), dynamic_cast<BoundingSphere *>(bv1), result);
 	}
 
-	
+
 	PrintUtils::PrintI("Unknown bounding volumes");
 	return false;
 }
@@ -103,18 +103,25 @@ Vector3 BVIntersections::ClosestPoint(Vector3 p, BoundingBox *box)
 	GLfloat resultY = std::min(std::max(p.y, minCoords.y), maxCoords.y);
 	GLfloat resultZ = std::min(std::max(p.z, minCoords.z), maxCoords.z);
 
-	return Vector3(resultX, resultY, resultZ);	
+	return Vector3(resultX, resultY, resultZ);
 }
 
 bool BVIntersections::TestIntersection(BoundingBox *box1, BoundingBox *box2, ContactInfo &result)
 {
+	Vector3 dir = (box2->m_transform.GetWorldPos() - box1->m_transform.GetWorldPos());
+
+	if (0 == Math::Length(dir))
+	{
+		return false;
+	}
+
 	if (std::abs(box1->m_transform.GetWorldPos().x - box2->m_transform.GetWorldPos().x) > box1->m_halfExtents.x + box2->m_halfExtents.x) return false;
 	if (std::abs(box1->m_transform.GetWorldPos().y - box2->m_transform.GetWorldPos().y) > box1->m_halfExtents.y + box2->m_halfExtents.y) return false;
 	if (std::abs(box1->m_transform.GetWorldPos().z - box2->m_transform.GetWorldPos().z) > box1->m_halfExtents.z + box2->m_halfExtents.z) return false;
 
 	result.m_o1 = dynamic_cast<PhysicsBody *>(box1->GetParent());
 	result.m_o2 = dynamic_cast<PhysicsBody *>(box2->GetParent());
-	result.m_n = (box2->m_transform.GetWorldPos() - box1->m_transform.GetWorldPos()).Normalize();
+	result.m_n = dir.Normalize();
 	result.m_p = box1->m_transform.GetWorldPos() + result.m_n * box1->m_halfExtents;
 
 	return true;
@@ -124,10 +131,16 @@ bool BVIntersections::TestIntersection(BoundingSphere *sphere1, BoundingSphere *
 {
 	if (sphere1->m_transform.GetWorldPos().Distance(sphere2->m_transform.GetWorldPos()) < sphere1->m_radius + sphere2->m_radius)
 	{
+		Vector3 dir = sphere2->m_transform.GetWorldPos() - sphere1->m_transform.GetWorldPos();
+
+		if (0 == Math::Length(dir))
+		{
+			return false;
+		}
 
 		result.m_o1 = dynamic_cast<PhysicsBody *>(sphere1->GetParent());
 		result.m_o2 = dynamic_cast<PhysicsBody *>(sphere2->GetParent());
-		result.m_n = (sphere2->m_transform.GetWorldPos() - sphere1->m_transform.GetWorldPos()).Normalize();
+		result.m_n = dir.Normalize();
 		result.m_p = sphere1->m_transform.GetWorldPos() + result.m_n * sphere1->m_radius;
 		return true;
 	}
@@ -142,11 +155,16 @@ bool BVIntersections::TestIntersection(BoundingBox *box, BoundingSphere *sphere,
 	Vector3 v = closestPointOnBox - sphere->m_transform.GetWorldPos();
 
 	if (Math::Dot(v, v) <= sphere->m_radius * sphere->m_radius)
-	{
-		result.m_o1 = dynamic_cast<PhysicsBody *>(sphere->GetParent());;
-		result.m_o2 = dynamic_cast<PhysicsBody *>(box->GetParent());;
-		result.m_n = (closestPointOnBox - sphere->m_transform.GetWorldPos()).Normalize();
-		result.m_p = sphere->m_transform.GetWorldPos() + result.m_n * sphere->m_radius;
+	{		
+		if (0 == Math::Length(v))
+		{
+			return false;
+		}
+
+		result.m_o1 = dynamic_cast<PhysicsBody *>(sphere->GetParent());
+		result.m_o2 = dynamic_cast<PhysicsBody *>(box->GetParent());
+		result.m_n = v.Normalize();
+		result.m_p = closestPointOnBox;
 
 		return true;
 	}

@@ -53,7 +53,7 @@ private:
 		}
 	} m_cmp;
 
-	std::vector<GraphNode *> GetAllNeighbors(GraphNode *node, const std::vector<std::string> &mapString) const;
+	std::vector<std::pair<GraphNode *, bool>> GetAllNeighbors(GraphNode *node, const std::vector<std::string> &mapString) const;
 
 	bool CheckAdjacent(Vector2 v1, Vector2 v2, Vector2 adj, const std::vector<std::string> &mapString) const;
 	bool IsInBounds(Vector2 coord) const;
