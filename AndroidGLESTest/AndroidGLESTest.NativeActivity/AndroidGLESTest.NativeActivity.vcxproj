@@ -226,6 +226,8 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="MapCell.h" />
     <ClInclude Include="MapManager.h" />
@@ -238,6 +240,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Stats.h" />
     <ClInclude Include="VisualBody.h" />
     <ClInclude Include="SceneObjectSpawner.h" />
     <ClInclude Include="Shader.h" />
@@ -264,6 +267,8 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapCell.cpp" />
@@ -275,6 +280,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Stats.cpp" />
     <ClCompile Include="VisualBody.cpp" />
     <ClCompile Include="SceneObjectSpawner.cpp" />
     <ClCompile Include="Shader.cpp" />

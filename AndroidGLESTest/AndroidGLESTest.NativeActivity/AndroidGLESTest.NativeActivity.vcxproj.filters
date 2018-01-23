@@ -32,8 +32,11 @@
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapCell.cpp" />
-    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="DebugDrawPrimitives.cpp" />
+    <ClCompile Include="Stats.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -71,7 +74,10 @@
     <ClInclude Include="GameConstants.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapCell.h" />
-    <ClInclude Include="Graph.h" />
     <ClInclude Include="DebugDrawPrimitives.h" />
+    <ClInclude Include="Stats.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Inventory.h" />
   </ItemGroup>
 </Project>

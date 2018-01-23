@@ -72,3 +72,19 @@ struct DebugSettings
 	std::string sphere_id;
 	std::string shader_id;
 };
+
+struct StatIncrease
+{
+	uint32_t flat;
+	float additive_coef;
+	float multiplicative_coef;
+
+	StatIncrease()
+	{
+		flat = 0;
+		additive_coef = 0.f;
+		multiplicative_coef = 0.f;
+	}
+};
+
+enum StatType { DEFFENSE = 0, OFFENSE, NUM_STATS_TYPES };
