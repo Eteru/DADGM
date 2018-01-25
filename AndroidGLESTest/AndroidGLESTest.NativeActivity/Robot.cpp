@@ -8,6 +8,7 @@
 #include "MovementController.h"
 
 Robot::Robot()
+	: m_armor(nullptr), m_weapon(nullptr)
 {
 
 }
@@ -66,7 +67,17 @@ void Robot::Draw()
 
 void Robot::Destroy()
 {
-	
+	if (nullptr != m_armor)
+	{
+		delete m_armor;
+		m_armor = nullptr;
+	}
+
+	if (nullptr != m_weapon)
+	{
+		delete m_weapon;
+		m_weapon = nullptr;
+	}
 }
 
 std::string Robot::ToString()
