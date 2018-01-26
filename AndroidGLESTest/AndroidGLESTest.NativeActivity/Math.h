@@ -232,8 +232,9 @@ public:
 	Vector4 Modulate(Vector4 & vector);
 	GLfloat Dot(Vector4 & vector);
 
+	
 	//matrix multiplication
-	Vector4 operator * (Matrix & m);
+	//Vector4 & operator *= (const Matrix &m);
 
 	//access to elements
 	GLfloat operator [] (unsigned int idx);
@@ -244,6 +245,8 @@ public:
 	GLfloat z;
 	GLfloat w;
 };
+
+
 
 //Matrix 4 X 4
 
@@ -288,7 +291,7 @@ public:
 	Matrix operator * (GLfloat k);
 	Matrix & operator *= (GLfloat k);
 
-	Vector4 operator * (Vector4 & vec);
+	Vector4 operator * (const Vector4 & vec);
 
 	Matrix & operator = (const Matrix & mat);
 
@@ -296,10 +299,46 @@ public:
 	GLfloat m[4][4];
 };
 
-
 class Math
 {
 public:
+
+	static Matrix GetRotationMatrix(const Vector3 rotation)
+	{
+		return Matrix().SetRotationX(rotation.x) * Matrix().SetRotationY(rotation.y) * Matrix().SetRotationZ(rotation.z);
+	}
+
+	static Vector3 RotateAroundOrigin(const Vector3 point, const Vector3 rotation)
+	{
+		if (Length(rotation) == 0 || Length(point) == 0)
+		{
+			return point;
+		}
+
+		Vector4 asd(point, 1);
+
+		asd = GetRotationMatrix(rotation) * asd;
+		
+		return Vector3(asd.x, asd.y, asd.z);
+	}
+
+	static Vector3 RotateAroundPoint(Vector3 point, const Vector3 rotation, const Vector3 other)
+	{
+		Matrix rotMat = GetRotationMatrix(rotation);
+
+		Vector4 pt4(point), ot4(other);
+
+		pt4 = rotMat * pt4;
+		ot4 = rotMat * ot4;
+
+		point.x = pt4.x;
+		point.y = pt4.y;
+		point.z = pt4.z;
+
+		Vector3 otherRotated(ot4.x, ot4.y, ot4.z);
+
+		return point + (other - otherRotated);		
+	}
 
 	static float RandomRange(const float a, const float b, const float resolution = 10000000.f)
 	{

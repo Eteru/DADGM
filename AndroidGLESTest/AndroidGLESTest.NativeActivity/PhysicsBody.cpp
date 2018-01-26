@@ -51,7 +51,7 @@ void PhysicsBody::FixedUpdate()
 
 	m_linearVelImpact *= (1.f - m_damping);
 
-	Vector3 ps = m_transform.GetLocalPos() + m_linearVelEngine + m_linearVelImpact;
+	Vector3 ps = m_transform.GetWorldPos() + m_linearVelEngine + m_linearVelImpact;
 	ps.y = GameConstants::WALL_HEIGHT;
 
 	m_transform.SetPos(ps);
@@ -60,6 +60,8 @@ void PhysicsBody::FixedUpdate()
 	{
 		m_hasTarget = false;
 	}
+
+	//m_transform.SetRot(m_transform.GetWorldRot() + Vector3(0.f, 0.04f, 0.f));
 }
 
 std::string PhysicsBody::ToString()

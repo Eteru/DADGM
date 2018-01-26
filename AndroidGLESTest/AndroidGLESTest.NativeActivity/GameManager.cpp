@@ -47,7 +47,7 @@ void GameManager::Init()
 
 	AddComponent(m_mapManager);
 
-	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(1, 1), m_mapManager);
+	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(9, 9), m_mapManager);
 	robotPB->m_topSpeed = 4;
 	robotPB->m_acceleration = 1;
 	

@@ -88,7 +88,7 @@ void DebugDrawPrimitives::DrawCube(Vector3 pos, Vector3 rot, Vector3 scale, cons
 
 	Matrix P = Matrix().SetTranslation(pos);
 
-	scale *= 0.5f;
+	//scale *= 0.5f;
 	Matrix S = Matrix().SetScale(scale);
 
 	Matrix Rx = Matrix().SetRotationX(rot.x);
@@ -110,8 +110,7 @@ void DebugDrawPrimitives::DrawSphere(Vector3 pos, Vector3 rot, Vector3 scale, co
 	Model *sphere = ResourceManager::GetInstance()->GetModel(m_settings.sphere_id);
 
 	Matrix P = Matrix().SetTranslation(pos);
-
-	scale *= 0.5f;
+	
 	Matrix S = Matrix().SetScale(scale);
 
 	Matrix Rx = Matrix().SetRotationX(rot.x);

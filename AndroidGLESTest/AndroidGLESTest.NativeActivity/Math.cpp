@@ -383,17 +383,15 @@ GLfloat Vector4::Dot(Vector4 & vector)
 }
 
 
-Vector4 Vector4::operator * ( Matrix & m )
-{
-	Vector4 res;
-	res.x = x * m.m[0][0] + y * m.m[1][0] + z * m.m[2][0] + w * m.m[3][0];
-	res.y = x * m.m[0][1] + y * m.m[1][1] + z * m.m[2][1] + w * m.m[3][1];
-	res.z = x * m.m[0][2] + y * m.m[1][2] + z * m.m[2][2] + w * m.m[3][2];
-	res.w = x * m.m[0][3] + y * m.m[1][3] + z * m.m[2][3] + w * m.m[3][3];
-
-	return res;
-}
-
+// Vector4 & Vector4::operator*=(const Matrix &m)
+// {
+// 	x = x * m.m[0][0] + y * m.m[1][0] + z * m.m[2][0] + w * m.m[3][0];
+// 	y = x * m.m[0][1] + y * m.m[1][1] + z * m.m[2][1] + w * m.m[3][1];
+// 	z = x * m.m[0][2] + y * m.m[1][2] + z * m.m[2][2] + w * m.m[3][2];
+// 	w = x * m.m[0][3] + y * m.m[1][3] + z * m.m[2][3] + w * m.m[3][3];
+// 
+// 	return *this;
+// }
 
 //Matrix 4 X 4
 
@@ -830,7 +828,7 @@ Matrix & Matrix::operator *= (GLfloat k)
 }
 
 
-Vector4 Matrix::operator * (Vector4 & vec)
+Vector4 Matrix::operator * (const Vector4 & vec)
 {
 	Vector4 res;
 	res.x = vec.x * m[0][0] + vec.y * m[0][1] + vec.z * m[0][2] + vec.w * m[0][3];

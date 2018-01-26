@@ -25,7 +25,7 @@ void Transform::SetParent(const Transform &parent)
 	{
 		m_params[POSITION].m_currentParentWorld = parent.GetWorldPos();
 		m_params[ROTATION].m_currentParentWorld = parent.GetWorldRot();
-		m_params[SCALE].m_currentParentWorld = parent.GetWorldScale();		
+		m_params[SCALE].m_currentParentWorld = parent.GetWorldScale();
 	}
 }
 
@@ -166,10 +166,10 @@ void Transform::StepLerps(float time)
 
 void Transform::ComputeWorld()
 {
-	for (int i = 0; i < m_params.size(); ++i)
-	{
-		m_params[i].ComputeWorld();
-	}
+	m_params[SCALE].m_currentWorld = m_params[SCALE].m_currentParentWorld * m_params[SCALE].m_currentLocal;
+	m_params[ROTATION].m_currentWorld = m_params[ROTATION].m_currentParentWorld + m_params[ROTATION].m_currentLocal;
+	
+	m_params[POSITION].m_currentWorld = Math::RotateAroundOrigin(m_params[SCALE].m_currentParentWorld * m_params[POSITION].m_currentLocal, -m_params[ROTATION].m_currentParentWorld) + m_params[POSITION].m_currentParentWorld;
 }
 
 Matrix Transform::GetModel()
@@ -186,6 +186,7 @@ Matrix Transform::GetModel()
 	Matrix Rz = Matrix().SetRotationZ(actualRot.z);
 
 	return S * (Rx * Ry * Rz) * P;
+
 }
 
 Matrix Transform::GetLerpModel()
@@ -203,6 +204,38 @@ Matrix Transform::GetLerpModel()
 
 	return S * (Rx * Ry * Rz) * P;
 }
+
+// Matrix Transform::GetParentModel()
+// {
+// 	Vector3 actualPos = m_params[POSITION].m_currentParentWorld;
+// 	Vector3 actualRot = m_params[ROTATION].m_currentParentWorld;
+// 	Vector3 actualScale = m_params[SCALE].m_currentParentWorld;
+// 
+// 	Matrix P = Matrix().SetTranslation(actualPos);
+// 	Matrix S = Matrix().SetScale(actualScale);
+// 
+// 	Matrix Rx = Matrix().SetRotationX(actualRot.x);
+// 	Matrix Ry = Matrix().SetRotationY(actualRot.y);
+// 	Matrix Rz = Matrix().SetRotationZ(actualRot.z);
+// 
+// 	return S * (Rx * Ry * Rz) * P;
+// }
+// 
+// Matrix Transform::GetLocalModel()
+// {
+// 	Vector3 actualPos = m_params[POSITION].m_currentLocal;
+// 	Vector3 actualRot = m_params[ROTATION].m_currentLocal;
+// 	Vector3 actualScale = m_params[SCALE].m_currentLocal;
+// 
+// 	Matrix P = Matrix().SetTranslation(actualPos);
+// 	Matrix S = Matrix().SetScale(actualScale);
+// 
+// 	Matrix Rx = Matrix().SetRotationX(actualRot.x);
+// 	Matrix Ry = Matrix().SetRotationY(actualRot.y);
+// 	Matrix Rz = Matrix().SetRotationZ(actualRot.z);
+// 
+// 	return S * (Rx * Ry * Rz) * P;
+// }
 
 Transform::TransformParam::TransformParam()
 {

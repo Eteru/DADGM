@@ -109,8 +109,9 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 {
 	PhysicsBody *pb = new PhysicsBody();
 	pb->SetID(UniqueID::GetID(pb->GetClassName()));
-	pb->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, GameConstants::WALL_HEIGHT));
+	pb->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, GameConstants::WALL_HEIGHT));	
 	pb->m_transform.ComputeWorld();
+	pb->m_transform.m_relative = false;
 	pb->m_kinematic = false;
 	pb->m_mass = 1.f;
 	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 2.f);
@@ -137,6 +138,7 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	Shader *robotShader = GetRobotShader();
 
 	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.5f), "Robot", true);
+	//VisualBody *vb = new VisualBody(Vector3(1.f, 0.f, 1.f), Vector3(0.f), Vector3(0.5f), "Robot", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
 	vb->SetModel(robotModel);
 	vb->SetShader(robotShader);

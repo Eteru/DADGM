@@ -53,6 +53,9 @@ public:
 
 	Matrix GetModel();
 	Matrix GetLerpModel();
+// 	Matrix GetParentModel();
+// 	Matrix GetLocalModel();
+
 
 	bool m_relative;
 

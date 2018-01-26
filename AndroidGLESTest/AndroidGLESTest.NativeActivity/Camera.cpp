@@ -22,10 +22,12 @@ Camera::~Camera()
 
 void Camera::RotateOYTPS(const float rads)
 {	
-	Matrix rot = Matrix().SetTranslation(-m_target.x, -m_target.y, -m_target.z) * Matrix().SetRotationY(rads) * Matrix().SetTranslation(m_target);
+// 	Matrix rot = Matrix().SetTranslation(-m_target.x, -m_target.y, -m_target.z) * Matrix().SetRotationY(rads) * Matrix().SetTranslation(m_target);
+// 
+// 	Vector4 v(m_transform.GetWorldPos());	
+// 	m_transform.SetPos(rot * v);
 
-	Vector4 v(m_transform.GetWorldPos());	
-	m_transform.SetPos(v * rot);
+	m_transform.SetPos(Math::RotateAroundPoint(m_transform.GetWorldPos(), m_up * rads, m_target));
 }
 
 void Camera::SetFollowingObject(GameLoopObject *obj, const float radius)
