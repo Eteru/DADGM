@@ -2,6 +2,7 @@
 #include "Item.h"
 
 Item::Item()
+	: m_body(nullptr)
 {
 	m_stats.resize(StatType::NUM_STATS_TYPES);
 }
@@ -28,4 +29,9 @@ const uint16_t Item::GetOccupiedSpace() const
 const std::string Item::GetName() const
 {
 	return m_name;
+}
+
+void Item::SetBody(VisualBody * body)
+{
+	m_body = body;
 }

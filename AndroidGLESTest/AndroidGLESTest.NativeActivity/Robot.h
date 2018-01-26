@@ -1,5 +1,6 @@
 #pragma once
 #include "GameLoopObject.h"
+#include "Item.h"
 
 class MovementController;
 class PhysicsBody;
@@ -28,9 +29,15 @@ public:
 	void SetMapManager(MapManager * val) { m_mapManager = val; }
 	PhysicsBody * GetPhysicsBody() const { return m_physicsBody; }
 	void SetPhysicsBody(PhysicsBody * val) { m_physicsBody = val; }
+
+	Item * GetArmor() const { return m_armor; }
+	void SetArmor(Item *armor) { m_armor = armor; }
+	Item * GetWeapon() const { return m_weapon; }
+	void SetWeapon(Item *weapon) { m_weapon = weapon; }
 private:
 
-	
+	Item *m_armor;
+	Item *m_weapon;
 	MovementController *m_movementController;
 	MapManager *m_mapManager;
 	PhysicsBody *m_physicsBody;

@@ -137,6 +137,10 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	Model *robotModel = GetRobotModel();
 	Shader *robotShader = GetRobotShader();
 
+	// This is for adding an armor to the robot.
+	// It should work the same for adding a weapon.
+	// Items stats should be either in the xml or stored as const values
+	// in a static class.
 	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.5f), "Robot", true);
 	//VisualBody *vb = new VisualBody(Vector3(1.f, 0.f, 1.f), Vector3(0.f), Vector3(0.5f), "Robot", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
@@ -151,7 +155,13 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	}
 
 	vb->Init();
-	pb->AddComponent(vb);
+
+	Item *armor = new Item();
+	armor->SetBody(vb);
+
+	robot->SetArmor(armor);
+	robot->AddComponent(vb);
+	//pb->AddComponent(vb);
 
 	return pb;
 }
