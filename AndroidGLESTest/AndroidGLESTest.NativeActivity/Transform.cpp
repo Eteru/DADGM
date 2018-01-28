@@ -1,16 +1,21 @@
 #include "Transform.h"
 #include "DeltaTime.h"
 #include "PrintUtils.h"
+#include "GameConstants.h"
+#include "DebugDrawPrimitives.h"
 
 
 Transform::Transform(const Vector3 &pos /*= Vector3(0.f)*/, const Vector3 &rot /*= Vector3(0.f)*/, const Vector3 &scale /*= Vector3(1.f)*/, bool relative /*= true*/)
 {
+	m_forward = GameConstants::DEFAULT_FORWARD;
+	m_up = GameConstants::DEFAULT_UP;
+	m_right = GameConstants::DEFAULT_RIGHT;
+
 	m_params.resize(ParamIDS::NUM);
 
 	m_params[POSITION].Init(Vector3(0.f), pos, Vector3(0.f), false);
 	m_params[ROTATION].Init(Vector3(0.f), rot, Vector3(0.f), false);
 	m_params[SCALE].Init(Vector3(1.f), scale, Vector3(1.f), true);
-
 
 	m_relative = relative;
 
@@ -59,34 +64,49 @@ Vector3 Transform::GetWorldScale() const
 	return m_params[SCALE].m_currentWorld;
 }
 
-Vector3 Transform::GetWorldLerpPos()
+Vector3 Transform::GetWorldLerpPos() const
 {
 	return m_params[POSITION].GetWorldLerp();
 }
 
-Vector3 Transform::GetWorldLerpRot()
+Vector3 Transform::GetWorldLerpRot() const
 {
 	return m_params[ROTATION].GetWorldLerp();
 }
 
-Vector3 Transform::GetWorldLerpScale()
+Vector3 Transform::GetWorldLerpScale()const
 {
 	return m_params[SCALE].GetWorldLerp();
 }
 
-Vector3 Transform::GetLocalLerpPos()
+Vector3 Transform::GetLocalLerpPos() const
 {
 	return m_params[POSITION].GetLocalLerp();
 }
 
-Vector3 Transform::GetLocalLerpRot()
+Vector3 Transform::GetLocalLerpRot() const
 {
 	return m_params[ROTATION].GetLocalLerp();
 }
 
-Vector3 Transform::GetLocalLerpScale()
+Vector3 Transform::GetLocalLerpScale() const
 {
 	return m_params[SCALE].GetLocalLerp();
+}
+
+Vector3 Transform::GetUp() const
+{
+	return m_up;
+}
+
+Vector3 Transform::GetRight() const
+{
+	return m_right;
+}
+
+Vector3 Transform::GetForward() const
+{
+	return m_forward;
 }
 
 void Transform::SetParentPos(const Vector3 val)
@@ -125,6 +145,7 @@ void Transform::SetRot(const Vector3 val)
 	else
 	{
 		m_params[ROTATION].m_currentWorld = val;
+		UpdateAxes();
 	}
 }
 
@@ -168,8 +189,10 @@ void Transform::ComputeWorld()
 {
 	m_params[SCALE].m_currentWorld = m_params[SCALE].m_currentParentWorld * m_params[SCALE].m_currentLocal;
 	m_params[ROTATION].m_currentWorld = m_params[ROTATION].m_currentParentWorld + m_params[ROTATION].m_currentLocal;
-	
+
 	m_params[POSITION].m_currentWorld = Math::RotateAroundOrigin(m_params[SCALE].m_currentParentWorld * m_params[POSITION].m_currentLocal, -m_params[ROTATION].m_currentParentWorld) + m_params[POSITION].m_currentParentWorld;
+
+	UpdateAxes();
 }
 
 Matrix Transform::GetModel()
@@ -203,6 +226,47 @@ Matrix Transform::GetLerpModel()
 	Matrix Rz = Matrix().SetRotationZ(actualRot.z);
 
 	return S * (Rx * Ry * Rz) * P;
+}
+
+void Transform::DebugDraw() const
+{
+// 	Vector3 wp = GetWorldPos();
+// 	Vector3 ws = GetWorldScale();
+
+	Vector3 wp = GetWorldLerpPos();
+	Vector3 ws = GetWorldLerpScale();
+
+
+	DebugDrawPrimitives::DrawLine(wp, wp + (m_right * ws.x * 2.f), DebugDrawPrimitives::COLOR_RED);
+	DebugDrawPrimitives::DrawLine(wp, wp + (m_up * ws.y  * 2.f), DebugDrawPrimitives::COLOR_GREEN);
+	DebugDrawPrimitives::DrawLine(wp, wp + (m_forward * ws.z * 2.f), DebugDrawPrimitives::COLOR_BLUE);
+}
+
+void Transform::UpdateAxes()
+{
+
+	Matrix rot = Math::GetRotationMatrix(-GetWorldLerpRot());
+
+	Vector4 up(GameConstants::DEFAULT_UP, 0);
+	Vector4 right(GameConstants::DEFAULT_RIGHT, 0);
+	Vector4 forward(GameConstants::DEFAULT_FORWARD, 0);
+
+	up = rot * up;
+	right = rot * right;
+	forward = rot * forward;
+
+	m_up.x = up.x;
+	m_up.y = up.y;
+	m_up.z = up.z;
+
+	m_right.x = right.x;
+	m_right.y = right.y;
+	m_right.z = right.z;
+
+	m_forward.x = forward.x;
+	m_forward.y = forward.y;
+	m_forward.z = forward.z;
+
 }
 
 // Matrix Transform::GetParentModel()
@@ -257,12 +321,12 @@ void Transform::TransformParam::Init(Vector3 local, Vector3 world, Vector3 paren
 	ResetLerps();
 }
 
-Vector3 Transform::TransformParam::GetLocalLerp()
+Vector3 Transform::TransformParam::GetLocalLerp() const
 {
 	return m_localLerp.GetValue();
 }
 
-Vector3 Transform::TransformParam::GetWorldLerp()
+Vector3 Transform::TransformParam::GetWorldLerp() const
 {
 	return m_worldLerp.GetValue();
 }

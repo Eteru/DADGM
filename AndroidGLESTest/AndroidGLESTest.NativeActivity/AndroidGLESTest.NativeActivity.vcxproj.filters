@@ -39,6 +39,10 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="MovementController.cpp" />
     <ClCompile Include="RigidCollisionResponse.cpp" />
+    <ClCompile Include="AIController.cpp" />
+    <ClCompile Include="AIActions.cpp" />
+    <ClCompile Include="AIRule.cpp" />
+    <ClCompile Include="Projectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -83,5 +87,9 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="MovementController.h" />
     <ClInclude Include="RigidCollisionResponse.h" />
+    <ClInclude Include="AIController.h" />
+    <ClInclude Include="AIActions.h" />
+    <ClInclude Include="AIRule.h" />
+    <ClInclude Include="Projectile.h" />
   </ItemGroup>
 </Project>

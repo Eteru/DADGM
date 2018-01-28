@@ -3,7 +3,8 @@
 void RigidCollisionResponse::ApplyImpulses(const BVIntersections::ContactInfo &contact)
 {
 
-	static const float restitution = 0.9f;
+	static const float restitution = 0.5f;
+
 
 
 	Vector3 p1 = contact.m_o1->m_transform.GetWorldPos();
@@ -47,12 +48,12 @@ void RigidCollisionResponse::ApplyImpulses(const BVIntersections::ContactInfo &c
 	if (!contact.m_o1->m_kinematic)
 	{
 		contact.m_o1->m_linearVelImpact -= jrVec * im1;
-		contact.m_o1->m_angularVelImpact = om1 - jr * invTens1 * crs1;
+		contact.m_o1->m_angularVelImpact -= jr * invTens1 * crs1;
 	}
 
 	if (!contact.m_o2->m_kinematic)
 	{
 		contact.m_o2->m_linearVelImpact += jrVec * im2;
-		contact.m_o2->m_angularVelImpact = om2 + jr * invTens2 * crs2;
+		contact.m_o2->m_angularVelImpact += jr * invTens2 * crs2;
 	}
 }

@@ -9,7 +9,7 @@ public:
 	Vec3TimeLerp() {}
 	Vec3TimeLerp(Vector3 start, Vector3 end);
 
-	Vector3 GetValue();
+	Vector3 GetValue() const;
 	Vector3 Step(const GLfloat t);
 
 private:
@@ -25,7 +25,7 @@ public:
 	FloatTimeLerp(GLfloat start, GLfloat end);
 
 	GLfloat Step(const GLfloat t);
-	GLfloat GetValue();
+	GLfloat GetValue() const;
 
 
 private:

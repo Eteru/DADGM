@@ -1,5 +1,5 @@
 #pragma once
-#include <chrono>
+#include "Structs.h"
 
 #include "GameLoopObject.h"
 #include "SceneManager.h"
@@ -33,9 +33,7 @@ public:
 private:
 	MapManager * m_mapManager;
 
-	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> m_initTime;
-	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> m_lastFixedTime; // last fixed update
-	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> m_lastFrameTime;
-
-
+	TimePointNano m_initTime;
+	TimePointNano m_lastFixedTime; // last fixed update
+	TimePointNano m_lastFrameTime;
 };

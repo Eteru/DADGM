@@ -7,6 +7,32 @@
 #include <cstdlib>
 
 
+#include <chrono>
+
+
+typedef std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> TimePointNano;
+
+inline TimePointNano Now()
+{
+	return std::chrono::high_resolution_clock::now();
+}
+
+inline long long DurationNano(TimePointNano lhs, TimePointNano rhs)
+{
+	return std::chrono::duration_cast<std::chrono::nanoseconds>(rhs - lhs).count();
+}
+
+inline float NToS(long long nanos)
+{
+	return static_cast<float>(nanos) / 1000000000.f;
+}
+
+inline float Duration(TimePointNano lhs, TimePointNano rhs)
+{
+	return NToS(DurationNano(lhs, rhs));
+}
+
+
 //Vector2
 
 class Vector2
@@ -32,6 +58,9 @@ public:
 	Vector2 & operator -= (GLfloat k);
 	Vector2 & operator *= (GLfloat k);
 	Vector2 & operator /= (GLfloat k);
+
+	bool operator == (const Vector2 &vector);
+	bool operator != (const Vector2 &vector);
 
 	Vector2 & operator = (const Vector2 & vector);
 	Vector2 Modulate(Vector2 & vector);
@@ -132,6 +161,8 @@ public:
 	//Vector3 operator / (GLfloat k);
 
 	Vector3 & operator = (const Vector3 & vector);
+	bool operator == (const Vector3 &vector);
+	bool operator != (const Vector3 &vector);
 
 
 	Vector3 Modulate(Vector3 & vector);
@@ -303,6 +334,11 @@ class Math
 {
 public:
 
+	static float Sign(const float val)
+	{
+		return val < 0 ? -1.f : 1.f;
+	}
+
 	static Matrix GetRotationMatrix(const Vector3 rotation)
 	{
 		return Matrix().SetRotationX(rotation.x) * Matrix().SetRotationY(rotation.y) * Matrix().SetRotationZ(rotation.z);
@@ -410,16 +446,18 @@ public:
 
 	static Vector3 RotateAround(const Vector3 &v, const Vector3 &axis, const float rads)
 	{
+		if (rads == 0)
+			return v;
 
 		GLfloat cosA = std::cos(rads);
-		GLfloat sinA = std::cos(rads);
+		GLfloat sinA = std::sin(rads);
 
 		Vector3 crs = Cross(axis, v);
 
 		return v * cosA + crs * sinA + (1 - cosA) * Dot(axis, v) * axis;
 	}
 
-	static Vector3 RotateTowards(Vector3 &v1, Vector3 &v2, const float rads)
+	static Vector3 RotateTowards(const Vector3 &v1, const Vector3 &v2, const float rads)
 	{
 		Vector3 crs = Cross(v1, v2);
 

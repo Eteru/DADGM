@@ -29,7 +29,7 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	m_initTime = std::chrono::high_resolution_clock::now();
+	m_initTime = Now();
 	m_lastFixedTime = m_initTime;
 	m_lastFrameTime = m_initTime;
 	DeltaTime::SetDt(0);
@@ -49,7 +49,9 @@ void GameManager::Init()
 
 	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(9, 9), m_mapManager);
 	robotPB->m_topSpeed = 4;
-	robotPB->m_acceleration = 1;
+	robotPB->m_acceleration = 2;
+	robotPB->m_turningAcceleration = 4;
+	robotPB->m_topTurningSpeed = 5;
 	
 	AddComponent(robotPB);
 
@@ -80,6 +82,19 @@ void GameManager::FixedUpdate()
 	for (BVIntersections::ContactInfo contact : allCollisions)
 	{
 		RigidCollisionResponse::ApplyImpulses(contact);
+		contact.m_o1->OnCollision(contact.m_o2);
+	}
+
+	static TimePointNano last = Now();
+	TimePointNano crt = Now();
+
+	if (Duration(last, crt) >= 3)
+	{
+		PhysicsBody *projpb = SceneObjectSpawner::SpawnProjectile(Vector2(10, 10), static_cast<Robot*>(FindComponentTree("Robot")), 1, 5, 0, false, 5);
+
+		AddComponent(projpb);
+
+		last = crt;
 	}
 
 }
@@ -131,14 +146,14 @@ std::string GameManager::ToString()
 
 void GameManager::UpdateTree()
 {
-	std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> crtTime = std::chrono::high_resolution_clock::now();
+	TimePointNano crtTime = Now();
 
-	long long timeSpentNano = std::chrono::duration_cast<std::chrono::nanoseconds>(crtTime - m_lastFixedTime).count();
+	long long timeSpentNano = DurationNano(m_lastFixedTime, crtTime);
 
 	float timeSpentMili = (float)timeSpentNano / 1000000.f;
 
-	float timeSinceLastFrame = std::chrono::duration_cast<std::chrono::nanoseconds>(crtTime - m_lastFrameTime).count() / 1000000.f;
-	DeltaTime::SetDt(timeSinceLastFrame / 1000.f);
+	float timeSinceLastFrame = NToS(DurationNano(m_lastFrameTime, crtTime));
+	DeltaTime::SetDt(timeSinceLastFrame);
 	m_lastFrameTime = crtTime;
 
 	if (timeSpentMili >= GameConstants::PHYSICS_TIME_STEP_MS)

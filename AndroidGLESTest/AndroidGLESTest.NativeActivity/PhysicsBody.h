@@ -13,7 +13,7 @@ public:
 	virtual std::string GetClassName() override;
 
 
-	void OnContact(PhysicsBody *other);
+	void OnCollision(PhysicsBody *other);
 	void SetTarget(Vector3 worldPos);
 
 	Vector3 m_targetPos;
@@ -34,6 +34,7 @@ public:
 	float m_acceleration;
 	float m_topSpeed;
 	float m_turningAcceleration;
+	float m_topTurningSpeed;
 	float m_mass;
 	float m_damping;
 	float m_inertia;

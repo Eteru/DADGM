@@ -80,6 +80,29 @@ std::vector<Vector2> MapManager::GetAllFreeCells()
 	return result;
 }
 
+std::vector<Vector2> MapManager::GetCellsOnCircle(const Vector2 center, const int radius) const
+{
+	std::vector<Vector2> result;
+
+	for (int i = 0; i < m_mapString.size(); ++i)
+	{
+		for (int j = 0; j < m_mapString[i].size(); ++j)
+		{
+			if (m_mapString[i][j] == '0' && Distance(center, Vector2(i, j)) == radius)
+			{
+				result.push_back(Vector2(i, j));
+			}
+		}
+	}
+
+	return result;
+}
+
+int MapManager::Distance(const Vector2 from, const Vector2 to)
+{
+	return static_cast<int>(std::floor(Math::Distance(from, to)));
+}
+
 void MapManager::SpawnFromString(Vector2 dims, std::vector<std::string> &string)
 {
 

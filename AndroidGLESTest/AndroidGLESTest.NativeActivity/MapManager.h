@@ -18,7 +18,10 @@ public:
 
 	std::vector<Vector2> FindPath(Vector2 from, Vector2 to);
 	std::vector<Vector2> GetAllFreeCells();
+	std::vector<Vector2> GetCellsOnCircle(const Vector2 center, const int radius) const;
+
 private:
+	static int Distance(const Vector2 from, const Vector2 to);
 	void SpawnFromString(Vector2 dims, std::vector<std::string> &string);
 
 

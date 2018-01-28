@@ -21,14 +21,17 @@ public:
 	Vector3 GetWorldRot() const;
 	Vector3 GetWorldScale() const;
 
-	Vector3 GetWorldLerpPos();
-	Vector3 GetWorldLerpRot();
-	Vector3 GetWorldLerpScale();
+	Vector3 GetWorldLerpPos() const;
+	Vector3 GetWorldLerpRot() const;
+	Vector3 GetWorldLerpScale() const;
 
-	Vector3 GetLocalLerpPos();
-	Vector3 GetLocalLerpRot();
-	Vector3 GetLocalLerpScale();
+	Vector3 GetLocalLerpPos() const;
+	Vector3 GetLocalLerpRot() const;
+	Vector3 GetLocalLerpScale() const;
 
+	Vector3 GetUp() const;
+	Vector3 GetRight() const;
+	Vector3 GetForward() const;
 
 	/* Parent values are always WORLD */
 	void SetParentPos(const Vector3 val);
@@ -56,10 +59,13 @@ public:
 // 	Matrix GetParentModel();
 // 	Matrix GetLocalModel();
 
+	void DebugDraw() const;
 
 	bool m_relative;
 
 private:
+	void UpdateAxes();
+
 
 	class TransformParam
 	{
@@ -68,8 +74,8 @@ private:
 
 
 		void Init(Vector3 local, Vector3 world, Vector3 parent, bool op);
-		Vector3 GetLocalLerp();
-		Vector3 GetWorldLerp();
+		Vector3 GetLocalLerp() const;
+		Vector3 GetWorldLerp() const;
 
 		void SaveParam();
 		void ResetLerps();
@@ -83,6 +89,7 @@ private:
 		Vector3 m_currentParentWorld;
 
 	private:
+
 		Vec3TimeLerp m_localLerp;
 		Vec3TimeLerp m_worldLerp;
 
@@ -94,4 +101,8 @@ private:
 	enum ParamIDS { POSITION = 0, ROTATION = 1, SCALE = 2, NUM = 3};
 
 	std::vector<TransformParam> m_params;
+
+	Vector3 m_up;
+	Vector3 m_forward;
+	Vector3 m_right;
 };

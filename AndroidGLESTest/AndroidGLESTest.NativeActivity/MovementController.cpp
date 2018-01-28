@@ -1,6 +1,15 @@
 #include "MovementController.h"
 #include "DebugDrawPrimitives.h"
 
+#include "PhysicsBody.h"
+#include "MapManager.h"
+
+MovementController::MovementController(PhysicsBody *physicsBody, MapManager *mapManager)
+{
+	SetPhysicsBody(physicsBody);
+	m_mapManager = mapManager;
+}
+
 void MovementController::Init()
 {
 	m_debugDraw = true;
@@ -8,6 +17,20 @@ void MovementController::Init()
 
 void MovementController::FixedUpdate()
 {
+
+	Vector2 mapPos = GameConstants::ToMapCoords(GetPhysicsBody()->m_transform.GetWorldPos());
+
+	SetPath(m_mapManager->FindPath(mapPos, m_target));
+
+	if (IsEmpty())
+		return;
+
+	if (mapPos == NextPoint())
+	{
+		ArrivedAtCheckpoint();
+	}
+
+	m_physicsBody->SetTarget(GameConstants::ToWorldCoords(NextPoint(), GameConstants::WALL_HEIGHT));
 }
 
 void MovementController::Update()
@@ -45,6 +68,17 @@ std::string MovementController::GetClassName()
 	return std::string("MovementController");
 }
 
+void MovementController::SetTarget(Vector2 target)
+{
+	m_target = target;
+}
+
+void MovementController::SetRandomTarget()
+{
+	auto allFreePoints = m_mapManager->GetAllFreeCells();
+	m_target = allFreePoints[std::rand() % allFreePoints.size()];
+}
+
 void MovementController::SetPath(std::vector<Vector2> path)
 {
 	m_path = path;
@@ -52,14 +86,12 @@ void MovementController::SetPath(std::vector<Vector2> path)
 
 Vector2 MovementController::NextPoint()
 {
-	Vector2 result = m_path.front();
-	m_path.erase(m_path.begin());
-	return result;
+	return m_path.front();
 }
 
 void MovementController::ArrivedAtCheckpoint()
 {
-
+	m_path.erase(m_path.begin());
 }
 
 bool MovementController::IsEmpty()

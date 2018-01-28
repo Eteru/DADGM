@@ -8,7 +8,7 @@ Vec3TimeLerp::Vec3TimeLerp(Vector3 start, Vector3 end)
 	m_value = Math::Lerp(m_start, m_end, m_crtCoef);
 }
 
-Vector3 Vec3TimeLerp::GetValue()
+Vector3 Vec3TimeLerp::GetValue() const
 {
 	return m_value;
 }
@@ -36,7 +36,7 @@ GLfloat FloatTimeLerp::Step(const GLfloat t)
 	return m_value;
 }
 
-GLfloat FloatTimeLerp::GetValue()
+GLfloat FloatTimeLerp::GetValue() const
 {
 	return m_value;
 }

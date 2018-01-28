@@ -153,18 +153,16 @@ bool BVIntersections::TestIntersection(BoundingBox *box, BoundingSphere *sphere,
 	Vector3 closestPointOnBox = ClosestPoint(sphere->m_transform.GetWorldPos(), box);
 
 	Vector3 v = closestPointOnBox - sphere->m_transform.GetWorldPos();
+	float dist = v.Length();
 
-	if (Math::Dot(v, v) <= sphere->m_radius * sphere->m_radius)
-	{		
-		if (0 == Math::Length(v))
-		{
-			return false;
-		}
-
+	if (dist < sphere->m_radius && dist > 0.000001f)
+	{	
 		result.m_o1 = dynamic_cast<PhysicsBody *>(sphere->GetParent());
 		result.m_o2 = dynamic_cast<PhysicsBody *>(box->GetParent());
 		result.m_n = v.Normalize();
 		result.m_p = closestPointOnBox;
+
+		result.m_o1->m_transform.SetPos(result.m_o1->m_transform.GetWorldPos() - result.m_n * (sphere->m_radius - dist));
 
 		return true;
 	}
