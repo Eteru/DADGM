@@ -15,6 +15,8 @@
 #include "DebugDrawPrimitives.h"
 #include "RigidCollisionResponse.h"
 
+#include "Button.h"
+
 
 
 GameManager::GameManager()
@@ -68,6 +70,9 @@ void GameManager::Init()
 	PrintUtils::PrintI(ToStringTree());
 
 	m_debugDraw = true;
+
+	Button *btn = new Button(10, 10, 100, 100, "");
+	AddComponent(btn);
 }
 
 void GameManager::FixedUpdate()

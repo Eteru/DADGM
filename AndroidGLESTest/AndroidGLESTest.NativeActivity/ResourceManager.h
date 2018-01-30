@@ -9,6 +9,7 @@
 #include "Model.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "libfont\Font.h"
 
 class ResourceManager 
 {
@@ -33,6 +34,7 @@ private:
 	static ResourceManager *m_instance;
 
 	engine *m_engine;
+	fontlib::Font *m_font;
 	std::map<std::string, ModelResource*> m_model_resource_map;
 	std::map<std::string, ShaderResource*> m_shader_resource_map;
 	std::map<std::string, TextureResource*> m_texture_resource_map;
@@ -42,4 +44,5 @@ private:
 	std::map<std::string, Texture*> m_texture_map;
 
 	ResourceManager();
+	void LoadFont();
 };

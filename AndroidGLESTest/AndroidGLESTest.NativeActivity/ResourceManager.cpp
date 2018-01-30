@@ -1,11 +1,26 @@
 
 #include "ResourceManager.h"
+#include "libfont\Font.h"
 #include <android/asset_manager.h>
 
 ResourceManager *ResourceManager::m_instance = nullptr;
 
 ResourceManager::ResourceManager()
 {
+}
+
+void ResourceManager::LoadFont()
+{
+	LOGI("Loading font");
+	AAssetManager* mgr = m_engine->app->activity->assetManager;
+	AAsset* fontFile = AAssetManager_open(mgr, "Fonts/LiberationSans-Bold.ttf", AASSET_MODE_BUFFER);
+	const void* fontData = AAsset_getBuffer(fontFile);
+	off_t fontLen = AAsset_getLength(fontFile);
+	m_font = fontlib::FTLib::getInstance()->loadMemoryFont((const char*)fontData, fontLen, 30);
+	AAsset_close(fontFile);
+	if (!m_font) {
+		LOGE("Error loading font");
+	}
 }
 
 ResourceManager::~ResourceManager()

@@ -43,6 +43,8 @@
     <ClCompile Include="AIActions.cpp" />
     <ClCompile Include="AIRule.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="UiElement.cpp" />
+    <ClCompile Include="Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -91,5 +93,7 @@
     <ClInclude Include="AIActions.h" />
     <ClInclude Include="AIRule.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="UiElement.h" />
+    <ClInclude Include="Button.h" />
   </ItemGroup>
 </Project>

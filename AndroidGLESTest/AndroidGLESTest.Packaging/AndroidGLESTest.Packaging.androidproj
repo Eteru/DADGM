@@ -148,6 +148,8 @@
     <Content Include="assets\Shaders\terrainShader.vs" />
     <Content Include="assets\Shaders\TriangleShaderFS.fs" />
     <Content Include="assets\Shaders\TriangleShaderVS.vs" />
+    <Content Include="assets\Shaders\UiShader.fs" />
+    <Content Include="assets\Shaders\UiShader.vs" />
     <Content Include="assets\Textures\Bus.tga" />
     <Content Include="assets\Textures\Croco.tga" />
     <Content Include="assets\Textures\Dirt.tga" />
