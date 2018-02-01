@@ -25,7 +25,6 @@ public:
 	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 
 private:
-	Shader *m_shader;
 	std::string m_text;
 };
 

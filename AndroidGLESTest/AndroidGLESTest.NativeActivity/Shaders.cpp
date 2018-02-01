@@ -160,6 +160,7 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 	uvAttribute = glGetAttribLocation(program, "a_uv");
 	uvBlendAttribute = glGetAttribLocation(program, "a_uvBlend");
 	texHeightsUniform = glGetUniformLocation(program, "u_heights");
+	uvOffsetUniform = glGetUniformLocation(program, "u_tex_offset");
 	vmMatrixUniform = glGetUniformLocation(program, "u_vm");
 	nmMatrixUniform = glGetUniformLocation(program, "u_nm");
 	colorUniform = glGetUniformLocation(program, "u_color");

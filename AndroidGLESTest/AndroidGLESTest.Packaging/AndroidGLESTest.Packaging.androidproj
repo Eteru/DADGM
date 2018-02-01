@@ -148,9 +148,13 @@
     <Content Include="assets\Shaders\terrainShader.vs" />
     <Content Include="assets\Shaders\TriangleShaderFS.fs" />
     <Content Include="assets\Shaders\TriangleShaderVS.vs" />
+    <Content Include="assets\Shaders\FontShader.fs" />
+    <Content Include="assets\Shaders\FontShader.vs" />
     <Content Include="assets\Shaders\UiShader.fs" />
     <Content Include="assets\Shaders\UiShader.vs" />
     <Content Include="assets\Textures\Bus.tga" />
+    <Content Include="assets\Textures\console24bit.tga" />
+    <Content Include="assets\Textures\console8bit.tga" />
     <Content Include="assets\Textures\Croco.tga" />
     <Content Include="assets\Textures\Dirt.tga" />
     <Content Include="assets\Textures\DisplacementMap.tga" />

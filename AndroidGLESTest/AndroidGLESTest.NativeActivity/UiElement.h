@@ -1,5 +1,6 @@
 #pragma once
 #include "GameLoopObject.h"
+#include "Shader.h"
 
 class UiElement :
 	public GameLoopObject
@@ -23,6 +24,10 @@ public:
 	virtual void OnTouchUp(const int x, const int y) override;
 	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 
+	void SetShader(const std::string & shader_id);
+	inline const Shader *GetShader() const { return m_shader; }
+	inline GLuint GetVBO() const { return m_vbo; };
+
 protected:
 	float m_width;
 	float m_height;
@@ -30,7 +35,7 @@ protected:
 	float m_left_offset;
 
 	GLuint m_vbo;
-	GLuint m_ibo;
-	uint32_t m_ibo_count;
+
+	Shader *m_shader;
 };
 

@@ -45,6 +45,7 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="UiElement.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="StringRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -95,5 +96,6 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="UiElement.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="StringRenderer.h" />
   </ItemGroup>
 </Project>

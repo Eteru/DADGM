@@ -16,6 +16,7 @@
 #include "RigidCollisionResponse.h"
 
 #include "Button.h"
+#include "StringRenderer.h"
 
 
 
@@ -71,8 +72,12 @@ void GameManager::Init()
 
 	m_debugDraw = true;
 
-	Button *btn = new Button(10, 10, 100, 100, "");
-	AddComponent(btn);
+	//Button *btn = new Button(-0.5f, -0.5f, 0.5f, 0.5f, "");
+	//btn->Init();
+	//AddComponent(btn);
+	//
+	//const engine *eng = SceneManager::GetInstance()->GetEngine();
+	//StringRenderer::Init("7", eng->width, eng->height);
 }
 
 void GameManager::FixedUpdate()

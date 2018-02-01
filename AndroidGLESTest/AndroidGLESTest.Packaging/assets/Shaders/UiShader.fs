@@ -1,8 +1,9 @@
 precision mediump float;
 
-uniform vec4 u_color;
+//uniform vec4 u_color;
+//varying v_text_coords;
 
 void main()
 {
-	gl_FragColor = u_color;
+	gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }

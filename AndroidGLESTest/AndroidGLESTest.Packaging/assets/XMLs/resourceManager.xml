@@ -40,9 +40,13 @@
 		<vs>Shaders/ObjShaderVS.vs</vs>
 		<fs>Shaders/ObjShaderFS.fs</fs>
 	</shader>
-  <shader id="3">
-    <vs>Shaders/UiShaderVS.vs</vs>
-    <fs>Shaders/UiShaderFS.fs</fs>
+  <shader id="4">
+    <vs>Shaders/UiShader.vs</vs>
+    <fs>Shaders/UiShader.fs</fs>
+  </shader>
+  <shader id="5">
+    <vs>Shaders/FontShader.vs</vs>
+    <fs>Shaders/FontShader.fs</fs>
   </shader>
 	<!-- si aici se adauga toate shaderele -->
 	</shaders>
@@ -90,7 +94,7 @@
 			<wrap_t>CLAMP_TO_EDGE</wrap_t>
 		</texture>
     <texture id="7" type="2d">
-      <path>Textures/console8bit.tga</path>
+      <path>Textures/console24bit.tga</path>
       <min_filter>LINEAR</min_filter>
       <mag_filter>LINEAR</mag_filter>
       <wrap_s>CLAMP_TO_EDGE</wrap_s>

@@ -1,5 +1,6 @@
 
 #include "Button.h"
+#include "StringRenderer.h"
 
 Button::Button()
 	: UiElement(), m_text("")
@@ -17,27 +18,20 @@ Button::~Button()
 
 void Button::Init()
 {
-	std::vector<Vector3> verts = {
-		Vector3(m_top_offset + m_height, m_left_offset, 0.f),
-		Vector3(m_top_offset, m_left_offset, 0.f),
-		Vector3(m_top_offset, m_left_offset + m_width, 0.f),
-		Vector3(m_top_offset + m_height, m_left_offset + m_width, 0.f)
+	std::vector<GLfloat> verts = {
+		m_top_offset, m_left_offset,
+		m_top_offset + m_height, m_left_offset,
+		m_top_offset, m_left_offset + m_width,
+		m_top_offset + m_height, m_left_offset + m_width
 	};
 
-	std::vector<int> indices = {0, 1, 2, 0, 2, 3};
-	m_ibo_count = indices.size();
 
 	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3) * verts.size(), &verts[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verts.size(), &verts[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, &m_ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * m_ibo_count, &indices[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	m_shader = ResourceManager::GetInstance()->LoadShader("ui");
+	SetShader("4");
 }
 
 void Button::FixedUpdate()
@@ -50,27 +44,21 @@ void Button::Update()
 
 void Button::Draw()
 {
-	// TODO: use an actual shader
 	glUseProgram(m_shader->GetProgramID());
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 
 	Shaders objShader = m_shader->GetShaderData();
 	if (objShader.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(objShader.positionAttribute);
-		glVertexAttribPointer(objShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vector3), 0);
+		glVertexAttribPointer(objShader.positionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	}
 
-	glDrawElements(
-		GL_TRIANGLES,      // mode
-		m_ibo_count,    // count
-		GL_UNSIGNED_SHORT,   // type
-		(void*)0           // element array buffer offset
-	);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	StringRenderer::DrawText(0, 0, 16, "0");
 }
 
 void Button::DebugDraw()
