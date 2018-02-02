@@ -8,6 +8,7 @@ ResourceManager::ResourceManager()
 {
 }
 
+
 ResourceManager::~ResourceManager()
 {
 	for (auto it = m_model_map.begin(); it != m_model_map.end();) {

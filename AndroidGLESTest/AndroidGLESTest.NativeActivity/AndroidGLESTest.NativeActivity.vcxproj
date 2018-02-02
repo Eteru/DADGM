@@ -218,6 +218,7 @@
     <ClInclude Include="AmbientalLight.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BoundingSphere.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="BresenhamLine.h" />
     <ClInclude Include="BVIntersections.h" />
     <ClInclude Include="Camera.h" />
@@ -250,6 +251,8 @@
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stats.h" />
+    <ClInclude Include="StringRenderer.h" />
+    <ClInclude Include="UiElement.h" />
     <ClInclude Include="VisualBody.h" />
     <ClInclude Include="SceneObjectSpawner.h" />
     <ClInclude Include="Shader.h" />
@@ -272,6 +275,7 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BoundingSphere.cpp" />
     <ClCompile Include="BresenhamLine.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="BVIntersections.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
@@ -300,6 +304,8 @@
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Stats.cpp" />
+    <ClCompile Include="StringRenderer.cpp" />
+    <ClCompile Include="UiElement.cpp" />
     <ClCompile Include="VisualBody.cpp" />
     <ClCompile Include="SceneObjectSpawner.cpp" />
     <ClCompile Include="Shader.cpp" />

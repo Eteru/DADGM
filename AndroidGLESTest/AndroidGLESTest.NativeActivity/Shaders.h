@@ -16,6 +16,7 @@ public:
 	GLint uvAttribute;
 	GLint uvBlendAttribute;
 	GLint texHeightsUniform;
+	GLint uvOffsetUniform;
 	GLint matrixUniform;
 	GLint nmMatrixUniform;
 	GLint vmMatrixUniform;

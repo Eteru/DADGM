@@ -18,6 +18,9 @@
 
 #include "ItemDescriptions.h"
 
+#include "Button.h"
+#include "StringRenderer.h"
+
 
 
 GameManager::GameManager()
@@ -51,6 +54,14 @@ void GameManager::Init()
 	PrintUtils::PrintI(ToStringTree());
 
 	m_debugDraw = true;
+
+	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
+	btn->Init();
+	AddComponent(btn);
+
+	
+	const engine *eng = SceneManager::GetInstance()->GetEngine();
+	StringRenderer::Init("7", eng->width, eng->height);
 }
 
 void GameManager::FixedUpdate()

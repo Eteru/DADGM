@@ -43,6 +43,9 @@
     <ClCompile Include="AIActions.cpp" />
     <ClCompile Include="AIRule.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="UiElement.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="StringRenderer.cpp" />
     <ClCompile Include="XMLParser.cpp" />
     <ClCompile Include="BresenhamLine.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -95,7 +98,10 @@
     <ClInclude Include="AIActions.h" />
     <ClInclude Include="AIRule.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="UiElement.h" />
     <ClInclude Include="XMLParser.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="StringRenderer.h" />
     <ClInclude Include="BresenhamLine.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="ItemDescriptions.h" />

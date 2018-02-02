@@ -558,6 +558,14 @@ public:
 		return v * (1.f / v.Length());
 	}
 
+	static GLfloat ChangeInterval(float from_min, float from_max, float to_min, float to_max, float value)
+	{
+		if (from_min >= from_max) { return value; }
+		if (to_min >= to_max) { return value; }
+
+		return (value - from_min) * (to_max - to_min) / (from_max - from_min) + to_min;
+	}
+
 private:
 	Math() {}
 };
