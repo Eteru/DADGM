@@ -100,6 +100,13 @@
       <wrap_s>CLAMP_TO_EDGE</wrap_s>
       <wrap_t>CLAMP_TO_EDGE</wrap_t>
     </texture>
+    <texture id="8" type="2d">
+      <path>Textures/button.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
 		<texture id="15" type="cube">
 			<path>Textures/envMap.tga</path>			
 			<min_filter>LINEAR</min_filter>

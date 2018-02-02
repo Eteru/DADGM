@@ -7,7 +7,7 @@ class Button :
 {
 public:
 	Button();
-	Button(float top, float left, float w, float h, std::string text);
+	Button(float top, float left, float w, float h, std::string text, UiElement::Design d);
 	virtual ~Button();
 
 	virtual void Init() override;

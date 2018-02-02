@@ -161,6 +161,7 @@
     <Content Include="assets\Textures\envMap.tga" />
     <Content Include="assets\Textures\fire3.tga" />
     <Content Include="assets\Textures\fire_mask.tga" />
+    <Content Include="assets\Textures\button.tga" />
     <Content Include="assets\Textures\Golitah.tga" />
     <Content Include="assets\Textures\Grass.tga" />
     <Content Include="assets\Textures\heightmap.raw" />

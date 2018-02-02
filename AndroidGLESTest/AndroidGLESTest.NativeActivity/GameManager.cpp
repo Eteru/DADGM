@@ -72,12 +72,13 @@ void GameManager::Init()
 
 	m_debugDraw = true;
 
-	//Button *btn = new Button(-0.5f, -0.5f, 0.5f, 0.5f, "");
-	//btn->Init();
-	//AddComponent(btn);
-	//
-	//const engine *eng = SceneManager::GetInstance()->GetEngine();
-	//StringRenderer::Init("7", eng->width, eng->height);
+	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
+	btn->Init();
+	AddComponent(btn);
+
+	
+	const engine *eng = SceneManager::GetInstance()->GetEngine();
+	StringRenderer::Init("7", eng->width, eng->height);
 }
 
 void GameManager::FixedUpdate()

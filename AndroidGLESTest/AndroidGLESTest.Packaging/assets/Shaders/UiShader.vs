@@ -1,13 +1,14 @@
 
 attribute vec2 a_posL;
+attribute vec2 a_uv;
 
-//varying v_text_coords;
+varying vec2 v_uv;
 
 //uniform u_matrix;
 
 void main()
 {
-	//v_tex_coords = vec2((a_posL.x + 1.0) / 2.0, 1 - (a_posL.y + 1.0) / 2.0);
+	v_uv = a_uv;
 
 	gl_Position = vec4(a_posL, 0.0, 1.0);
 }
