@@ -13,7 +13,7 @@
 class GameLoopObject
 {
 public:
-	//virtual ~GameLoopObject();
+	virtual ~GameLoopObject() {}
 
 	virtual void Init();
 	virtual void FixedUpdate();
@@ -39,10 +39,13 @@ public:
 	GameLoopObject *FindComponentPrefix(const std::string classPrefix);
 
 	std::vector<GameLoopObject *> FindComponents(const std::string className);
+	std::vector<GameLoopObject *> FindComponentsPrefix(const std::string classPrefix);
 	std::vector<GameLoopObject *> FindComponentsTree(const std::string className);
+	std::vector<GameLoopObject *> FindComponentsTreePrefix(const std::string classPrefix);
 
 	void RemoveComponent(GameLoopObject *child);
-									
+	
+	void DestroyComponents(const std::string className);
 
 	virtual std::string ToStringTree(int indent = 0) final;
 
@@ -70,6 +73,7 @@ protected:
 	std::unordered_map<std::string, std::vector<GameLoopObject *>> m_children;
 private:
 	void _FindComponentsTree(const std::string className, std::vector<GameLoopObject *> &result);
+	void _FindComponentsTreePrefix(const std::string classPrefix, std::vector<GameLoopObject *> &result);
 
 };
 
@@ -161,11 +165,35 @@ inline std::vector<GameLoopObject *> GameLoopObject::FindComponents(const std::s
 	return m_children.at(className);
 }
 
+inline std::vector<GameLoopObject *> GameLoopObject::FindComponentsPrefix(const std::string classPrefix)
+{
+	std::vector<GameLoopObject *> result;
+
+	for (auto kvPair : m_children)
+	{
+		if (std::equal(classPrefix.begin(), classPrefix.end(), kvPair.first.begin()))
+		{
+			result.insert(result.end(), kvPair.second.begin(), kvPair.second.end());
+		}
+	}
+
+	return result;
+}
+
 inline std::vector<GameLoopObject *> GameLoopObject::FindComponentsTree(const std::string className)
 {
 	std::vector<GameLoopObject *> result;
 
 	_FindComponentsTree(className, result);
+
+	return result;
+}
+
+inline std::vector<GameLoopObject *> GameLoopObject::FindComponentsTreePrefix(const std::string classPrefix)
+{
+	std::vector<GameLoopObject *> result;
+
+	_FindComponentsTreePrefix(classPrefix, result);
 
 	return result;
 }
@@ -188,6 +216,21 @@ inline void GameLoopObject::RemoveComponent(GameLoopObject *child)
 
 }
 
+inline void GameLoopObject::DestroyComponents(const std::string className)
+{
+	if (!m_children.count(className))
+		return;
+
+	for (auto child : m_children.at(className))
+	{
+		child->_Destroy();
+		delete child;
+		child = nullptr;
+	}
+
+	m_children.erase(className);
+}
+
 inline void GameLoopObject::_FindComponentsTree(const std::string className, std::vector<GameLoopObject *> &result)
 {
 	std::vector<GameLoopObject *> comps = FindComponents(className);
@@ -205,6 +248,24 @@ inline void GameLoopObject::_FindComponentsTree(const std::string className, std
 	}
 
 
+}
+
+inline void GameLoopObject::_FindComponentsTreePrefix(const std::string classPrefix, std::vector<GameLoopObject *> &result)
+{
+	std::vector<GameLoopObject *> comps = FindComponentsPrefix(classPrefix);
+
+	if (!comps.empty())
+	{
+		result.insert(result.end(), comps.begin(), comps.end());
+	}
+
+	for (auto kvPair : m_children)
+	{
+		for (auto child : kvPair.second)
+		{
+			child->_FindComponentsTreePrefix(classPrefix, result);
+		}
+	}
 }
 
 inline std::string GameLoopObject::ToStringTree(int indent /*= 0*/)
@@ -305,7 +366,7 @@ inline void GameLoopObject::_Destroy()
 		}
 	}
 
-	Destroy();
+	Destroy();	
 }
 
 inline void GameLoopObject::_DebugDraw()

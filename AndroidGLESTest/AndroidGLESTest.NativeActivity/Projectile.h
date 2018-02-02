@@ -4,7 +4,7 @@
 #include "PhysicsBody.h"
 
 
-class Projectile : public GameLoopObject
+class Projectile : public GameLoopObject, public StatHolderObject
 {
 public:
 	Projectile();
@@ -13,13 +13,8 @@ public:
 
 	size_t m_team;
 	size_t m_enemyTeam;
-	float m_timeToLive;
-	size_t m_bounces;
 	bool m_isSeeker;
-	float m_speed;
 	GameLoopObject *m_target;
-
-	float m_damage;
-
+	
 	PhysicsBody *m_physicsBody;
 };

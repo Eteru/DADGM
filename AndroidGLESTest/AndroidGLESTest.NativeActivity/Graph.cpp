@@ -22,6 +22,11 @@ GraphNode * Graph::NodeAt(Vector2 coords) const
 
 std::vector<Vector2> Graph::FindPath(Vector2 from, Vector2 to)
 {
+	if (from == to)
+	{
+		return std::vector<Vector2>();
+	}
+
 	std::unordered_set<GraphNode *> closedSet;
 	std::unordered_set<GraphNode *> openSet;
 
@@ -89,6 +94,26 @@ std::vector<Vector2> Graph::FindPath(Vector2 from, Vector2 to)
 
 void Graph::InitFromMapString(const Vector2 dims, const std::vector<std::string> mapString)
 {
+
+	if (!m_nodes.empty())
+	{
+		for (int i = 0; i < m_nodes.size(); ++i)
+		{
+			for (int j = 0; j < m_nodes[i].size(); ++j)
+			{
+				if (nullptr != m_nodes[i][j])
+				{
+					delete m_nodes[i][j];
+					m_nodes[i][j] = nullptr;
+				}
+			}
+			m_nodes[i].clear();
+		}
+		m_nodes.clear();
+	}
+
+
+
 	m_nodes = std::vector<std::vector<GraphNode*>>(dims.x);
 	m_dims = dims;
 

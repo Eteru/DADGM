@@ -1,57 +1,52 @@
 #pragma once
 #include "AIActions.h"
+#include <vector>
+
+enum class LHSType { DISTANCE_FROM_TARGET = 0, STAT_VALUE, ITEM_READY, NUM_LHS_TYPE };
+enum class OPType { LT, GT, EQ, LEQ, GEQ };
+
+const std::unordered_map<std::string, LHSType> lhsTypeMap = {
+{ "DistanceFromTarget", LHSType::DISTANCE_FROM_TARGET },
+{ "StatValue", LHSType::STAT_VALUE },
+{ "ItemReady", LHSType::ITEM_READY}
+};
+
+const std::unordered_map<std::string, OPType> opTypeMap = {
+{ "LessThan", OPType::LT },
+{ "GreaterThan", OPType::GT },
+{ "Equal", OPType::EQ },
+{ "LEQ", OPType::LEQ },
+{ "GEQ", OPType::GEQ },
+};
 
 class Term
 {
 public:
-	virtual bool Evaluate() { return true; }
-};
 
-class LessThanTerm : public Term
-{
-public:
-	virtual bool Evaluate() override;
-
-	float m_lhs;
+	LHSType m_lhsType;
+	OPType m_opType;
+	std::string m_lhsName;
 	float m_rhs;
 };
 
-class GreaterThanTerm : public Term
-{
-public:
-	virtual bool Evaluate() override;
-
-	float m_lhs;
-	float m_rhs;
-};
-
-class EqualsTerm: public Term
-{
-public:
-	virtual bool Evaluate() override;
-
-	float m_lhs;
-	float m_rhs;
-};
 
 class AIRule
 {
 public:
 	~AIRule();
-	bool Evaluate();
 	std::vector<Term> m_terms;
-	AIAction *m_action;
+	size_t m_priority;
 
 	typedef struct 
 	{
 		bool operator()(const AIRule *a, const AIRule *b)
 		{
-			return a->m_action->m_priority > b->m_action->m_priority;
+			return a->m_priority > b->m_priority;
 		}
 
 		bool operator()(const AIRule a, const AIRule b)
 		{
-			return a.m_action->m_priority > b.m_action->m_priority;
+			return a.m_priority > b.m_priority;
 		}
 	} CustomCmp;
 };
@@ -59,15 +54,14 @@ public:
 class MovementAIRule : public AIRule
 {
 public:
-	MovementAction *GetAction();
-
-	MovementAction * m_action;
+	MovementActionType m_action;
 };
+
+
+class ActiveItem;
 
 class ItemAIRule : public AIRule
 {
 public:
-	void Execute();
-
-	ItemAction *m_action;
+	ActiveItem *m_item;
 };

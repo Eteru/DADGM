@@ -10,8 +10,8 @@
 #include <chrono>
 
 
+static const float eps = 0.00000001f;
 typedef std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::nanoseconds> TimePointNano;
-
 inline TimePointNano Now()
 {
 	return std::chrono::high_resolution_clock::now();
@@ -161,8 +161,6 @@ public:
 	//Vector3 operator / (GLfloat k);
 
 	Vector3 & operator = (const Vector3 & vector);
-	bool operator == (const Vector3 &vector);
-	bool operator != (const Vector3 &vector);
 
 
 	Vector3 Modulate(Vector3 & vector);
@@ -182,6 +180,7 @@ public:
 
 };
 
+
 inline Vector3 operator + (Vector3 lhs, const Vector3 &rhs)
 {
 	lhs += rhs;
@@ -192,6 +191,17 @@ inline Vector3 operator - (Vector3 lhs, const Vector3 &rhs)
 {
 	lhs -= rhs;
 	return lhs;
+}
+
+inline bool operator == (const Vector3 &lhs, const Vector3 &rhs)
+{
+	Vector3 diff = lhs - rhs;
+	return std::sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z) < eps;
+}
+
+inline bool operator != (const Vector3 &lhs, const Vector3 &rhs)
+{
+	return !(lhs == rhs);
 }
 
 inline Vector3 operator * (Vector3 lhs, const Vector3 &rhs)
@@ -333,6 +343,29 @@ public:
 class Math
 {
 public:
+
+	constexpr static const float PI = 3.14159265359f;
+
+	static Vector3 GetAlignmentRotation(Vector3 a, Vector3 b)
+	{
+		if (a.Length() == 0 || b.Length() == 0)
+			return Vector3(0.f);
+
+		a = Normalize(a);
+		b = Normalize(b);
+
+		if (a == b)
+			return Vector3(0.f);
+
+		Vector3 axis = Math::Cross(a, b);
+
+		if (axis.Length() == 0)
+		{
+			return Vector3(0, PI, 0);
+		}
+
+		return Math::Normalize(axis) * std::acos(Math::Clamp(Math::Dot(a, b), -1.f, 1.f));
+	}
 
 	static float Sign(const float val)
 	{

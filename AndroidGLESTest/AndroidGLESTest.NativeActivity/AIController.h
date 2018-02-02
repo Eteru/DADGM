@@ -7,7 +7,7 @@ class MovementController;
 class MapManager;
 class Robot;
 class PhysicsBody;
-class MovementAction;
+class Buff;
 
 class AIController : public GameLoopObject
 {
@@ -22,6 +22,7 @@ public:
 	MapManager *m_mapManager;
 	Robot *m_robot;
 	PhysicsBody *m_physicsBody;
+	
 
 
 	virtual void Init() override;
@@ -30,9 +31,15 @@ public:
 	virtual void FixedUpdate() override;
 
 
-	MovementAction *m_currentMovementAction;
-	ItemAction *m_currentItemAction;
+	bool Evaluate(const AIRule rule) const;
+	bool Evaluate(const Term term) const;
 
-	std::vector<ItemAIRule *> m_itemRules;
-	std::vector<MovementAIRule *> m_movementRules;
+	void AcquireTarget();
+
+	std::vector<Buff> m_buffs;
+
+	MovementActionType m_currentMovementAction;	
+
+	std::vector<ItemAIRule> m_itemRules;
+	std::vector<MovementAIRule> m_movementRules;
 };

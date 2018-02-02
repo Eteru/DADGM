@@ -6,7 +6,7 @@
 
 #include "MapCell.h"
 #include "Robot.h"
-
+#include "XMLParser.h"
 
 namespace SceneObjectSpawner
 {
@@ -29,6 +29,8 @@ namespace SceneObjectSpawner
 
 	static Model *GetRobotModel();
 	static Shader *GetRobotShader();
+
+
 
 
 	// 	SceneObjectSpawner(const std::string & model_id, const std::string & shader_id);

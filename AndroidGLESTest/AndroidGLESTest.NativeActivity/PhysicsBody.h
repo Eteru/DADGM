@@ -45,3 +45,23 @@ public:
 	virtual void DebugDraw() override;
 
 };
+
+class PhysicsBodyDumb : public PhysicsBody
+{
+
+public:
+
+	PhysicsBodyDumb();
+	virtual void FixedUpdate() override;
+	virtual std::string ToString() override;
+	virtual std::string GetClassName() override;
+
+
+	virtual void DebugDraw() override;
+
+	Vector3 m_initialTarget;
+
+
+	virtual void Init() override;
+
+};

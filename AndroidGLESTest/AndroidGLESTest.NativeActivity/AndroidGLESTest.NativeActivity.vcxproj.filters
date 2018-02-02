@@ -43,6 +43,10 @@
     <ClCompile Include="AIActions.cpp" />
     <ClCompile Include="AIRule.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="XMLParser.cpp" />
+    <ClCompile Include="BresenhamLine.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="ItemDescriptions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -91,5 +95,9 @@
     <ClInclude Include="AIActions.h" />
     <ClInclude Include="AIRule.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="XMLParser.h" />
+    <ClInclude Include="BresenhamLine.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="ItemDescriptions.h" />
   </ItemGroup>
 </Project>

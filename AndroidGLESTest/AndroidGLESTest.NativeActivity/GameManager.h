@@ -4,6 +4,8 @@
 #include "GameLoopObject.h"
 #include "SceneManager.h"
 #include "MapManager.h"
+#include "XMLParser.h"
+
 
 class GameManager : public GameLoopObject
 {
@@ -30,10 +32,15 @@ public:
 
 
 
+
+
 private:
+
+	void LoadRandomLevel();
+
 	MapManager * m_mapManager;
 
 	TimePointNano m_initTime;
 	TimePointNano m_lastFixedTime; // last fixed update
-	TimePointNano m_lastFrameTime;
+	TimePointNano m_lastFrameTime;	
 };

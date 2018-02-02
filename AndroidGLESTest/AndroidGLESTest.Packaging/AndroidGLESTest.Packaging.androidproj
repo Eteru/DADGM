@@ -172,6 +172,7 @@
     <Content Include="assets\Textures\Woman1.tga" />
     <Content Include="assets\Textures\Woman2.tga" />
     <Content Include="assets\XMLs\adevarataHarta.xml" />
+    <Content Include="assets\XMLs\allConfigs.xml" />
     <Content Include="assets\XMLs\hartaDeTest.xml" />
     <Content Include="assets\XMLs\resourceManager.xml" />
     <Content Include="assets\XMLs\sceneManager.xml" />

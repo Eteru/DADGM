@@ -1,37 +1,71 @@
-
 #include "Item.h"
 
 Item::Item()
-	: m_body(nullptr)
 {
-	m_stats.resize(StatType::NUM_STATS_TYPES);
+
 }
 
 Item::~Item()
 {
+
 }
 
-const StatIncrease & Item::GetStat(StatType type) const
+void ActiveItem::FixedUpdate()
 {
-	return m_stats[type];
+	if (Now() > m_timeWhenReady)
+	{
+		m_isAvailable = true;
+	}
 }
 
-const std::vector<StatIncrease>& Item::GetAllStats() const
+std::string ActiveItem::ToString()
 {
-	return m_stats;
+	return std::string("TODO ActiveItem string");
 }
 
-const uint16_t Item::GetOccupiedSpace() const
+std::string ActiveItem::GetClassName()
 {
-	return m_occupied_space;
+	return std::string("ActiveItem");
 }
 
-const std::string Item::GetName() const
+void ActiveItem::Activate()
 {
-	return m_name;
+	if (m_cooldown > 0)
+	{
+		m_timeWhenReady = Now() + std::chrono::nanoseconds(static_cast<long long>(m_cooldown * 1000000000));
+		m_isAvailable = false;
+	}
 }
 
-void Item::SetBody(VisualBody * body)
+std::string Armor::ToString()
 {
-	m_body = body;
+	return std::string("TODO Armor string");
+}
+
+std::string Armor::GetClassName()
+{
+	return std::string("Armor");
+}
+
+void Weapon::FixedUpdate()
+{
+	ActiveItem::FixedUpdate();
+
+}
+
+std::string Weapon::ToString()
+{
+	return std::string("TODO Weapon string");
+}
+
+std::string Weapon::GetClassName()
+{
+	return std::string("Weapon");
+}
+
+void Weapon::Activate()
+{
+	ActiveItem::Activate();
+
+
 }

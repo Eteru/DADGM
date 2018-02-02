@@ -22,7 +22,7 @@ public:
 	void SetEngine(engine *eng);
 	bool LoadFromFile(std::string filepath);
 
-	std::pair<Vector2, std::vector<std::string>> LoadMapFromFile(std::string filepath);
+	
 
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
@@ -94,13 +94,7 @@ private:
 	bool ParseDebug(rapidxml::xml_node<> *pRoot);
 
 
-	void ParseMapLines(rapidxml::xml_node<> *pNode, Vector2 dims, std::vector<std::string> &mapString);
-	void ParseMapLine(rapidxml::xml_node<> *pNode, Vector2 dims, std::vector<std::string> &mapString);
-
-	std::vector<Vector2> LineLow(Vector2 from, Vector2 to);
-	std::vector<Vector2> LineHigh(Vector2 from, Vector2 to);
-	std::vector<Vector2> Line(Vector2 from, Vector2 to);
-
+	
 	static SceneManager *m_instance;
 
 	engine *m_engine;

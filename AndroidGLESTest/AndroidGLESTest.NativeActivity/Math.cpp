@@ -193,11 +193,6 @@ Vector3 & Vector3::operator -= (const Vector3 & vector)
 	return *this;
 }
 
-bool Vector3::operator==(const Vector3 &vector)
-{
-	return x == vector.x && y == vector.y && z == vector.z;
-}
-
 Vector3 & Vector3::operator-=(const GLfloat k)
 {
 	x -= k;
@@ -267,11 +262,6 @@ Vector3 & Vector3::operator/=(const Vector3 &vector)
 	z /= vector.z;
 
 	return *this;
-}
-
-bool Vector3::operator!=(const Vector3 &vector)
-{
-	return !(*this == vector);
 }
 
 Vector3 Vector3::Modulate(Vector3 & vector)

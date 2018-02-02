@@ -2,11 +2,19 @@
 
 #include "GameLoopObject.h"
 #include "Graph.h"
+#include "Structs.h"
+#include "ItemDescriptions.h"
+
 
 class MapManager : public GameLoopObject
 {
 
 public:
+	Vector2 GetRandomSpawnPoint();
+
+	std::pair<Vector2, Vector2> GetRandomOptimalSpawns();
+
+	void InitFromDesc(const MapDescription desc);
 	virtual void Init() override;
 	virtual void FixedUpdate() override;
 	virtual void Destroy() override;
@@ -20,13 +28,14 @@ public:
 	std::vector<Vector2> GetAllFreeCells();
 	std::vector<Vector2> GetCellsOnCircle(const Vector2 center, const int radius) const;
 
-private:
 	static int Distance(const Vector2 from, const Vector2 to);
+private:
 	void SpawnFromString(Vector2 dims, std::vector<std::string> &string);
 
 
 	Graph m_graph;
 	Vector2 m_mapDims;
 	std::vector<std::string> m_mapString;
+	std::vector<Vector2> m_spawnPoints;
 };
 

@@ -8,7 +8,7 @@
 #include "AIController.h"
 #include "Projectile.h"
 
-
+#include "Math.h"
 
 
 // SceneObjectSpawner::SceneObjectSpawner(const std::string & model_id, const std::string & shader_id)
@@ -172,11 +172,14 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 
 	vb->Init();
 
-	Item *armor = new Item();
-	armor->SetBody(vb);
+	Armor *armor = new Armor();
+	armor->SetID(UniqueID::GetID(armor->GetClassName()));
+	armor->Init();
+	armor->AddComponent(vb);
 
 	robot->SetArmor(armor);
-	robot->AddComponent(vb);
+	robot->AddComponent(armor);
+	//robot->AddComponent(vb);
 	//pb->AddComponent(vb);
 
 	return pb;
@@ -184,20 +187,18 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 
 PhysicsBody * SceneObjectSpawner::SpawnProjectile(const Vector2 mapCoords, Robot *target, size_t team, float ttl, size_t bounces, bool isSeeker, float speed)
 {
-	PhysicsBody *pb = new PhysicsBody();
+	PhysicsBodyDumb *pb = new PhysicsBodyDumb();
 	pb->SetID(UniqueID::GetID(pb->GetClassName()));
 	pb->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, GameConstants::WALL_HEIGHT));
 	pb->m_transform.ComputeWorld();
 	pb->m_transform.m_relative = false;
 	pb->m_kinematic = false;
 	pb->m_mass = 0.01f;
-	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 10.f);
+	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 5.f);
 	pb->m_debugDraw = true;
-	pb->m_acceleration = 10.f;
+	pb->m_initialTarget = target->m_transform.GetWorldPos();
 	pb->m_topSpeed = speed;
-
-	Vector3 dir = Math::Normalize(target->m_transform.GetWorldPos() - GameConstants::ToWorldCoords(mapCoords, GameConstants::WALL_HEIGHT));
-	pb->m_transform.SetRot(Vector3(0.f, std::acos(Math::Dot(pb->m_transform.GetForward(), dir)), 0.f));
+	
 
 	
 
@@ -211,7 +212,7 @@ PhysicsBody * SceneObjectSpawner::SpawnProjectile(const Vector2 mapCoords, Robot
 
 	BoundingSphere *bs = new BoundingSphere();
 	bs->SetID(UniqueID::GetID(bs->GetClassName()));
-	bs->m_radius = GameConstants::CELL_SIZE / 10.f;
+	bs->m_radius = GameConstants::CELL_SIZE / 5.f;
 	bs->Init();
 
 	pb->AddComponent(bs);
@@ -221,17 +222,21 @@ PhysicsBody * SceneObjectSpawner::SpawnProjectile(const Vector2 mapCoords, Robot
 	proj->SetID(UniqueID::GetID(proj->GetClassName()));
 	proj->m_team = team;
 	proj->m_enemyTeam = target->m_team;
-	proj->m_damage = 10.f;
+	proj->m_stats[StatType::DAMAGE] = Stat(10.f);
+	proj->m_stats[StatType::LINEAR_TOP] = Stat(speed);
+	proj->m_stats[StatType::BOUNCES] = Stat(bounces);
+	proj->m_stats[StatType::LIFE_TIME] = Stat(ttl);
 	proj->m_isSeeker = isSeeker;
-	proj->m_speed = speed;
+	proj->m_physicsBody = pb;
 
+	proj->Init();
 	pb->m_linkedObject = proj;
 
 	pb->AddComponent(proj);
 
 
 	///TODO actual textures and model
-	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.1f), "MapCell", true);
+	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.2f), "MapCell", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
 	vb->SetModel(GetRobotModel());
 	vb->SetShader(GetMapCellShader());
@@ -285,3 +290,4 @@ Shader * SceneObjectSpawner::GetRobotShader()
 {
 	return  ResourceManager::GetInstance()->LoadShader("3");
 }
+

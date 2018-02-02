@@ -14,6 +14,9 @@
 
 #include "DebugDrawPrimitives.h"
 #include "RigidCollisionResponse.h"
+#include "Level.h"
+
+#include "ItemDescriptions.h"
 
 
 
@@ -39,31 +42,11 @@ void GameManager::Init()
 	//SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 	SceneManager::GetInstance()->LoadFromFile("XMLs/hartaDeTest.xml");
 
-	
 
-	m_mapManager = new MapManager();
-	m_mapManager->SetID(UniqueID::GetID(m_mapManager->GetClassName()));
-	m_mapManager->Init();
-
-	AddComponent(m_mapManager);
-
-	PhysicsBody *robotPB = SceneObjectSpawner::SpawnRobot(Vector2(9, 9), m_mapManager);
-	robotPB->m_topSpeed = 4;
-	robotPB->m_acceleration = 2;
-	robotPB->m_turningAcceleration = 4;
-	robotPB->m_topTurningSpeed = 5;
-	
-	AddComponent(robotPB);
-
-	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(robotPB, 15);
+	LoadRandomLevel();
 
 	AddComponent(SceneManager::GetInstance());
 
-
-
-	Robot *robotelTest = dynamic_cast<Robot *>(robotPB->m_linkedObject);
-
-	//robotelTest->MoveTowards(Vector2(13, 13));
 
 	PrintUtils::PrintI(ToStringTree());
 
@@ -72,7 +55,7 @@ void GameManager::Init()
 
 void GameManager::FixedUpdate()
 {
- 	std::vector<GameLoopObject *> allPhysicsBodies = FindComponentsTree("PhysicsBody");
+ 	std::vector<GameLoopObject *> allPhysicsBodies = FindComponentsTreePrefix("PhysicsBody");
 
 	//PrintUtils::PrintD("Found " + PrintUtils::ToString(allPhysicsBodies.size()) + " physicsBodies");
 
@@ -88,15 +71,50 @@ void GameManager::FixedUpdate()
 	static TimePointNano last = Now();
 	TimePointNano crt = Now();
 
-	if (Duration(last, crt) >= 3)
+	if (Duration(last, crt) >= 5)
 	{
-		PhysicsBody *projpb = SceneObjectSpawner::SpawnProjectile(Vector2(10, 10), static_cast<Robot*>(FindComponentTree("Robot")), 1, 5, 0, false, 5);
+// 		PhysicsBody *projpb = SceneObjectSpawner::SpawnProjectile(Vector2(10, 10), static_cast<Robot*>(FindComponentTree("Robot")), 1, 5, 0, false, 5); 
+// 		AddComponent(projpb);
 
-		AddComponent(projpb);
+		LoadRandomLevel();
 
 		last = crt;
 	}
 
+}
+
+void GameManager::LoadRandomLevel()
+{
+	DestroyComponents("Level");
+
+
+	Level *level = new Level();
+	level->SetID(UniqueID::GetID(level->GetClassName()));
+	level->Init();
+	
+	
+	m_mapManager = new MapManager();
+	m_mapManager->SetID(UniqueID::GetID(m_mapManager->GetClassName()));
+	m_mapManager->InitFromDesc(ItemDescriptions::GetInstance().GetRandomMap());
+
+	level->AddComponent(m_mapManager);
+
+	std::pair<Vector2, Vector2> spawnPoints = m_mapManager->GetRandomOptimalSpawns();
+
+	Robot *playerRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.first, m_mapManager);
+
+	level->AddComponent(playerRobot->m_physicsBody);
+
+	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(playerRobot->m_physicsBody, 15);
+
+
+	Robot *enemyRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.second, m_mapManager);
+	
+	PhysicsBody *enemyPB = enemyRobot->m_physicsBody;	
+
+	level->AddComponent(enemyPB);
+
+	AddComponent(level);
 }
 
 void GameManager::Update()
@@ -129,8 +147,7 @@ void GameManager::DebugDraw()
 }
 
 void GameManager::Destroy()
-{
-
+{	
 }
 
 std::string GameManager::GetClassName()

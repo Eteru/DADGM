@@ -218,6 +218,7 @@
     <ClInclude Include="AmbientalLight.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BoundingSphere.h" />
+    <ClInclude Include="BresenhamLine.h" />
     <ClInclude Include="BVIntersections.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionDetection.h" />
@@ -231,6 +232,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemDescriptions.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="MapCell.h" />
     <ClInclude Include="MapManager.h" />
@@ -257,6 +260,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UniqueID.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="XMLParser.h" />
     <ClInclude Include="XMLUtils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +271,7 @@
     <ClCompile Include="android_native_app_glue.c" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BoundingSphere.cpp" />
+    <ClCompile Include="BresenhamLine.cpp" />
     <ClCompile Include="BVIntersections.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
@@ -278,6 +283,8 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemDescriptions.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapCell.cpp" />
@@ -301,6 +308,7 @@
     <ClCompile Include="TGA.cpp" />
     <ClCompile Include="TimeLerp.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="XMLParser.cpp" />
     <ClCompile Include="XMLUtils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

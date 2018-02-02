@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configs>
+	<maps>
+		<map>
+		
+			<dims>
+				<x>20</x>
+				<y>20</y>        
+			</dims>
+			
+			<wallPadding>true</wallPadding>	
+			
+			<spawnPoints>
+				<spawnPoint>
+					<x>1</x>
+					<y>1</y>
+				</spawnPoint>
+				
+				<spawnPoint>
+					<x>9</x>
+					<y>9</y>
+				</spawnPoint>
+				
+				<spawnPoint>
+					<x>7</x>
+					<y>7</y>
+				</spawnPoint>
+			</spawnPoints>
+
+			<lines>
+				<line>
+					<cellType>wall</cellType>			
+					<from>
+						<x>0</x>
+						<y>3</y>
+					</from>		
+					<to>
+						<x>3</x>
+						<y>3</y>
+					</to>
+				</line>
+				
+				<line>
+					<cellType>wall</cellType>
+					<from>
+						<x>6</x>
+						<y>0</y>
+					</from>		
+					<to>
+						<x>6</x>
+						<y>3</y>
+					</to>
+				</line>
+				
+				<line>
+					<cellType>wall</cellType>
+					<from>
+						<x>7</x>
+						<y>0</y>
+					</from>		
+					<to>
+						<x>7</x>
+						<y>3</y>
+					</to>
+				</line>		
+					
+				<line>
+					<cellType>wall</cellType>
+					<from>
+						<x>19</x>
+						<y>8</y>
+					</from>		
+					<to>
+						<x>12</x>
+						<y>8</y>
+					</to>
+				</line>
+
+			</lines>
+
+		</map>
+		
+		<map>
+			<dims>
+				<x>20</x>
+				<y>20</y>
+			</dims>
+			
+			<wallPadding>true</wallPadding>	
+			
+			<spawnPoints>
+				<spawnPoint>
+					<x>1</x>
+					<y>1</y>
+				</spawnPoint>
+				
+				<spawnPoint>
+					<x>9</x>
+					<y>9</y>
+				</spawnPoint>
+				
+				<spawnPoint>
+					<x>7</x>
+					<y>7</y>
+				</spawnPoint>
+			</spawnPoints>
+		</map>
+
+	</maps>
+
+	<robots>
+		<robot>
+			<name>robot1</name>
+			<description>descrobot1</description>
+			<AI>
+				<movementRules>
+					<rule>
+						<condition>
+							<term>
+								<lhsType>DistanceFromTarget</lhsType>								
+								<op>LessThan</op>
+								<rhs>5</rhs>
+							</term>
+						</condition>
+						<action>RunAway</action>
+						<priority>2</priority>						
+					</rule>
+				</movementRules>
+				<itemRules>
+					<rule>
+						<condition>
+							<term>
+								<lhsType>StatValue</lhsType>
+								<lhs>Health</lhs>
+								<op>LessThan</op>
+								<rhs>50</rhs>
+							</term>
+						</condition>
+						<action>sprint</action>
+						<priority>2</priority>
+					</rule>				
+				</itemRules>
+				<defaultMovementAction>Explore</defaultMovementAction>
+				<defaultItemAction>FireWeapon</defaultItemAction>
+			</AI>
+			
+			<armor>
+				<name>balanced</name>
+				<modifiers>
+				</modifiers>
+			</armor>
+			<weapon>
+				<name>smg</name>
+				<modifiers>
+				</modifiers>
+			</weapon>
+			
+			<items>
+				<item>
+					<name>sprint</name>					
+				</item>
+			</items>
+			<stats>
+				<stat>
+					<name>VisionRange</name>
+					<base>7</base>					
+				</stat>
+			</stats>
+		</robot>
+		
+		<robot>
+			<name>robot2</name>
+			<description>descrobot2</description>
+			<AI>
+				<movementRules>
+					
+				</movementRules>
+				<itemRules>
+				</itemRules>
+				<defaultMovementAction>Explore</defaultMovementAction>
+				<defaultItemAction>FireWeapon</defaultItemAction>
+			</AI>
+			
+			<armor>
+				<name>heavy</name>
+				<modifiers>
+				</modifiers>
+			</armor>
+			<weapon>
+				<name>sniper</name>
+				<modifiers>
+				</modifiers>
+			</weapon>
+			
+			<items>
+				<item>
+					<name>sprint</name>					
+				</item>
+				
+				<item>
+					<name>rofBoost</name>
+				</item>
+			</items>
+			
+			<stats>
+				<stat>
+					<name>VisionRange</name>
+					<base>15</base>					
+				</stat>
+			</stats>
+		</robot>
+	</robots>
+
+	<itemConfigs>
+		<armors>
+			<armor>
+				<name>balanced</name>
+				<icon></icon>
+				<model>2</model>
+				<texture>3</texture>
+				
+				<description>A well balanced armor suit.</description>
+				<stats>
+					<stat>
+						<name>MaximumHealth</name>
+						<base>100</base>
+					</stat>
+					<stat>
+						<name>Armor</name>
+						<base>0</base>
+					</stat>					
+					<stat>
+						<name>LinearAccel</name>
+						<base>2</base>
+					</stat>
+					<stat>
+						<name>LinearTop</name>
+						<base>4</base>
+					</stat>
+					<stat>
+						<name>AngularAccel</name>
+						<base>0.5</base>
+					</stat>
+					<stat>
+						<name>AngularTop</name>
+						<base>1</base>
+					</stat>
+					<stat>
+						<name>Damage</name>
+						<base>10</base>
+					</stat>
+				</stats>
+			</armor>
+			
+			<armor>
+				<name>heavy</name>
+				<icon></icon>
+				<model>2</model>
+				<texture>3</texture>
+				
+				<description>A slow but resilient armor suit.</description>
+				<stats>
+					<stat>
+						<name>MaximumHealth</name>
+						<base>125</base>
+					</stat>
+					<stat>
+						<name>Armor</name>
+						<base>0.15</base>
+					</stat>					
+					<stat>
+						<name>LinearAccel</name>
+						<base>1</base>
+					</stat>
+					<stat>
+						<name>LinearTop</name>
+						<base>3</base>
+					</stat>
+					<stat>
+						<name>AngularAccel</name>
+						<base>0.3</base>
+					</stat>
+					<stat>
+						<name>AngularTop</name>
+						<base>0.9</base>
+					</stat>
+					<stat>
+						<name>Damage</name>
+						<base>15</base>
+					</stat>
+				</stats>
+			</armor>
+		</armors>
+
+		<weapons>
+			<weapon>
+				<name>smg</name>
+				<icon></icon>
+				<model>2</model>
+				<texture>3</texture>
+				
+				<description>A fast firing, short range weapon.</description>
+				<stats>
+					<stat>
+						<name>MaximumAmmo</name>
+						<base>30</base>
+					</stat>
+					<stat>
+						<name>FireRate</name>
+						<base>5</base>
+					</stat>
+					<stat>
+						<name>ReloadTime</name>
+						<base>2</base>
+					</stat>
+					<stat>
+						<name>Damage</name>
+						<base>1.5</base>
+					</stat>
+					<stat>
+						<name>LifeTime</name>
+						<base>1</base>
+					</stat>					
+					<stat>
+						<name>LinearTop</name>
+						<base>5</base>
+					</stat>
+					<stat>
+						<name>Knockback</name>
+						<base>1</base>
+					</stat>
+					
+				</stats>
+			</weapon>
+			
+			<weapon>
+				<name>sniper</name>
+				<icon></icon>
+				<model>2</model>
+				<texture>3</texture>
+				
+				<description>A slow firing, heavy hitting long range weapon.</description>
+				<stats>
+					<stat>
+						<name>MaximumAmmo</name>
+						<base>5</base>
+					</stat>
+					<stat>
+						<name>FireRate</name>
+						<base>0.5</base>
+					</stat>
+					<stat>
+						<name>ReloadTime</name>
+						<base>3</base>
+					</stat>
+					<stat>
+						<name>Damage</name>
+						<base>30</base>
+					</stat>
+					<stat>
+						<name>LifeTime</name>
+						<base>5</base>
+					</stat>					
+					<stat>
+						<name>LinearTop</name>
+						<base>10</base>
+					</stat>
+					<stat>
+						<name>Knockback</name>
+						<base>3</base>
+					</stat>
+				</stats>
+			</weapon>
+		</weapons>
+
+		<!-- La iteme punem doar pe cele care dau buff-uri simple, cu stats modifiere
+			Alea mai speciale, din cod -->
+		<items>
+			<item>
+				<name>repair</name>
+				<description>Instantly restores a portion of health.</description>
+				<icon></icon>
+				
+				<type>active</type>
+				<cooldown>10</cooldown>
+
+				<modifiers>
+					<modifier>
+						<object>robot</object>
+						<target>Health</target>
+						<type>flat</type>
+						<value>25</value>
+					</modifier>
+				</modifiers>				
+			</item>			
+			
+			<item>
+				<name>sprint</name>
+				<description>Temporarily increases movement speed.</description>
+				<icon></icon>
+				
+				<type>active</type>
+				<cooldown>10</cooldown>
+
+				<buff>
+					<duration>3</duration>
+					<modifiers>
+						<modifier>
+							<object>armor</object>
+							<target>LinearAccel</target>
+							<type>additive</type>
+							<value>0.25</value>
+						</modifier>
+						
+						<modifier>
+							<object>armor</object>
+							<target>LinearTop</target>
+							<type>additive</type>
+							<value>0.25</value>
+						</modifier>						
+
+					</modifiers>
+				</buff>
+			</item>
+			
+			<item>
+				<name>rofBoost</name>
+				<description>Permanently increases weapon rate of fire.</description>
+				<icon></icon>
+				
+				<type>passive</type>				
+
+				<modifiers>
+					<modifier>
+						<object>weapon</object>
+						<target>FireRate</target>
+						<type>multiplicative</type>
+						<value>0.5</value>
+					</modifier>
+				</modifiers>				
+			</item>			
+			
+		</items>
+	</itemConfigs>
+</configs>

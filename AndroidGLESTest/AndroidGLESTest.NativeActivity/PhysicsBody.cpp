@@ -6,7 +6,7 @@
 PhysicsBody::PhysicsBody()
 {
 	m_kinematic = false;
-	m_damping = 0.02f;
+	m_damping = 0.1f;
 	m_targetPos = Vector3(0.f);
 	m_linearVelEngine = Vector3(0.f);
 	m_linearVelImpact = Vector3(0.f);
@@ -35,32 +35,23 @@ void PhysicsBody::FixedUpdate()
 
 	if (m_hasTarget && dir.Length() > 0)
 	{
-		Vector3 fw = m_transform.GetForward();
+ 		Vector3 fw = m_transform.GetForward();
+ 
+ 		float dt = Math::Clamp(Math::Dot(fw, Math::Normalize(dir)), -1.f, 1.f);
 
-		float dt = Math::Clamp(Math::Dot(fw, Math::Normalize(dir)), -1.f, 1.f);
+		float timeStepAngular = m_turningAcceleration * GameConstants::PHYSICS_TIME_STEP * 2 * Math::PI;
+		Vector3 rotationStep = Math::GetAlignmentRotation(m_transform.GetForward(), dir);
+		
 
-		float rads = std::acos(dt);
-
-		Vector3 crss = Math::Normalize(Math::Cross(fw, Math::Normalize(dir)));
-		if (Math::Dot(crss, m_transform.GetUp()) == -1)
+		if (rotationStep.Length() <= Math::PI / 10)
 		{
-			rads = -rads;
-		}
-
-		float timeStepAngular = m_turningAcceleration * GameConstants::PHYSICS_TIME_STEP * rads;
-
-		if (std::abs(rads) < 0.05)
-		{
-			Vector3 rotatedFw = Math::RotateAround(fw, m_transform.GetUp(), rads);
-			m_angularVelEngine.y = std::acos(Math::Clamp(Math::Dot(fw, rotatedFw), -1.f, 1.f)) * Math::Sign(timeStepAngular);
+			m_angularVelEngine = -m_transform.GetWorldRot() + Math::GetAlignmentRotation(GameConstants::DEFAULT_FORWARD, dir);
 		}
 		else
 		{
-			Vector3 rotatedFw = Math::RotateAround(fw, m_transform.GetUp(), timeStepAngular);
-			m_angularVelEngine.y += std::acos(Math::Clamp(Math::Dot(fw, rotatedFw), -1.f, 1.f)) * Math::Sign(timeStepAngular);
+			rotationStep = Math::ClampLength(rotationStep, timeStepAngular);
+			m_angularVelEngine = Math::ClampLength(m_angularVelEngine + rotationStep, m_topTurningSpeed * GameConstants::PHYSICS_TIME_STEP * 2 * Math::PI);
 		}
-
-		m_angularVelEngine = Math::ClampLength(m_angularVelEngine, m_topTurningSpeed * GameConstants::PHYSICS_TIME_STEP);
 
 		Vector3 timeStepSpeed = Math::SetLength(dir, m_acceleration * GameConstants::PHYSICS_TIME_STEP);
 		//m_linearVelEngine *= (1.f - m_damping) * (1.f - std::abs(dt));
@@ -134,4 +125,50 @@ void PhysicsBody::DebugDraw()
 	{
 		DebugDrawPrimitives::DrawLine(m_transform.GetWorldPos(), m_targetPos, DebugDrawPrimitives::COLOR_RED);
 	}
+}
+
+PhysicsBodyDumb::PhysicsBodyDumb()
+{		
+}
+
+void PhysicsBodyDumb::FixedUpdate()
+{
+	m_linearVelImpact = Math::SetLength(m_linearVelImpact, m_topSpeed * GameConstants::PHYSICS_TIME_STEP);
+
+
+// 	Vector3 axis = Math::Cross(m_linearVelImpact, GameConstants::DEFAULT_FORWARD);
+// 
+// 	if (Math::Length(axis) != 0)
+// 	{
+// 		m_transform.SetRot(std::acos(Math::Dot(GameConstants::DEFAULT_FORWARD, Math::Normalize(m_linearVelImpact))) * Math::Normalize(axis));
+// 	}
+
+	///TODO proper rotation so that forward is always in the movement direction
+	m_transform.SetRot(Math::GetAlignmentRotation(GameConstants::DEFAULT_FORWARD, m_linearVelImpact));
+
+	m_transform.SetPos(m_transform.GetWorldPos() + m_linearVelImpact);
+}
+
+std::string PhysicsBodyDumb::ToString()
+{
+	return std::string("TODO PhysicsBodyDumb string");
+}
+
+std::string PhysicsBodyDumb::GetClassName()
+{
+	return std::string("PhysicsBodyDumb");
+}
+
+void PhysicsBodyDumb::DebugDraw()
+{
+	
+}
+
+void PhysicsBodyDumb::Init()
+{
+	Vector3 dir = Math::Normalize(m_initialTarget - m_transform.GetWorldPos());
+
+
+	m_angularVelImpact = Vector3(0, std::acos(Math::Dot(m_transform.GetForward(), dir)), 0);
+	m_linearVelImpact = Math::SetLength(dir, m_topSpeed * GameConstants::PHYSICS_TIME_STEP);
 }
