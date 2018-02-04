@@ -73,20 +73,10 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 		robot->AddComponent(weapon);
 	}
 
-	for (auto itemPair : description.m_items)
-	{
-		std::pair<bool, Item *> item = SpawnItem(itemPair.first);
-		item.second->m_modifiers.insert(item.second->m_modifiers.end(), itemPair.second.begin(), itemPair.second.end());
 
-		item.second->m_robot = robot;
-		if (item.first)
-		{
-			robot->m_activeItems.push_back(static_cast<ActiveItem *>(item.second));
-		}
-		else
-		{
-			robot->m_passiveItems.push_back(item.second);
-		}		
+	for (int i = 0; i < description.m_items.size(); ++i)
+	{
+		robot->EquipItem(description.m_items[i].first, i, description.m_items[i].second);
 	}
 
 	AIController *ai = new AIController();
@@ -104,7 +94,7 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 
 	ItemAIRule defaultItem;
 	defaultItem.m_priority = 0;
-	defaultItem.m_item = robot->FindActive(description.m_AI.m_defaultItemAction);
+	defaultItem.m_itemName = description.m_AI.m_defaultItemAction;
 
 	ai->m_itemRules.push_back(defaultItem);
 	
@@ -123,7 +113,7 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 	{
 		ItemAIRule rule;
 		rule.m_priority = itemRule.m_priority;
-		rule.m_item = robot->FindActive(itemRule.m_itemName);
+		rule.m_itemName = itemRule.m_itemName;
 		rule.m_terms = itemRule.m_terms;
 
 		ai->m_itemRules.push_back(rule);
@@ -146,6 +136,9 @@ Robot * ItemDescriptions::SpawnRobot(const RobotDescription &desc) const
 	{
 		robot->m_stats[xmlTypeMap.at(kvPair.first)] = Stat(kvPair.second);
 	}
+
+	robot->m_name = desc.m_name;
+	robot->m_description = desc.m_description;
 
 	robot->Init();
 
@@ -175,11 +168,13 @@ std::pair<bool, Item *> ItemDescriptions::SpawnItem(const std::string name) cons
 	result->SetID(UniqueID::GetID(result->GetClassName()));
 	result->m_name = desc.m_name;
 	result->m_description = desc.m_description;
+	result->m_cooldown = desc.m_cooldown;
 	result->Init();
 
 	Buff buff;
 	buff.m_duration = desc.m_buff.m_duration;
 	buff.m_modifiers = desc.m_buff.m_modifiers;
+	buff.m_name = desc.m_buff.m_name;
 	
 	result->m_buff = buff;
 
@@ -524,6 +519,7 @@ void ItemDescriptions::LoadBasicItems(std::vector<rapidxml::xml_node<> *> allIte
 			BuffDescription buff;
 
 			buff.m_duration = XMLUtils::GetFloatValueSafe(buffNode, "duration", 0);
+			buff.m_name = item.m_name;
 
 			for (auto modifierNode : XMLParser::GetAllChildren(buffNode->first_node("modifiers"), "modifier"))
 			{

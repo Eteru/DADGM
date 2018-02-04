@@ -6,6 +6,7 @@
 #include "MapManager.h"
 #include "XMLParser.h"
 
+class Robot;
 
 class GameManager : public GameLoopObject
 {
@@ -25,18 +26,22 @@ public:
 
 
 
+	bool IsGameWon();
+	bool IsGameLost();
+
+
+
 	// Astea se apeleaza doar de GM, care e root-ul ierarhiei. Restul claselor nu apeleaza explicit functiile cu "_"	
 	void UpdateTree();
 	void DrawTree();
 	void DestroyTree();
-
-
-
-
-
 private:
 
 	void LoadRandomLevel();
+
+
+	Robot *m_playerRobot;
+	std::vector<Robot *> m_enemyRobots;
 
 	MapManager * m_mapManager;
 

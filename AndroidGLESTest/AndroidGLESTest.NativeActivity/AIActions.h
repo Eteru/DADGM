@@ -1,6 +1,9 @@
 #pragma once
 #include <unordered_map>
 
+#include "Structs.h"
+
+
 enum class MovementActionType { STAND_STILL = 0, EXPLORE, KEEP_DISTANCE, RUN_AWAY, NUM_MOVEMENT_ACTION_TYPE };
 
 const std::unordered_map<std::string, MovementActionType> XMLMovementActionMap = {
@@ -9,6 +12,14 @@ const std::unordered_map<std::string, MovementActionType> XMLMovementActionMap =
 { "KeepDistance", MovementActionType::KEEP_DISTANCE},
 { "RunAway", MovementActionType::RUN_AWAY}
 };
+
+const std::unordered_map<MovementActionType, std::string, EnumClassHash> invertedXMLMovementActionMap = {
+	{ MovementActionType::STAND_STILL, "StandStill" },
+{ MovementActionType::EXPLORE , "Explore" },
+{ MovementActionType::KEEP_DISTANCE, "KeepDistance"},
+{ MovementActionType::RUN_AWAY, "RunAway"}
+};
+
 
 class MovementController;
 class MapManager;

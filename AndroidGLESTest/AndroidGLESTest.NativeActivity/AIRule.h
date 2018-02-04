@@ -63,5 +63,5 @@ class ActiveItem;
 class ItemAIRule : public AIRule
 {
 public:
-	ActiveItem *m_item;
+	std::string  m_itemName;
 };

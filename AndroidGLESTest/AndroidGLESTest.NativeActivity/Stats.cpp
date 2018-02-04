@@ -188,6 +188,27 @@ void StatHolderObject::ApplyModifier(const StatModifier &mod)
 	}
 }
 
+void StatHolderObject::RemoveModifier(const StatModifier &mod)
+{
+	if (!m_stats.count(mod.m_modifiedStat))
+		return;
+
+	switch (mod.m_type)
+	{
+	case ModifierType::FLAT:
+		m_stats.at(mod.m_modifiedStat).AddFlat(-mod.m_value);
+		break;
+	case ModifierType::ADDITIVE:
+		m_stats.at(mod.m_modifiedStat).AddAdditive(-mod.m_value);
+		break;
+	case ModifierType::MULTIPLICATIVE:
+		m_stats.at(mod.m_modifiedStat).RemoveMultiplicative(mod.m_value);
+		break;
+	default:
+		break;
+	}
+}
+
 void StatHolderObject::ResetAllModifiers()
 {
 	for (auto it = m_stats.begin(); it != m_stats.end(); ++it)

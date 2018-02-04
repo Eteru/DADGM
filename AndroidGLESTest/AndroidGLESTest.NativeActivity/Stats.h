@@ -7,14 +7,6 @@
 #include "Math.h"
 
 
-struct EnumClassHash
-{
-	template <typename T>
-	std::size_t operator()(T t) const
-	{
-		return static_cast<std::size_t>(t);
-	}
-};
 
 
 enum class ModifierType { FLAT = 0, ADDITIVE, MULTIPLICATIVE, NUM_MODIFIER_TYPE };
@@ -105,6 +97,7 @@ class StatHolderObject
 {
 public:
 	void ApplyModifier(const StatModifier &mod);
+	void RemoveModifier(const StatModifier &mod);
 	void ResetAllModifiers();
 
 	std::unordered_map<StatType, Stat, EnumClassHash> m_stats;

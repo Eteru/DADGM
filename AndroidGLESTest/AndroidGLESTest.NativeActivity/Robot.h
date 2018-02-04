@@ -22,10 +22,21 @@ public:
 	virtual std::string GetClassName() override;
 
 
+
+	
 	void TakeDamage(const float value);
 	bool IsDead();
+
+	void EquipItem(const std::string itemName, const size_t slot, std::vector<StatModifier> extraModifiers = std::vector<StatModifier>());
+	void UnequipItem(const size_t slot);
+
+	bool IsItemAvailable(const std::string itemName) const;
+	void ActivateItem(const std::string itemName);
+
 	int MapDistanceToTarget() const;
-	void AcquireTarget();
+
+
+
 
 	PhysicsBody * GetPhysicsBody() const { return m_physicsBody; }
 	void SetPhysicsBody(PhysicsBody * val) { m_physicsBody = val; }
@@ -35,11 +46,7 @@ public:
 	Weapon * GetWeapon() const { return m_weapon; }
 	void SetWeapon(Weapon *weapon) { m_weapon = weapon; }
 
-	Item *FindPassive(const std::string name) const;
-	ActiveItem *FindActive(const std::string name) const;
 
-	std::vector<Item *> m_passiveItems;
-	std::vector<ActiveItem *> m_activeItems;
 
 	size_t m_team;
 	Robot *m_target;
@@ -52,6 +59,23 @@ public:
 	MapManager *m_mapManager;
 
 private:
+	Item *FindPassive(const std::string name) const;
+	ActiveItem *FindActive(const std::string name) const;
 
+	void AcquireTarget();
 
+	void ManageBuffs();
+
+	void ApplyBuff(Buff buff);
+
+	void ApplyModifiers(const std::vector<StatModifier> &mods);
+	void RemoveModifiers(const std::vector<StatModifier> &mods);
+
+	std::vector<Buff> m_activeBuffs;
+
+	std::vector<Item *> m_equippedItems;
+	size_t m_inventorySize;
+
+	std::vector<Item *> m_passiveItems;
+	std::vector<ActiveItem *> m_activeItems;
 };

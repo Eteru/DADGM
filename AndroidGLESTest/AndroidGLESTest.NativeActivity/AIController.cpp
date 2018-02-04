@@ -64,6 +64,8 @@ void AIController::FixedUpdate()
 // 			}
 // 			AddComponent(rule->m_action);
 			m_currentMovementAction = rule.m_action;
+
+			PrintUtils::PrintI("[AIController][" + m_robot->m_name + "] Performing movement " + invertedXMLMovementActionMap.at(m_currentMovementAction));
 			break;
 		}
 	}
@@ -75,9 +77,11 @@ void AIController::FixedUpdate()
 	for (auto rule : m_itemRules)
 	{
 		/// TODO aside from evaluating, always check that the item is off-cooldown
-		if (Evaluate(rule) && rule.m_item->m_isAvailable) 
-		{
-			rule.m_item->Activate();
+		if (Evaluate(rule) && m_robot->IsItemAvailable(rule.m_itemName)) 
+		{	
+			if (rule.m_itemName != "FireWeapon")
+				PrintUtils::PrintI("[AIController][" + m_robot->m_name + "] Using item " + rule.m_itemName);
+			m_robot->ActivateItem(rule.m_itemName);
 		}
 	}
 }
@@ -107,7 +111,7 @@ bool AIController::Evaluate(const Term term) const
 		lhs = m_robot->m_stats.at(xmlTypeMap.at(term.m_lhsName)).GetValue();
 		break;
 	case LHSType::ITEM_READY:
-		return m_robot->FindActive(term.m_lhsName)->m_isAvailable;
+		return m_robot->IsItemAvailable(term.m_lhsName);
 	default:
 		break;
 	}

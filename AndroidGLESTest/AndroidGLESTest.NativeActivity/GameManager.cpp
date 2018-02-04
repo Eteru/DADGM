@@ -100,6 +100,8 @@ void GameManager::LoadRandomLevel()
 {
 	DestroyComponents("Level");
 
+	m_playerRobot = nullptr;
+	m_enemyRobots.clear();
 
 	Level *level = new Level();
 	level->SetID(UniqueID::GetID(level->GetClassName()));
@@ -117,6 +119,8 @@ void GameManager::LoadRandomLevel()
 	Robot *playerRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.first, m_mapManager);
 	playerRobot->m_team = 0;
 
+	m_playerRobot = playerRobot;
+
 	level->AddComponent(playerRobot->m_physicsBody);
 
 	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(playerRobot->m_physicsBody, 15);
@@ -124,6 +128,8 @@ void GameManager::LoadRandomLevel()
 
 	Robot *enemyRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.second, m_mapManager);
 	enemyRobot->m_team = 1;
+
+	m_enemyRobots.push_back(enemyRobot);
 	
 	PhysicsBody *enemyPB = enemyRobot->m_physicsBody;	
 
@@ -172,6 +178,22 @@ void GameManager::Destroy()
 std::string GameManager::GetClassName()
 {
 	return std::string("GameManager");
+}
+
+bool GameManager::IsGameWon()
+{
+	for (auto enemy : m_enemyRobots)
+	{
+		if (!enemy->IsDead())
+			return false;
+	}
+
+	return true;
+}
+
+bool GameManager::IsGameLost()
+{
+	return m_playerRobot->IsDead();
 }
 
 std::string GameManager::ToString()

@@ -36,6 +36,7 @@ enum class ItemType { PASSIVE, ACTIVE };
 class BuffDescription
 {
 public:
+	std::string m_name;
 	float m_duration;
 	std::vector<StatModifier> m_modifiers;
 };
@@ -108,11 +109,11 @@ public:
 	static ItemDescriptions & GetInstance();
 	MapDescription GetRandomMap();
 	Robot *GetRandomRobot(const Vector2 mapCoords, MapManager *mapManager);
+	std::pair<bool, Item *> SpawnItem(const std::string name) const;
 
 private:
 
 	Robot * SpawnRobot(const RobotDescription &desc) const;
-	std::pair<bool, Item *> SpawnItem(const std::string name) const;
 	AIController * SpawnAI(const AIDescription &desc) const;
 	Armor * SpawnArmor(const std::string name) const;
 	Weapon * SpawnWeapon(const std::string name) const;

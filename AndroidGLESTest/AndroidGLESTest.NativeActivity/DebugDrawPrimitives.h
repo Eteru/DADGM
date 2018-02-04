@@ -21,6 +21,7 @@ public:
 	static const Vector4 COLOR_GREEN;
 	static const Vector4 COLOR_BLUE;
 	static const Vector4 COLOR_YELLOW;
+	static const Vector4 COLOR_PURPLE;
 
 private:
 	static bool m_init;

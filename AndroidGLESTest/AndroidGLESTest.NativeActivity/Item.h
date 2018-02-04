@@ -7,14 +7,16 @@
 class Buff
 {	
 public:
+	Buff() : m_duration(0), m_expirationTime(Now()) {}
 	std::vector<StatModifier> m_modifiers;
 	float m_duration;
 	TimePointNano m_expirationTime;
+	std::string m_name;
 };
 
 class Robot;
 
-class Item
+class Item : public GameLoopObject
 {
 public:
 	Item();
@@ -24,9 +26,13 @@ public:
 	std::string m_name;
 	std::string m_description;
 	std::vector<StatModifier> m_modifiers;
+
+	virtual std::string ToString() override;
+	virtual std::string GetClassName() override;
+
 };
 
-class ActiveItem : public Item, public GameLoopObject, public StatHolderObject
+class ActiveItem : public Item, public StatHolderObject
 {
 public:
 
@@ -47,7 +53,7 @@ protected:
 	TimePointNano m_timeWhenReady;
 };
 
-class Armor : public GameLoopObject, public Item, public StatHolderObject
+class Armor : public Item, public StatHolderObject
 {
 
 public:
@@ -70,8 +76,14 @@ public:
 
 	virtual void Init() override;
 
+
+	virtual void DebugDraw() override;
+
 private:
 	void Fire();
+	Vector3 GetInterceptTarget();
+
+	static float InterceptTime(float projVel, Vector3 relPos, Vector3 relVel);
 
 	Vector3 m_angular;
 	Vector3 m_localRotTarget;

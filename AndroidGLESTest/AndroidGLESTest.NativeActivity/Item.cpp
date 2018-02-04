@@ -5,6 +5,7 @@
 #include "UniqueID.h"
 #include "SceneObjectSpawner.h"
 #include "MapManager.h"
+#include "DebugDrawPrimitives.h"
 
 Item::Item()
 {
@@ -14,6 +15,16 @@ Item::Item()
 Item::~Item()
 {
 
+}
+
+std::string Item::ToString()
+{
+	return std::string("TODO Item string");
+}
+
+std::string Item::GetClassName()
+{
+	return std::string("Item");
 }
 
 void ActiveItem::FixedUpdate()
@@ -70,7 +81,7 @@ void Weapon::FixedUpdate()
 
 	if (nullptr != m_robot->m_target)
 	{
-		Vector3 dir = m_robot->m_target->m_transform.GetWorldPos() - m_robot->m_transform.GetWorldPos();		
+		Vector3 dir = GetInterceptTarget() - m_robot->m_transform.GetWorldPos();
 
 		if (Math::Length(dir) != 0)
 		{
@@ -144,6 +155,10 @@ void Weapon::Init()
 	m_stats[StatType::AMMO] = Stat(m_stats.at(StatType::AMMO_MAX).GetValue());
 }
 
+void Weapon::DebugDraw()
+{	
+}
+
 void Weapon::Fire()
 {
 	Projectile *proj = SceneObjectSpawner::SpawnProjectile(m_transform.GetWorldPos() + m_transform.GetForward() * m_transform.GetWorldScale().z, m_robot->m_target, m_robot->m_team,
@@ -153,4 +168,59 @@ void Weapon::Fire()
 	AddComponent(proj->m_physicsBody);
 
 	m_robot->m_mapManager->m_projectiles.push_back(proj);
+}
+
+Vector3 Weapon::GetInterceptTarget()
+{
+	Vector3 relPos = m_robot->m_target->m_transform.GetWorldPos() - m_robot->m_transform.GetWorldPos();
+	Vector3 relVel = m_robot->m_target->m_physicsBody->m_linearVelEngine - m_robot->m_physicsBody->m_linearVelEngine;
+	
+	return m_robot->m_target->m_transform.GetWorldPos() + InterceptTime(m_stats.at(StatType::LINEAR_TOP).GetValue(), relPos, relVel) * relVel / GameConstants::PHYSICS_TIME_STEP;
+}
+
+float Weapon::InterceptTime(float projVel, Vector3 relPos, Vector3 relVel)
+{
+
+	static const float eps = 0.000001f;
+
+	float velsq = relVel.Length();
+	velsq *= velsq;
+
+	if (velsq < eps)
+		return 0.f;
+
+	float a = velsq - projVel * projVel;
+
+	float c = relPos.Length();
+	c *= c;
+
+	float b = 2.f * Math::Dot(relVel, relPos);
+
+	if (std::abs(a) < eps)
+	{
+		return std::max(0.f, -c / b);
+	}
+
+	float delta = b * b - 4.f * a * c;
+
+
+	if (delta > 0.f)
+	{
+		float t1 = (-b + std::sqrt(delta)) / (2.f * a);
+		float t2 = (-b - std::sqrt(delta)) / (2.f * a);
+
+		if (t1 > 0)
+		{
+			if (t2 > 0)
+				return std::min(t1, t2);
+
+			return t1;
+		}
+		return std::max(t2, 0.f);
+	}
+
+	if (delta < 0.f)
+		return 0.f;
+
+	return std::max(-b / (2.f * a), 0.f);
 }

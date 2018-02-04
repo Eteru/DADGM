@@ -6,6 +6,7 @@ const Vector4 DebugDrawPrimitives::COLOR_RED = Vector4(1.f, 0.f, 0.f, 1.f);
 const Vector4 DebugDrawPrimitives::COLOR_GREEN = Vector4(0.f, 1.f, 0.f, 1.f);
 const Vector4 DebugDrawPrimitives::COLOR_BLUE = Vector4(0.f, 0.f, 1.f, 1.f);
 const Vector4 DebugDrawPrimitives::COLOR_YELLOW = Vector4(1.f, 1.f, 0.f, 1.f);
+const Vector4 DebugDrawPrimitives::COLOR_PURPLE = Vector4(160.f / 255, 32.f / 255, 240.f / 255, 1.f);
 
 bool DebugDrawPrimitives::m_init = false;
 DebugSettings DebugDrawPrimitives::m_settings = {};

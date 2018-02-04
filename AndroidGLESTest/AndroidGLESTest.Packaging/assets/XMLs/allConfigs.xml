@@ -365,7 +365,7 @@
 					</stat>
 					<stat>
 						<name>FireRate</name>
-						<base>0.5</base>
+						<base>0.9</base>
 					</stat>
 					<stat>
 						<name>ReloadTime</name>
@@ -381,7 +381,7 @@
 					</stat>					
 					<stat>
 						<name>LinearTop</name>
-						<base>25</base>
+						<base>30</base>
 					</stat>
 					<stat>
 						<name>Bounces</name>
@@ -431,14 +431,14 @@
 							<object>armor</object>
 							<target>LinearAccel</target>
 							<type>additive</type>
-							<value>0.25</value>
+							<value>0.6</value>
 						</modifier>
 						
 						<modifier>
 							<object>armor</object>
 							<target>LinearTop</target>
 							<type>additive</type>
-							<value>0.25</value>
+							<value>0.6</value>
 						</modifier>						
 
 					</modifiers>
