@@ -4,6 +4,8 @@
 #include <android/log.h>
 
 #include "PrintUtils.h"
+#include "obj_loader.h"
+
 Model::Model() : m_loaded(false), m_mr(nullptr)
 {
 }
@@ -31,91 +33,58 @@ bool Model::Load()
 
 	LOGD("filepath: %s\n", m_mr->model_path.c_str());
 
-	const engine *eng = SceneManager::GetInstance()->GetEngine();
-	AAssetManager* mgr = eng->app->activity->assetManager;
-
-	AAsset* file = AAssetManager_open(mgr, m_mr->model_path.c_str(), AASSET_MODE_BUFFER);
-	if (nullptr == file)
-		return false;
-
-	long fsize = AAsset_getLength(file);
-	char *string = new char[fsize + 1];
-
-	AAsset_read(file, string, fsize);
-	AAsset_close(file);
+	IndexedModel model = OBJModel(m_mr->model_path).ToIndexedModel();
 	
 	int pos = 0;
 	int crt_pos = 0;
 
-	int numberOfVertices;
-	sscanf(string, "NrVertices: %d\n%n", &numberOfVertices, &pos);
-	crt_pos += pos;
-
-	if (numberOfVertices <= 0)
-		return false;
-
-
 	// Read vertices
 	m_pos_min = Vector3(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_pos_max = Vector3(FLT_MIN, FLT_MIN, FLT_MIN);
-	std::vector<Vertex> vertices(numberOfVertices);
-	for (int i = 0; i < numberOfVertices; ++i) {
-		sscanf(string + crt_pos, "   %*d. pos:[%f, %f, %f]; norm:[%f, %f, %f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n%n",
-			&vertices[i].pos.x, &vertices[i].pos.y, &vertices[i].pos.z,
-			&vertices[i].normal.x, &vertices[i].normal.y, &vertices[i].normal.z,
-			&vertices[i].uv.x, &vertices[i].uv.y, &pos);
-		crt_pos += pos;
+	std::vector<Vertex> vertices;
+	for (int i = 0; i < model.positions.size(); ++i) {
+		Vertex v;
+		v.pos = model.positions[i];
+		v.normal = model.normals[i];
+		v.uv = model.texCoords[i];
 
-		m_pos_min.x = std::min(m_pos_min.x, vertices[i].pos.x);
-		m_pos_min.y = std::min(m_pos_min.y, vertices[i].pos.y);
-		m_pos_min.z = std::min(m_pos_min.z, vertices[i].pos.z);
+		m_pos_min.x = std::min(m_pos_min.x, v.pos.x);
+		m_pos_min.y = std::min(m_pos_min.y, v.pos.y);
+		m_pos_min.z = std::min(m_pos_min.z, v.pos.z);
 
-		m_pos_max.x = std::max(m_pos_max.x, vertices[i].pos.x);
-		m_pos_max.y = std::max(m_pos_max.y, vertices[i].pos.y);
-		m_pos_max.z = std::max(m_pos_max.z, vertices[i].pos.z);
+		m_pos_max.x = std::max(m_pos_max.x, v.pos.x);
+		m_pos_max.y = std::max(m_pos_max.y, v.pos.y);
+		m_pos_max.z = std::max(m_pos_max.z, v.pos.z);
 
-		vertices[i].color = Vector3(1, 1, 1);
-		vertices[i].uv_blend = Vector2(1, 1);
+		v.color = Vector3(1, 1, 1);
+		v.uv_blend = Vector2(1, 1);
+
+		vertices.push_back(v);
 	}
-
-	// Read indices
-	sscanf(string + crt_pos, "NrIndices: %d\n%n", &m_indicesCount, &pos);
-	crt_pos += pos;
-	if (m_indicesCount <= 0) {
-		glDeleteBuffers(1, &m_vboID);
-		return false;
-	}
-
-	std::vector<GLushort> indices(m_indicesCount);
-	for (int i = 0; i < m_indicesCount; i += 3) {
-		sscanf(string + crt_pos, "   %*hu.    %hu,    %hu,    %hu\n%n", &indices[i], &indices[i + 1], &indices[i + 2], &pos);
-		crt_pos += pos;
-	}
-
-	CalcNormals(vertices, indices);
 
 	// Generate and create vbo
 	glGenBuffers(1, &m_vboID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numberOfVertices, &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Generate and create ibo for filled mesh
+	m_indicesCount = model.indices.size();
 	glGenBuffers(1, &m_iboID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * m_indicesCount, &indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * m_indicesCount, &model.indices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// Create ibo buffer for wired mesh
 	m_indicesWiredCount = m_indicesCount * 2;
 	std::vector<GLushort> indicesWired(m_indicesWiredCount);
 	for (int i = 0, wiredCount = 0; i < m_indicesCount; i += 3, wiredCount += 6) {
-		indicesWired[wiredCount] = indices[i];
-		indicesWired[wiredCount + 1] = indices[i + 1];
-		indicesWired[wiredCount + 2] = indices[i + 1];
-		indicesWired[wiredCount + 3] = indices[i + 2];
-		indicesWired[wiredCount + 4] = indices[i + 2];
-		indicesWired[wiredCount + 5] = indices[i];
+		indicesWired[wiredCount] = model.indices[i];
+		indicesWired[wiredCount + 1] = model.indices[i + 1];
+		indicesWired[wiredCount + 2] = model.indices[i + 1];
+		indicesWired[wiredCount + 3] = model.indices[i + 2];
+		indicesWired[wiredCount + 4] = model.indices[i + 2];
+		indicesWired[wiredCount + 5] = model.indices[i];
 	}
 
 	// Generate and create ibo for wired mesh
@@ -123,8 +92,6 @@ bool Model::Load()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_wiredIboID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * m_indicesWiredCount, &indicesWired[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	delete[] string;
 
 	m_loaded = true;
 	return true;
@@ -190,26 +157,4 @@ void Model::RebindBuffer(std::vector<Vertex>& vertices)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-void Model::CalcNormals(std::vector<Vertex>& verts, std::vector<GLushort>& indices)
-{
-	for (unsigned int i = 0; i < indices.size(); i += 3)
-	{
-		int i0 = indices[i];
-		int i1 = indices[i + 1];
-		int i2 = indices[i + 2];
-
-		Vector3 v1 = verts[i1].pos - verts[i0].pos;
-		Vector3 v2 = verts[i2].pos - verts[i0].pos;
-		
-		Vector3 normal = Math::Normalize(Math::Cross(v1, v2));
-
-		verts[i0].normal += normal;
-		verts[i1].normal += normal;
-		verts[i2].normal += normal;
-	}
-
-	for (unsigned int i = 0; i < verts.size(); i++)
-		verts[i].normal = Math::Normalize(verts[i].normal);
 }

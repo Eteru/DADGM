@@ -53,6 +53,7 @@
     <ClCompile Include="ObjectContactActions.cpp" />
     <ClCompile Include="Tabs.cpp" />
     <ClCompile Include="ButtonList.cpp" />
+    <ClCompile Include="obj_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -111,5 +112,6 @@
     <ClInclude Include="ObjectContactActions.h" />
     <ClInclude Include="Tabs.h" />
     <ClInclude Include="ButtonList.h" />
+    <ClInclude Include="obj_loader.h" />
   </ItemGroup>
 </Project>

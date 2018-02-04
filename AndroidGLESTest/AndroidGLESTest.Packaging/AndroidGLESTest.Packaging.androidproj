@@ -123,6 +123,7 @@
     <Content Include="assets\Models\bus.nfg" />
     <Content Include="assets\Models\Croco.nfg" />
     <Content Include="assets\Models\Cube.nfg" />
+    <Content Include="assets\Models\cube.obj" />
     <Content Include="assets\Models\DebugCube.nfg" />
     <Content Include="assets\Models\DebugSphere.nfg" />
     <Content Include="assets\Models\fire.nfg" />
@@ -131,6 +132,7 @@
     <Content Include="assets\Models\Marine.nfg" />
     <Content Include="assets\Models\Radar.nfg" />
     <Content Include="assets\Models\SCV.nfg" />
+    <Content Include="assets\Models\sphere.obj" />
     <Content Include="assets\Models\Teran_Command_Center.nfg" />
     <Content Include="assets\Models\Terrain.nfg" />
     <Content Include="assets\Models\train.nfg" />

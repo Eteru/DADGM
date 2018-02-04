@@ -61,6 +61,4 @@ private:
 	Vector3 m_pos_max;
 	
 	ModelResource *m_mr;
-
-	void CalcNormals(std::vector<Vertex> & verts, std::vector<GLushort> & indices);
 };
