@@ -78,12 +78,6 @@ bool Model::Load()
 		vertices[i].uv_blend = Vector2(1, 1);
 	}
 
-	// Generate and create vbo
-	glGenBuffers(1, &m_vboID);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numberOfVertices, &vertices[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	// Read indices
 	sscanf(string + crt_pos, "NrIndices: %d\n%n", &m_indicesCount, &pos);
 	crt_pos += pos;
@@ -97,6 +91,14 @@ bool Model::Load()
 		sscanf(string + crt_pos, "   %*hu.    %hu,    %hu,    %hu\n%n", &indices[i], &indices[i + 1], &indices[i + 2], &pos);
 		crt_pos += pos;
 	}
+
+	CalcNormals(vertices, indices);
+
+	// Generate and create vbo
+	glGenBuffers(1, &m_vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numberOfVertices, &vertices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Generate and create ibo for filled mesh
 	glGenBuffers(1, &m_iboID);
@@ -188,4 +190,26 @@ void Model::RebindBuffer(std::vector<Vertex>& vertices)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Model::CalcNormals(std::vector<Vertex>& verts, std::vector<GLushort>& indices)
+{
+	for (unsigned int i = 0; i < indices.size(); i += 3)
+	{
+		int i0 = indices[i];
+		int i1 = indices[i + 1];
+		int i2 = indices[i + 2];
+
+		Vector3 v1 = verts[i1].pos - verts[i0].pos;
+		Vector3 v2 = verts[i2].pos - verts[i0].pos;
+		
+		Vector3 normal = Math::Normalize(Math::Cross(v1, v2));
+
+		verts[i0].normal += normal;
+		verts[i1].normal += normal;
+		verts[i2].normal += normal;
+	}
+
+	for (unsigned int i = 0; i < verts.size(); i++)
+		verts[i].normal = Math::Normalize(verts[i].normal);
 }
