@@ -72,8 +72,8 @@ void StringRenderer::DrawText(float top, float left, uint32_t font_size, const V
 	glBindTexture(m_font_texture->GetTextureType(), m_font_texture->GetID());
 
 	// scale matrix doesnt work ......
-	GLfloat screenTop = Math::ChangeInterval(0, m_h, -1.f, 1.f, top);
-	GLfloat screenLeft = Math::ChangeInterval(0, m_w, -1.f, 1.f, left);
+	//GLfloat screenTop = Math::ChangeInterval(0, m_h, -1.f, 1.f, top);
+	//GLfloat screenLeft = Math::ChangeInterval(0, m_w, -1.f, 1.f, left);
 	Matrix S = Matrix().SetScale(font_size, font_size, 1.f);
 
 	for (const char c : text)
@@ -98,7 +98,7 @@ void StringRenderer::DrawText(float top, float left, uint32_t font_size, const V
 
 			if (objShader.matrixUniform != -1)
 			{
-				Matrix M = S * Matrix().SetTranslation(screenLeft, screenTop, 0);
+				Matrix M = S * Matrix().SetTranslation(left, top, 0);
 				glUniformMatrix4fv(objShader.matrixUniform, 1, GL_FALSE, reinterpret_cast<GLfloat*>(M.m));
 			}
 
@@ -118,6 +118,6 @@ void StringRenderer::DrawText(float top, float left, uint32_t font_size, const V
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
-		screenLeft += (m_block_h * font_size * 0.5);
+		left += (m_block_h * font_size * 0.5);
 	}
 }

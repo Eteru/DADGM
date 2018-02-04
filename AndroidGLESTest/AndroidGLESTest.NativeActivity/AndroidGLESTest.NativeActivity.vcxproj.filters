@@ -51,6 +51,8 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="ItemDescriptions.cpp" />
     <ClCompile Include="ObjectContactActions.cpp" />
+    <ClCompile Include="Tabs.cpp" />
+    <ClCompile Include="ButtonList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -107,5 +109,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="ItemDescriptions.h" />
     <ClInclude Include="ObjectContactActions.h" />
+    <ClInclude Include="Tabs.h" />
+    <ClInclude Include="ButtonList.h" />
   </ItemGroup>
 </Project>
