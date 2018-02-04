@@ -48,7 +48,7 @@ void GameManager::Init()
 	SceneManager::GetInstance()->LoadFromFile("XMLs/hartaDeTest.xml");
 
 
-	//LoadRandomLevel();
+	LoadRandomLevel();
 
 	AddComponent(SceneManager::GetInstance());
 
@@ -68,17 +68,25 @@ void GameManager::Init()
 
 
 	ButtonList *bl1 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl1->AddButton("btn11");
-	bl1->AddButton("btn12");
-	bl1->AddButton("btn13");
+	bl1->SetActive(true);
+
+	ButtonList *bl11 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+	bl11->AddButton("sbtn11", nullptr);
+	bl11->AddButton("sbtn12", nullptr);
+	bl11->AddButton("sbtn13", nullptr);
+
+	bl1->AddButton("btn11", bl11);
+	bl1->AddButton("btn12", nullptr);
+	bl1->AddButton("btn13", nullptr);
+
 	ButtonList *bl2 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl2->AddButton("btn21");
-	bl2->AddButton("btn22");
-	bl2->AddButton("btn23");
+	bl2->AddButton("btn21", nullptr);
+	bl2->AddButton("btn22", nullptr);
+	bl2->AddButton("btn23", nullptr);
 	ButtonList *bl3 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl3->AddButton("btn31");
-	bl3->AddButton("btn32");
-	bl3->AddButton("btn33");
+	bl3->AddButton("btn31", nullptr);
+	bl3->AddButton("btn32", nullptr);
+	bl3->AddButton("btn33", nullptr);
 
 	tabs->AddTab("Items", bl1);
 	tabs->AddTab("Movement", bl2);

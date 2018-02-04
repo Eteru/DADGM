@@ -25,10 +25,10 @@ public:
 	//virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 
 	void AddTab(const std::string & name, ButtonList *bl);
-	void SetActiveTab(size_t index);
+	void SetActiveTab(int index);
 
 private:
-	size_t m_active_tab;
+	int m_active_tab;
 	std::vector<Button *> m_tabs;
 	std::vector<ButtonList *> m_tabs_content;
 

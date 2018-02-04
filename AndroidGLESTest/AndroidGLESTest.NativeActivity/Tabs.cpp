@@ -98,7 +98,10 @@ void Tabs::AddTab(const std::string & name, ButtonList *bl)
 	m_tabs_content.push_back(bl);
 }
 
-void Tabs::SetActiveTab(size_t index)
+void Tabs::SetActiveTab(int index)
 {
+	m_tabs_content[m_active_tab]->SetActive(false);
+	m_tabs_content[index]->SetActive(true);
+
 	m_active_tab = index;
 }

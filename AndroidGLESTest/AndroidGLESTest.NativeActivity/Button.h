@@ -26,11 +26,11 @@ public:
 	virtual void OnTouchUp(const int x, const int y) override;
 	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 
-	inline void SetIndex(size_t idx) { m_index = idx; }
-	inline void SetCallbackFunction(std::function<void(size_t)> f) { m_callback_func = f; }
+	inline void SetIndex(int idx) { m_index = idx; }
+	inline void SetCallbackFunction(std::function<void(int)> f) { m_callback_func = f; }
 
 private:
-	size_t m_index; /* if needed by lists or tabs */
+	int m_index; /* if needed by lists or tabs */
 	std::string m_text;
 
 	std::function<void(size_t)> m_callback_func;

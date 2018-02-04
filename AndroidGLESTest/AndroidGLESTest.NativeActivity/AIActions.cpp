@@ -46,7 +46,7 @@ void AIMovementActions::KeepDistance(MovementController *movementController, Map
 	Vector2 robotMapPos = GameConstants::ToMapCoords(movementController->GetPhysicsBody()->m_transform.GetWorldPos());
 	Vector2 targetMapPos = GameConstants::ToMapCoords(target->m_transform.GetWorldPos());
 
-	Robot *robot = static_cast<Robot *>(movementController->GetParent());
+	Robot *robot = static_cast<Robot *>(movementController->GetParent()->GetParent());
 
 	int distance = robot->m_stats.at(StatType::VISION_RANGE).GetValue() / 2.f;
 

@@ -124,17 +124,12 @@ void Button::OnTouchDown(const int x, const int y)
 	if (screenX >= m_left_offset && screenX <= (m_left_offset + m_width) &&
 		screenY >= m_top_offset && screenY <= (m_top_offset + m_height))
 	{
-		m_text = "de ce dai click?";
 
 		if (m_callback_func)
 		{
 			m_callback_func(m_index);
 		}
 	}
-
-	// todo
-	// here it should do stuff
-	// register a lambda function?
 }
 
 void Button::OnTouchUp(const int x, const int y)
