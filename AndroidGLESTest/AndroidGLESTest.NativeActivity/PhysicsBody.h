@@ -13,6 +13,7 @@ public:
 	virtual std::string GetClassName() override;
 
 
+	void ApplyLinearImpulse(const Vector3 impulse);
 	void OnCollision(PhysicsBody *other);
 	void SetTarget(Vector3 worldPos);
 

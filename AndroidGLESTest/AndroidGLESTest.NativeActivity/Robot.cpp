@@ -15,11 +15,13 @@ Robot::Robot()
 
 void Robot::Init()
 {
-	
+	m_target = nullptr;
 }
 
 void Robot::FixedUpdate()
 {
+	AcquireTarget();
+
 	if (nullptr != m_physicsBody)
 	{
 		m_physicsBody->m_acceleration = m_armor->m_stats.at(StatType::LINEAR_ACCEL).GetValue();
@@ -69,11 +71,21 @@ std::string Robot::GetClassName()
 	return std::string("Robot");
 }
 
+void Robot::TakeDamage(const float value)
+{
+	m_stats.at(StatType::HEALTH).AddFlat(-value * (1.f - m_armor->m_stats.at(StatType::ARMOR).GetValue()));
+}
+
+bool Robot::IsDead()
+{
+	return m_stats.at(StatType::HEALTH).GetValue() <= 0.f;
+}
+
 int Robot::MapDistanceToTarget() const
 {
 	if (nullptr != m_target)
 	{
-		return static_cast<int>(round(Math::Distance(m_transform.GetWorldPos(), m_target->m_transform.GetWorldPos()) / GameConstants::CELL_SIZE));
+		return m_mapManager->Distance(GameConstants::ToMapCoords(m_transform.GetWorldPos()), GameConstants::ToMapCoords(m_target->m_transform.GetWorldPos()));
 	}
 
 	return 100000000;
@@ -81,7 +93,23 @@ int Robot::MapDistanceToTarget() const
 
 void Robot::AcquireTarget()
 {
+	auto allRobots = m_mapManager->GetRobotsInRange(GameConstants::ToMapCoords(m_transform.GetWorldPos()), m_stats.at(StatType::VISION_RANGE).GetValue());
 
+	m_target = nullptr;
+	int closestDistance = 1000000;
+
+	for (auto robot : allRobots)
+	{
+		if (robot->GetID() != this->GetID())
+		{
+			int dist = m_mapManager->Distance(GameConstants::ToMapCoords(m_transform.GetWorldPos()), GameConstants::ToMapCoords(robot->m_transform.GetWorldPos()));
+			if (dist < closestDistance)
+			{
+				m_target = robot;
+				closestDistance = dist;
+			}
+		}
+	}
 }
 
 Item * Robot::FindPassive(const std::string name) const

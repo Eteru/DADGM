@@ -22,6 +22,8 @@ public:
 	virtual std::string GetClassName() override;
 
 
+	void TakeDamage(const float value);
+	bool IsDead();
 	int MapDistanceToTarget() const;
 	void AcquireTarget();
 
@@ -47,6 +49,7 @@ public:
 	Armor *m_armor;
 	Weapon *m_weapon;
 	PhysicsBody *m_physicsBody;
+	MapManager *m_mapManager;
 
 private:
 

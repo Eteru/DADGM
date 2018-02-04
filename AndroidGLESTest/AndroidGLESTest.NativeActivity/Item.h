@@ -12,12 +12,15 @@ public:
 	TimePointNano m_expirationTime;
 };
 
+class Robot;
+
 class Item
 {
 public:
 	Item();
 	~Item();
 
+	Robot *m_robot;
 	std::string m_name;
 	std::string m_description;
 	std::vector<StatModifier> m_modifiers;
@@ -37,7 +40,10 @@ public:
 	float m_cooldown;
 
 	Buff m_buff;
-private:
+
+	virtual void Init() override;
+
+protected:
 	TimePointNano m_timeWhenReady;
 };
 
@@ -61,4 +67,12 @@ public:
 	virtual std::string GetClassName() override;
 	virtual void Activate() override;
 
+
+	virtual void Init() override;
+
+private:
+	void Fire();
+
+	Vector3 m_angular;
+	Vector3 m_localRotTarget;
 };

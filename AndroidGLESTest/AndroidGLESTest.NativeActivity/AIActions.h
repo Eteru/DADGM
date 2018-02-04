@@ -20,8 +20,9 @@ public:
 	static void SetDestination(MovementActionType type, MovementController *movementController, GameLoopObject *target, MapManager *mapManager);
 private:
 	static void Explore(MovementController *movementController, MapManager *mapManager);
-	static void KeepDistance(MovementController *movementController, MapManager *mapManager, GameLoopObject *target, int distance);
+	static void KeepDistance(MovementController *movementController, MapManager *mapManager, GameLoopObject *target);
 	static void RunAway(MovementController *movementController, MapManager *mapManager, GameLoopObject *target);
+	static void StandStill(MovementController *movementController);
 };
 
 // class AIAction : public GameLoopObject

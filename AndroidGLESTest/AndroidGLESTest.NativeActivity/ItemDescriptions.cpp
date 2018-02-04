@@ -41,7 +41,7 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 
 	PhysicsBody *pb = SpawnPhysicsBody(mapCoords);
 	Robot *robot = SpawnRobot(description);
-
+	robot->m_mapManager = mapManager;
 	robot->m_physicsBody = pb;
 	pb->m_linkedObject = robot;
 
@@ -54,6 +54,7 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 		armor->ApplyModifier(armorModifier);
 	}
 
+	armor->m_robot = robot;
 	robot->SetArmor(armor);
 	robot->AddComponent(armor);
 
@@ -66,6 +67,8 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 			weapon->ApplyModifier(weaponModifier);
 		}
 
+		weapon->m_robot = robot;
+
 		robot->SetWeapon(weapon);
 		robot->AddComponent(weapon);
 	}
@@ -75,9 +78,10 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 		std::pair<bool, Item *> item = SpawnItem(itemPair.first);
 		item.second->m_modifiers.insert(item.second->m_modifiers.end(), itemPair.second.begin(), itemPair.second.end());
 
+		item.second->m_robot = robot;
 		if (item.first)
 		{
-			robot->m_activeItems.push_back(static_cast<ActiveItem*>(item.second));
+			robot->m_activeItems.push_back(static_cast<ActiveItem *>(item.second));
 		}
 		else
 		{
@@ -169,6 +173,8 @@ std::pair<bool, Item *> ItemDescriptions::SpawnItem(const std::string name) cons
 
 	ActiveItem *result = new ActiveItem();
 	result->SetID(UniqueID::GetID(result->GetClassName()));
+	result->m_name = desc.m_name;
+	result->m_description = desc.m_description;
 	result->Init();
 
 	Buff buff;
@@ -177,7 +183,7 @@ std::pair<bool, Item *> ItemDescriptions::SpawnItem(const std::string name) cons
 	
 	result->m_buff = buff;
 
-	return std::make_pair(true, result);;
+	return std::make_pair(true, result);
 }
 
 AIController * ItemDescriptions::SpawnAI(const AIDescription &desc) const
@@ -229,7 +235,6 @@ Weapon * ItemDescriptions::SpawnWeapon(const std::string name) const
 
 	Weapon *result = new Weapon();
 	result->SetID(UniqueID::GetID(result->GetClassName()));
-	result->Init();
 
 	VisualBody *vb = new VisualBody(Vector3(0.f, 0.f, -1.f), Vector3(0.f), Vector3(0.25f), "WeaponVB", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
@@ -249,6 +254,8 @@ Weapon * ItemDescriptions::SpawnWeapon(const std::string name) const
 	{
 		result->m_stats[xmlTypeMap.at(kvPair.first)] = Stat(kvPair.second);
 	}
+
+	result->Init();
 
 	return result;
 }
@@ -349,7 +356,7 @@ void ItemDescriptions::LoadRobots(std::vector<rapidxml::xml_node<> *> allRobots)
 		robot.m_AI = ai;
 
 
-		for (auto itemNode : XMLParser::GetAllChildren(aiNode->first_node("items"), "item"))
+		for (auto itemNode : XMLParser::GetAllChildren(node->first_node("items"), "item"))
 		{
 			std::pair<std::string, std::vector<StatModifier>> item;
 			item.first = XMLUtils::GetStringValueSafe(itemNode, "name", "");
@@ -367,6 +374,14 @@ void ItemDescriptions::LoadRobots(std::vector<rapidxml::xml_node<> *> allRobots)
 
 			robot.m_items.push_back(item);
 
+		}
+
+		for (auto statNode : XMLParser::GetAllChildren(node->first_node("stats"), "stat"))
+		{
+			std::string statName = XMLUtils::GetStringValueSafe(statNode, "name", "");
+			float statBase = XMLUtils::GetFloatValueSafe(statNode, "base", 0);
+
+			robot.m_stats[statName] = statBase;
 		}
 
 		m_robots[robot.m_name] = robot;

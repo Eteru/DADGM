@@ -75,7 +75,7 @@ void AIController::FixedUpdate()
 	for (auto rule : m_itemRules)
 	{
 		/// TODO aside from evaluating, always check that the item is off-cooldown
-		if (Evaluate(rule)) 
+		if (Evaluate(rule) && rule.m_item->m_isAvailable) 
 		{
 			rule.m_item->Activate();
 		}

@@ -8,7 +8,7 @@ VisualBody::VisualBody(Vector3 pos, Vector3 rot, Vector3 scale, std::string name
 	: m_depth_test(depth_test), m_is_wired(false), m_name(name),
 	m_model(nullptr), m_shader(nullptr)
 {
-	m_transform = Transform(pos, rot, scale, &(m_parent->m_transform));
+	m_transform = Transform(pos, rot, scale, true);
 
 	/*if (true == depth_test)
 		glEnable(GL_DEPTH_TEST);*/

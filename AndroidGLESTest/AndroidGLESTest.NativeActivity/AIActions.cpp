@@ -4,18 +4,20 @@
 #include "MapManager.h"
 #include "PhysicsBody.h"
 #include "DebugDrawPrimitives.h"
+#include "Robot.h"
 
 void AIMovementActions::SetDestination(MovementActionType type, MovementController *movementController, GameLoopObject *target, MapManager *mapManager)
 {
 	switch (type)
 	{
-	case MovementActionType::STAND_STILL:		
+	case MovementActionType::STAND_STILL:
+		AIMovementActions::StandStill(movementController);
 		break;
 	case MovementActionType::EXPLORE:
 		AIMovementActions::Explore(movementController, mapManager);
 		break;
 	case MovementActionType::KEEP_DISTANCE:
-		AIMovementActions::KeepDistance(movementController, mapManager, target, 5.f);
+		AIMovementActions::KeepDistance(movementController, mapManager, target);
 		break;
 	case MovementActionType::RUN_AWAY:
 		AIMovementActions::RunAway(movementController, mapManager, target);
@@ -36,10 +38,17 @@ void AIMovementActions::Explore(MovementController *movementController, MapManag
 	}
 }
 
-void AIMovementActions::KeepDistance(MovementController *movementController, MapManager *mapManager, GameLoopObject *target, int distance)
+void AIMovementActions::KeepDistance(MovementController *movementController, MapManager *mapManager, GameLoopObject *target)
 {
+	if (nullptr == target)
+		return;
+
 	Vector2 robotMapPos = GameConstants::ToMapCoords(movementController->GetPhysicsBody()->m_transform.GetWorldPos());
 	Vector2 targetMapPos = GameConstants::ToMapCoords(target->m_transform.GetWorldPos());
+
+	Robot *robot = static_cast<Robot *>(movementController->GetParent());
+
+	int distance = robot->m_stats.at(StatType::VISION_RANGE).GetValue() / 2.f;
 
 	if (MapManager::Distance(robotMapPos, targetMapPos) == distance)
 	{
@@ -67,8 +76,11 @@ void AIMovementActions::KeepDistance(MovementController *movementController, Map
 
 void AIMovementActions::RunAway(MovementController *movementController, MapManager *mapManager, GameLoopObject *target)
 {
+	if (nullptr == target)
+		return;
+
 	Vector2 robotMapPos = GameConstants::ToMapCoords(movementController->GetPhysicsBody()->m_transform.GetWorldPos());
-	Vector2 targetMapPos = GameConstants::ToMapCoords(target->m_transform.GetWorldPos());	
+	Vector2 targetMapPos = GameConstants::ToMapCoords(target->m_transform.GetWorldPos());
 	
 
 	auto allPoints = mapManager->GetCellsOnCircle(targetMapPos, MapManager::Distance(robotMapPos, targetMapPos) + 1);
@@ -91,6 +103,12 @@ void AIMovementActions::RunAway(MovementController *movementController, MapManag
 }
 
 
+
+void AIMovementActions::StandStill(MovementController *movementController)
+{
+	movementController->SetTarget(GameConstants::ToMapCoords(movementController->m_transform.GetWorldPos()));
+	movementController->ClearPath();
+}
 
 // std::string AIAction::ToString()
 // {

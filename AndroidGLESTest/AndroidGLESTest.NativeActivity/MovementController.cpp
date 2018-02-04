@@ -68,6 +68,11 @@ std::string MovementController::GetClassName()
 	return std::string("MovementController");
 }
 
+void MovementController::ClearPath()
+{
+	m_path.clear();
+}
+
 void MovementController::SetTarget(Vector2 target)
 {
 	m_target = target;

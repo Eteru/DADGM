@@ -8,6 +8,8 @@
 #include "Robot.h"
 #include "XMLParser.h"
 
+class Projectile;
+
 namespace SceneObjectSpawner
 {
 
@@ -21,7 +23,7 @@ namespace SceneObjectSpawner
 	MapCell * SpawnMapCell(const Vector2 mapCoords, const MapObjectType cellType);
 
 	PhysicsBody *SpawnRobot(const Vector2 mapCoords, MapManager *mapManager);
-	PhysicsBody *SpawnProjectile(const Vector2 mapCoords, Robot *target, size_t team, float ttl, size_t bounces, bool isSeeker, float speed);
+	Projectile *SpawnProjectile(const Vector3 worldCoords, Robot *target, size_t team, float damage, float ttl, size_t bounces, bool isSeeker, float speed, float knockback);
 
 	static Texture *ChooseRandomTexture(const MapObjectType type);
 	static Model *GetMapCellModel();

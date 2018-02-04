@@ -19,6 +19,8 @@ public:
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 
+
+	void ClearPath();
 	void SetTarget(Vector2 target);
 	void SetRandomTarget();
 

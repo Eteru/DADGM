@@ -185,17 +185,17 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	return pb;
 }
 
-PhysicsBody * SceneObjectSpawner::SpawnProjectile(const Vector2 mapCoords, Robot *target, size_t team, float ttl, size_t bounces, bool isSeeker, float speed)
+Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, Robot *target, size_t team, float damage, float ttl, size_t bounces, bool isSeeker, float speed, float knockback)
 {
 	PhysicsBodyDumb *pb = new PhysicsBodyDumb();
 	pb->SetID(UniqueID::GetID(pb->GetClassName()));
-	pb->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, GameConstants::WALL_HEIGHT));
+	pb->m_transform.SetPos(worldCoords);
 	pb->m_transform.ComputeWorld();
 	pb->m_transform.m_relative = false;
 	pb->m_kinematic = false;
-	pb->m_mass = 0.01f;
+	pb->m_mass = 0.1f;
 	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 5.f);
-	pb->m_debugDraw = true;
+	//pb->m_debugDraw = true;
 	pb->m_initialTarget = target->m_transform.GetWorldPos();
 	pb->m_topSpeed = speed;
 	
@@ -220,12 +220,14 @@ PhysicsBody * SceneObjectSpawner::SpawnProjectile(const Vector2 mapCoords, Robot
 
 	Projectile *proj = new Projectile();
 	proj->SetID(UniqueID::GetID(proj->GetClassName()));
+	
 	proj->m_team = team;
 	proj->m_enemyTeam = target->m_team;
-	proj->m_stats[StatType::DAMAGE] = Stat(10.f);
+	proj->m_stats[StatType::DAMAGE] = Stat(damage);
 	proj->m_stats[StatType::LINEAR_TOP] = Stat(speed);
 	proj->m_stats[StatType::BOUNCES] = Stat(bounces);
 	proj->m_stats[StatType::LIFE_TIME] = Stat(ttl);
+	proj->m_stats[StatType::KNOCKBACK] = Stat(knockback);
 	proj->m_isSeeker = isSeeker;
 	proj->m_physicsBody = pb;
 
@@ -236,7 +238,7 @@ PhysicsBody * SceneObjectSpawner::SpawnProjectile(const Vector2 mapCoords, Robot
 
 
 	///TODO actual textures and model
-	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.2f), "MapCell", true);
+	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.2f), "Proj", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
 	vb->SetModel(GetRobotModel());
 	vb->SetShader(GetMapCellShader());
@@ -254,7 +256,7 @@ PhysicsBody * SceneObjectSpawner::SpawnProjectile(const Vector2 mapCoords, Robot
 
 	pb->SetTarget(target->m_transform.GetWorldPos());
 
-	return pb;
+	return proj;
 }
 
 Texture * SceneObjectSpawner::ChooseRandomTexture(const MapObjectType type)

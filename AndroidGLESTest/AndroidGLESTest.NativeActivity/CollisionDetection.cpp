@@ -8,11 +8,11 @@ std::vector<BVIntersections::ContactInfo> CollisionDetection::DetectCollisions(s
 	// Naive method works - we only have tens of objects
 	for (int i = 0; i < allBodies.size(); ++i)
 	{	
-		PhysicsBody *pb1 = dynamic_cast<PhysicsBody *>(allBodies[i]);
+		PhysicsBody *pb1 = static_cast<PhysicsBody *>(allBodies[i]);
 
 		for (int j = 0; j < i; ++j)
 		{
-			PhysicsBody *pb2 = dynamic_cast<PhysicsBody *>(allBodies[j]);
+			PhysicsBody *pb2 = static_cast<PhysicsBody *>(allBodies[j]);
 
 			BVIntersections::ContactInfo contact;
 

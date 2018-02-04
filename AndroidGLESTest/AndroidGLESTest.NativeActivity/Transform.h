@@ -33,6 +33,9 @@ public:
 	Vector3 GetRight() const;
 	Vector3 GetForward() const;
 
+	/* Nu folosi asta */
+	Vector3 _GetLastWorldPos() const;
+
 	/* Parent values are always WORLD */
 	void SetParentPos(const Vector3 val);
 	/* Parent values are always WORLD */
@@ -76,6 +79,10 @@ private:
 		void Init(Vector3 local, Vector3 world, Vector3 parent, bool op);
 		Vector3 GetLocalLerp() const;
 		Vector3 GetWorldLerp() const;
+
+
+		/* Nu folosi asta */
+		Vector3 GetLastWorld() const;
 
 		void SaveParam();
 		void ResetLerps();

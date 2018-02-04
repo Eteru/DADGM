@@ -4,5 +4,5 @@
 
 namespace RigidCollisionResponse
 {
-	void ApplyImpulses(const BVIntersections::ContactInfo &contact);
+	void ApplyImpulses(const BVIntersections::ContactInfo &contact, const float restitution);
 }

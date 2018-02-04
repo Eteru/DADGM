@@ -120,7 +120,7 @@
 							<term>
 								<lhsType>DistanceFromTarget</lhsType>								
 								<op>LessThan</op>
-								<rhs>5</rhs>
+								<rhs>8</rhs>
 							</term>
 						</condition>
 						<action>RunAway</action>
@@ -150,8 +150,9 @@
 				<modifiers>
 				</modifiers>
 			</armor>
+			
 			<weapon>
-				<name>smg</name>
+				<name>sniper</name>
 				<modifiers>
 				</modifiers>
 			</weapon>
@@ -161,10 +162,11 @@
 					<name>sprint</name>					
 				</item>
 			</items>
+			
 			<stats>
 				<stat>
 					<name>VisionRange</name>
-					<base>7</base>					
+					<base>20</base>					
 				</stat>
 			</stats>
 		</robot>
@@ -174,7 +176,18 @@
 			<description>descrobot2</description>
 			<AI>
 				<movementRules>
-					
+					<rule>
+						<condition>
+							<term>
+								<lhsType>StatValue</lhsType>								
+								<lhs>Health</lhs>
+								<op>GreaterThan</op>
+								<rhs>80</rhs>
+							</term>
+						</condition>
+						<action>KeepDistance</action>
+						<priority>2</priority>						
+					</rule>
 				</movementRules>
 				<itemRules>
 				</itemRules>
@@ -183,12 +196,12 @@
 			</AI>
 			
 			<armor>
-				<name>heavy</name>
+				<name>balanced</name>
 				<modifiers>
 				</modifiers>
 			</armor>
 			<weapon>
-				<name>sniper</name>
+				<name>smg</name>
 				<modifiers>
 				</modifiers>
 			</weapon>
@@ -206,7 +219,7 @@
 			<stats>
 				<stat>
 					<name>VisionRange</name>
-					<base>15</base>					
+					<base>10</base>					
 				</stat>
 			</stats>
 		</robot>
@@ -240,11 +253,11 @@
 					</stat>
 					<stat>
 						<name>AngularAccel</name>
-						<base>0.5</base>
+						<base>0.2</base>
 					</stat>
 					<stat>
 						<name>AngularTop</name>
-						<base>1</base>
+						<base>0.7</base>
 					</stat>
 					<stat>
 						<name>Damage</name>
@@ -279,11 +292,11 @@
 					</stat>
 					<stat>
 						<name>AngularAccel</name>
-						<base>0.3</base>
+						<base>0.1</base>
 					</stat>
 					<stat>
 						<name>AngularTop</name>
-						<base>0.9</base>
+						<base>0.6</base>
 					</stat>
 					<stat>
 						<name>Damage</name>
@@ -320,15 +333,19 @@
 					</stat>
 					<stat>
 						<name>LifeTime</name>
-						<base>1</base>
+						<base>0.7</base>
 					</stat>					
 					<stat>
 						<name>LinearTop</name>
-						<base>5</base>
+						<base>15</base>
+					</stat>
+					<stat>
+						<name>Bounces</name>
+						<base>0</base>
 					</stat>
 					<stat>
 						<name>Knockback</name>
-						<base>1</base>
+						<base>0.1</base>
 					</stat>
 					
 				</stats>
@@ -364,11 +381,15 @@
 					</stat>					
 					<stat>
 						<name>LinearTop</name>
-						<base>10</base>
+						<base>25</base>
+					</stat>
+					<stat>
+						<name>Bounces</name>
+						<base>0</base>
 					</stat>
 					<stat>
 						<name>Knockback</name>
-						<base>3</base>
+						<base>0.3</base>
 					</stat>
 				</stats>
 			</weapon>

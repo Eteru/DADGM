@@ -13,9 +13,9 @@ Transform::Transform(const Vector3 &pos /*= Vector3(0.f)*/, const Vector3 &rot /
 
 	m_params.resize(ParamIDS::NUM);
 
-	m_params[POSITION].Init(Vector3(0.f), pos, Vector3(0.f), false);
-	m_params[ROTATION].Init(Vector3(0.f), rot, Vector3(0.f), false);
-	m_params[SCALE].Init(Vector3(1.f), scale, Vector3(1.f), true);
+	m_params[POSITION].Init(pos, pos, pos, false);
+	m_params[ROTATION].Init(rot, rot, rot, false);
+	m_params[SCALE].Init(scale, scale, scale, true);
 
 	m_relative = relative;
 
@@ -31,6 +31,12 @@ void Transform::SetParent(const Transform &parent)
 		m_params[POSITION].m_currentParentWorld = parent.GetWorldPos();
 		m_params[ROTATION].m_currentParentWorld = parent.GetWorldRot();
 		m_params[SCALE].m_currentParentWorld = parent.GetWorldScale();
+
+		ComputeWorld();
+
+		m_params[POSITION].Init(m_params[POSITION].m_currentLocal, m_params[POSITION].m_currentWorld, m_params[POSITION].m_currentParentWorld, false);
+		m_params[ROTATION].Init(m_params[ROTATION].m_currentLocal, m_params[ROTATION].m_currentWorld, m_params[ROTATION].m_currentParentWorld, false);
+		m_params[SCALE].Init(m_params[SCALE].m_currentLocal, m_params[SCALE].m_currentWorld, m_params[SCALE].m_currentParentWorld, true);
 	}
 }
 
@@ -107,6 +113,11 @@ Vector3 Transform::GetRight() const
 Vector3 Transform::GetForward() const
 {
 	return m_forward;
+}
+
+Vector3 Transform::_GetLastWorldPos() const
+{
+	return m_params[POSITION].GetLastWorld();
 }
 
 void Transform::SetParentPos(const Vector3 val)
@@ -329,6 +340,11 @@ Vector3 Transform::TransformParam::GetLocalLerp() const
 Vector3 Transform::TransformParam::GetWorldLerp() const
 {
 	return m_worldLerp.GetValue();
+}
+
+Vector3 Transform::TransformParam::GetLastWorld() const
+{
+	return m_lastWorld;
 }
 
 void Transform::TransformParam::SaveParam()

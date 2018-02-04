@@ -20,6 +20,7 @@
 
 #include "Button.h"
 #include "StringRenderer.h"
+#include "ObjectContactActions.h"
 
 
 
@@ -55,13 +56,13 @@ void GameManager::Init()
 
 	m_debugDraw = true;
 
-	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
-	btn->Init();
-	AddComponent(btn);
-
-	
-	const engine *eng = SceneManager::GetInstance()->GetEngine();
-	StringRenderer::Init("7", eng->width, eng->height);
+// 	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
+// 	btn->Init();
+// 	AddComponent(btn);
+// 
+// 	
+// 	const engine *eng = SceneManager::GetInstance()->GetEngine();
+// 	StringRenderer::Init("7", eng->width, eng->height);
 }
 
 void GameManager::FixedUpdate()
@@ -75,8 +76,9 @@ void GameManager::FixedUpdate()
 
 	for (BVIntersections::ContactInfo contact : allCollisions)
 	{
-		RigidCollisionResponse::ApplyImpulses(contact);
-		contact.m_o1->OnCollision(contact.m_o2);
+		ObjectContactActions::OnContact(contact);
+		//RigidCollisionResponse::ApplyImpulses(contact, 0.5f);
+		//contact.m_o1->OnCollision(contact.m_o2);
 	}
 
 	static TimePointNano last = Now();
@@ -87,7 +89,7 @@ void GameManager::FixedUpdate()
 // 		PhysicsBody *projpb = SceneObjectSpawner::SpawnProjectile(Vector2(10, 10), static_cast<Robot*>(FindComponentTree("Robot")), 1, 5, 0, false, 5); 
 // 		AddComponent(projpb);
 
-		LoadRandomLevel();
+		//LoadRandomLevel();
 
 		last = crt;
 	}
@@ -113,6 +115,7 @@ void GameManager::LoadRandomLevel()
 	std::pair<Vector2, Vector2> spawnPoints = m_mapManager->GetRandomOptimalSpawns();
 
 	Robot *playerRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.first, m_mapManager);
+	playerRobot->m_team = 0;
 
 	level->AddComponent(playerRobot->m_physicsBody);
 
@@ -120,12 +123,17 @@ void GameManager::LoadRandomLevel()
 
 
 	Robot *enemyRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.second, m_mapManager);
+	enemyRobot->m_team = 1;
 	
 	PhysicsBody *enemyPB = enemyRobot->m_physicsBody;	
 
 	level->AddComponent(enemyPB);
 
 	AddComponent(level);
+
+
+	m_mapManager->m_robots.push_back(playerRobot);
+	m_mapManager->m_robots.push_back(enemyRobot);
 }
 
 void GameManager::Update()

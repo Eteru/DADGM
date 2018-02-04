@@ -1,12 +1,7 @@
 #include "RigidCollisionResponse.h"
 
-void RigidCollisionResponse::ApplyImpulses(const BVIntersections::ContactInfo &contact)
+void RigidCollisionResponse::ApplyImpulses(const BVIntersections::ContactInfo &contact, const float restitution)
 {
-
-	static const float restitution = 0.5f;
-
-
-
 	Vector3 p1 = contact.m_o1->m_transform.GetWorldPos();
 	Vector3 p2 = contact.m_o2->m_transform.GetWorldPos();
 

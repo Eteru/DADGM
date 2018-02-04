@@ -50,6 +50,7 @@
     <ClCompile Include="BresenhamLine.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="ItemDescriptions.cpp" />
+    <ClCompile Include="ObjectContactActions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -105,5 +106,6 @@
     <ClInclude Include="BresenhamLine.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="ItemDescriptions.h" />
+    <ClInclude Include="ObjectContactActions.h" />
   </ItemGroup>
 </Project>

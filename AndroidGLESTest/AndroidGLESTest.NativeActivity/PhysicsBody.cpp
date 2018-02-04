@@ -43,7 +43,7 @@ void PhysicsBody::FixedUpdate()
 		Vector3 rotationStep = Math::GetAlignmentRotation(m_transform.GetForward(), dir);
 		
 
-		if (rotationStep.Length() <= Math::PI / 10)
+		if (rotationStep.Length() <= Math::Length(m_angularVelEngine))
 		{
 			m_angularVelEngine = -m_transform.GetWorldRot() + Math::GetAlignmentRotation(GameConstants::DEFAULT_FORWARD, dir);
 		}
@@ -101,6 +101,11 @@ std::string PhysicsBody::ToString()
 std::string PhysicsBody::GetClassName()
 {
 	return std::string("PhysicsBody");
+}
+
+void PhysicsBody::ApplyLinearImpulse(const Vector3 impulse)
+{
+	m_linearVelImpact += impulse / m_mass;
 }
 
 void PhysicsBody::OnCollision(PhysicsBody *other)

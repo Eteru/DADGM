@@ -21,6 +21,7 @@ public:
 	virtual void Draw();
 	virtual void DebugDraw();
 	virtual void Destroy();
+	
 
 	virtual std::string ToString() = 0;
 	virtual std::string GetClassName() = 0;
@@ -49,7 +50,7 @@ public:
 
 	virtual std::string ToStringTree(int indent = 0) final;
 
-
+	void DestroyRec();
 
 	size_t GetID() const { return m_ID; }
 	void SetID(size_t val) { m_ID = val; }
@@ -75,6 +76,8 @@ private:
 	void _FindComponentsTree(const std::string className, std::vector<GameLoopObject *> &result);
 	void _FindComponentsTreePrefix(const std::string classPrefix, std::vector<GameLoopObject *> &result);
 
+	void _UpdateTransforms(const Transform &parent);
+
 };
 
 
@@ -92,7 +95,7 @@ inline void GameLoopObject::OnTouchDrag(const int xPrev, const int yPrev, const 
 inline void GameLoopObject::AddComponent(GameLoopObject *component)
 {
 	component->SetParent(this);
-	m_transform.SetParent(m_transform);
+	component->_UpdateTransforms(m_transform);
 
 	
 	m_children[component->GetClassName()].push_back(component);
@@ -268,6 +271,19 @@ inline void GameLoopObject::_FindComponentsTreePrefix(const std::string classPre
 	}
 }
 
+inline void GameLoopObject::_UpdateTransforms(const Transform &parent)
+{
+	m_transform.SetParent(parent);
+
+	for (auto kvPair : m_children)
+	{
+		for (auto child : kvPair.second)
+		{
+			child->_UpdateTransforms(m_transform);
+		}
+	}
+}
+
 inline std::string GameLoopObject::ToStringTree(int indent /*= 0*/)
 {
 	std::string result = "";
@@ -289,6 +305,14 @@ inline std::string GameLoopObject::ToStringTree(int indent /*= 0*/)
 	}
 
 	return result;
+}
+
+inline void GameLoopObject::DestroyRec()
+{
+	if (m_parent)
+		m_parent->RemoveComponent(this);
+
+	_Destroy();
 }
 
 inline void GameLoopObject::_FixedUpdate()

@@ -3,6 +3,9 @@
 
 #include "SceneManager.h"
 #include "DebugDrawPrimitives.h"
+#include "ItemDescriptions.h"
+#include "Projectile.h"
+#include "BresenhamLine.h"
 
 
 
@@ -134,6 +137,46 @@ std::vector<Vector2> MapManager::GetCellsOnCircle(const Vector2 center, const in
 			{
 				result.push_back(Vector2(i, j));
 			}
+		}
+	}
+
+	return result;
+}
+
+std::vector<Robot *> MapManager::GetRobotsInRange(const Vector2 center, const int radius) const
+{
+	std::vector<Robot *> result;
+	for (auto robot : m_robots)
+	{
+		std::vector<Vector2> line = BresenhamLine::Line(center, GameConstants::ToMapCoords(robot->m_transform.GetWorldPos()));
+		bool lineOfSight = true;
+
+		for (auto cell : line)
+		{
+			if (m_mapString[cell.x][cell.y] != '0')
+			{
+				lineOfSight = false;
+				break;
+			}
+		}
+
+		if (true == lineOfSight && Distance(center, GameConstants::ToMapCoords(robot->m_transform.GetWorldPos())) <= radius)
+		{
+			result.push_back(robot);
+		}
+	}
+
+	return result;
+}
+
+std::vector<Projectile *> MapManager::GetProjectilesInRange(const Vector2 center, const int radius) const
+{
+	std::vector<Projectile *> result;
+	for (auto proj : m_projectiles)
+	{
+		if (Distance(center, GameConstants::ToMapCoords(proj->m_transform.GetWorldPos())) <= radius)
+		{
+			result.push_back(proj);
 		}
 	}
 

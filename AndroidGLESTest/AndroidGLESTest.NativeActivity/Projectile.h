@@ -17,4 +17,12 @@ public:
 	GameLoopObject *m_target;
 	
 	PhysicsBody *m_physicsBody;
+
+	TimePointNano m_timeOfDeath;
+
+	virtual void Init() override;
+
+
+	virtual void FixedUpdate() override;
+
 };
