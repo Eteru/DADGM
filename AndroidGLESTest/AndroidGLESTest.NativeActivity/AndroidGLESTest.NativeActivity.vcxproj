@@ -220,6 +220,7 @@
     <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="BresenhamLine.h" />
+    <ClInclude Include="ButtonList.h" />
     <ClInclude Include="BVIntersections.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionDetection.h" />
@@ -253,6 +254,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stats.h" />
     <ClInclude Include="StringRenderer.h" />
+    <ClInclude Include="Tabs.h" />
     <ClInclude Include="UiElement.h" />
     <ClInclude Include="VisualBody.h" />
     <ClInclude Include="SceneObjectSpawner.h" />
@@ -277,6 +279,7 @@
     <ClCompile Include="BoundingSphere.cpp" />
     <ClCompile Include="BresenhamLine.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonList.cpp" />
     <ClCompile Include="BVIntersections.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
@@ -307,6 +310,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="StringRenderer.cpp" />
+    <ClCompile Include="Tabs.cpp" />
     <ClCompile Include="UiElement.cpp" />
     <ClCompile Include="VisualBody.cpp" />
     <ClCompile Include="SceneObjectSpawner.cpp" />

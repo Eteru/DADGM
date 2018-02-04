@@ -19,6 +19,7 @@
 #include "ItemDescriptions.h"
 
 #include "Button.h"
+#include "Tabs.h"
 #include "StringRenderer.h"
 #include "ObjectContactActions.h"
 
@@ -47,7 +48,7 @@ void GameManager::Init()
 	SceneManager::GetInstance()->LoadFromFile("XMLs/hartaDeTest.xml");
 
 
-	LoadRandomLevel();
+	//LoadRandomLevel();
 
 	AddComponent(SceneManager::GetInstance());
 
@@ -56,13 +57,37 @@ void GameManager::Init()
 
 	m_debugDraw = true;
 
-// 	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
-// 	btn->Init();
-// 	AddComponent(btn);
-// 
-// 	
-// 	const engine *eng = SceneManager::GetInstance()->GetEngine();
-// 	StringRenderer::Init("7", eng->width, eng->height);
+ 	const engine *eng = SceneManager::GetInstance()->GetEngine();
+
+ 	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
+ 	btn->Init();
+ 	AddComponent(btn);
+ 
+	Tabs *tabs = new Tabs(eng->height - 100.f, 0.f, eng->width, eng->height, {});
+	tabs->Init();
+
+
+	ButtonList *bl1 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+	bl1->AddButton("btn11");
+	bl1->AddButton("btn12");
+	bl1->AddButton("btn13");
+	ButtonList *bl2 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+	bl2->AddButton("btn21");
+	bl2->AddButton("btn22");
+	bl2->AddButton("btn23");
+	ButtonList *bl3 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+	bl3->AddButton("btn31");
+	bl3->AddButton("btn32");
+	bl3->AddButton("btn33");
+
+	tabs->AddTab("Items", bl1);
+	tabs->AddTab("Movement", bl2);
+	tabs->AddTab("Item Rules", bl3);
+
+	AddComponent(tabs);
+
+ 	
+ 	StringRenderer::Init("7", eng->width, eng->height);
 }
 
 void GameManager::FixedUpdate()

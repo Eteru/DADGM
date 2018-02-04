@@ -93,7 +93,7 @@ void Button::Draw()
 
 	if ("" != m_text)
 	{
-		StringRenderer::DrawText(m_top_offset + 80.f, m_left_offset + 50.f, 10, m_design.text_color, m_text);
+		StringRenderer::DrawText(m_top_offset + m_height * 0.35f, m_left_offset + 0.02f, 8, m_design.text_color, m_text);
 	}
 }
 
@@ -119,12 +119,17 @@ void Button::OnTouchDown(const int x, const int y)
 {
 	const engine *eng = SceneManager::GetInstance()->GetEngine();
 	float screenX = Math::ChangeInterval(0, eng->width, -1.f, 1.f, x);
-	float screenY = Math::ChangeInterval(0, eng->height, -1.f, 1.f, y);
+	float screenY = -Math::ChangeInterval(0, eng->height, -1.f, 1.f, y);
 
 	if (screenX >= m_left_offset && screenX <= (m_left_offset + m_width) &&
 		screenY >= m_top_offset && screenY <= (m_top_offset + m_height))
 	{
 		m_text = "de ce dai click?";
+
+		if (m_callback_func)
+		{
+			m_callback_func(m_index);
+		}
 	}
 
 	// todo
