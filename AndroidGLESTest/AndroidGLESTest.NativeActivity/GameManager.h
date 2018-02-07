@@ -6,6 +6,7 @@
 #include "MapManager.h"
 #include "XMLParser.h"
 #include "ButtonList.h"
+#include "HealthBar.h"
 
 class Robot;
 
@@ -46,6 +47,8 @@ private:
 	void LoadRandomLevel();
 
 	ButtonList *m_menu;
+	HealthBar *m_player_hb;
+	HealthBar *m_enemy_hb;
 	size_t m_crtPlayerPreset;
 	Robot *m_playerRobot;
 	std::vector<Robot *> m_enemyRobots;

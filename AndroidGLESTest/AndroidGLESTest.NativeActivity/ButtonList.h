@@ -30,6 +30,8 @@ public:
 	void SetCustomFunction(size_t index, std::function<void(int)> f);
 	bool IsActive() { return m_active; }
 
+	void SetButtonActive(int idx);
+
 private:
 	bool m_active;
 	int m_current_page;

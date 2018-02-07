@@ -148,3 +148,13 @@ void ButtonList::SetCustomFunction(size_t index, std::function<void(int)> f)
 
 	m_buttons[index]->SetCallbackFunction(f);
 }
+
+void ButtonList::SetButtonActive(int idx)
+{
+	for (int i = 0; i < m_buttons.size(); ++i)
+	{
+		m_buttons[i]->SetActive(false);
+	}
+
+	m_buttons[idx]->SetActive(true);
+}

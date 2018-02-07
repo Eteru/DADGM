@@ -29,6 +29,7 @@ GameManager::GameManager()
 {
 	m_menu = nullptr;
 	m_parent = nullptr;
+	m_playerRobot = nullptr;
 	m_transform.m_relative = false;
 }
 
@@ -77,9 +78,14 @@ void GameManager::Init()
 
 	AddComponent(m_menu);
 
-	HealthBar *playerhb = new HealthBar(eng->height - 300.f, 50.f, 800.f, 100.f, "Player", { "", DebugDrawPrimitives::COLOR_GREEN });
-	playerhb->Init();
-	AddComponent(playerhb);
+	m_player_hb = new HealthBar(eng->height - 300.f, 50.f, 800.f, 100.f, "Player", { "", DebugDrawPrimitives::COLOR_BLUE });
+	m_player_hb->Init();
+	AddComponent(m_player_hb);
+
+	m_enemy_hb = new HealthBar(eng->height - 300.f, eng->width - 850.f, 800.f, 100.f, "Enemy", { "", DebugDrawPrimitives::COLOR_RED });
+	m_enemy_hb->Init();
+	AddComponent(m_enemy_hb);
+
 	StringRenderer::Init("7", eng->width, eng->height);
 }
 
@@ -112,6 +118,12 @@ void GameManager::FixedUpdate()
 		last = crt;
 	}
 
+	if (IsGameWon() || IsGameLost())
+	{
+		m_player_hb->InitRobot(nullptr);
+		m_enemy_hb->InitRobot(nullptr);
+		m_menu->SetActive(true);
+	}
 }
 
 void GameManager::SetPlayerPreset(size_t id)
@@ -151,6 +163,7 @@ void GameManager::LoadRandomLevel()
 	std::pair<Vector2, Vector2> spawnPoints = m_mapManager->GetRandomOptimalSpawns();	
 
 	LoadPlayer(spawnPoints.first);
+	m_player_hb->InitRobot(m_playerRobot);
 
 	level->AddComponent(m_playerRobot->m_physicsBody);
 
@@ -161,6 +174,7 @@ void GameManager::LoadRandomLevel()
 	enemyRobot->m_team = 1;
 
 	m_enemyRobots.push_back(enemyRobot);
+	m_enemy_hb->InitRobot(m_enemyRobots[0]);
 	
 	PhysicsBody *enemyPB = enemyRobot->m_physicsBody;	
 
@@ -206,6 +220,11 @@ std::string GameManager::GetClassName()
 
 bool GameManager::IsGameWon()
 {
+	if (m_enemyRobots.size() == 0)
+	{
+		return false;
+	}
+
 	for (auto enemy : m_enemyRobots)
 	{
 		if (!enemy->IsDead())
@@ -217,7 +236,10 @@ bool GameManager::IsGameWon()
 
 bool GameManager::IsGameLost()
 {
-	return m_playerRobot->IsDead();
+	if (nullptr != m_playerRobot)
+		return m_playerRobot->IsDead();
+
+	return false;
 }
 
 std::string GameManager::ToString()

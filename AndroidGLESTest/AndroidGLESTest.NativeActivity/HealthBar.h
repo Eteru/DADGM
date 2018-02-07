@@ -13,6 +13,8 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
+	void InitRobot(Robot *r);
+
 private:
 	float m_init_health;
 	std::string m_text;

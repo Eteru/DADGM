@@ -14,8 +14,13 @@ HealthBar::~HealthBar()
 
 void HealthBar::Update()
 {
-// 	float perc = m_robot->m_stats.at(StatType::HEALTH).GetValue() / m_init_health;
-// 	m_M = Matrix().SetScale(perc, 1.f, 1.f);
+	if (nullptr == m_robot)
+	{
+		return;
+	}
+
+ 	float perc = m_robot->m_stats.at(StatType::HEALTH).GetValue() / m_init_health;
+	m_M = Matrix().SetScale(perc, 1.f, 1.f) /* Matrix().SetTranslation(m_left_offset, m_top_offset, 0.f)*/;
 }
 
 void HealthBar::Init()
@@ -39,6 +44,11 @@ void HealthBar::Init()
 
 void HealthBar::Draw()
 {
+	if (nullptr == m_robot)
+	{
+		return;
+	}
+
 	glDisable(GL_TEXTURE_2D);
 	glUseProgram(m_shader->GetProgramID());
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -74,6 +84,15 @@ void HealthBar::Draw()
 	if ("" != m_text)
 	{
 		StringRenderer::DrawText(m_top_offset + 0.1f, m_left_offset, 8, m_design.text_color, m_text);
+	}
+}
+
+void HealthBar::InitRobot(Robot * r)
+{
+	m_robot = r;
+	if (nullptr != r)
+	{
+		m_init_health = m_robot->m_stats.at(StatType::HEALTH).GetValue();
 	}
 }
 

@@ -35,6 +35,7 @@ private:
 	int m_index; /* if needed by lists or tabs */
 	Matrix m_M;
 	std::string m_text;
+	std::string m_info_tex;
 
 	std::function<void(size_t)> m_callback_func;
 };

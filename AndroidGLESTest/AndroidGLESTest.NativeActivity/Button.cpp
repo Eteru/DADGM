@@ -146,8 +146,11 @@ bool Button::OnTouchDown(const int x, const int y)
 	if (screenX >= m_left_offset && screenX <= (m_left_offset + m_width) &&
 		screenY >= m_top_offset && screenY <= (m_top_offset + m_height))
 	{
-		if (m_callback_func && dynamic_cast<ButtonList *>(m_parent)->IsActive())
+		ButtonList *bl = dynamic_cast<ButtonList *>(m_parent);
+		if (m_callback_func && bl->IsActive())
 		{
+			
+			bl->SetButtonActive(m_index);
 			m_callback_func(m_index);
 
 			return true;
