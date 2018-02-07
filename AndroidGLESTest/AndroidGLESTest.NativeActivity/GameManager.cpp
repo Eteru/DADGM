@@ -47,6 +47,7 @@ void GameManager::Init()
 	//SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 	SceneManager::GetInstance()->LoadFromFile("XMLs/hartaDeTest.xml");
 
+	m_crtPlayerPreset = 0;
 
 	LoadRandomLevel();
 
@@ -129,6 +130,17 @@ void GameManager::FixedUpdate()
 
 }
 
+void GameManager::SetPlayerPreset(size_t id)
+{
+	m_crtPlayerPreset = id;
+}
+
+void GameManager::LoadPlayer(const Vector2 spawnPoint)
+{
+	m_playerRobot = ItemDescriptions::GetInstance().GetRobot(m_crtPlayerPreset, spawnPoint, m_mapManager);
+	m_playerRobot->m_team = 0;
+}
+
 void GameManager::LoadRandomLevel()
 {
 	DestroyComponents("Level");
@@ -147,16 +159,13 @@ void GameManager::LoadRandomLevel()
 
 	level->AddComponent(m_mapManager);
 
-	std::pair<Vector2, Vector2> spawnPoints = m_mapManager->GetRandomOptimalSpawns();
+	std::pair<Vector2, Vector2> spawnPoints = m_mapManager->GetRandomOptimalSpawns();	
 
-	Robot *playerRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.first, m_mapManager);
-	playerRobot->m_team = 0;
+	LoadPlayer(spawnPoints.first);
 
-	m_playerRobot = playerRobot;
+	level->AddComponent(m_playerRobot->m_physicsBody);
 
-	level->AddComponent(playerRobot->m_physicsBody);
-
-	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(playerRobot->m_physicsBody, 15);
+	SceneManager::GetInstance()->GetActiveCamera()->SetFollowingObject(m_playerRobot->m_physicsBody, 15);
 
 
 	Robot *enemyRobot = ItemDescriptions::GetInstance().GetRandomRobot(spawnPoints.second, m_mapManager);
@@ -171,7 +180,7 @@ void GameManager::LoadRandomLevel()
 	AddComponent(level);
 
 
-	m_mapManager->m_robots.push_back(playerRobot);
+	m_mapManager->m_robots.push_back(m_playerRobot);
 	m_mapManager->m_robots.push_back(enemyRobot);
 }
 

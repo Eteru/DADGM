@@ -26,6 +26,70 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 {
 	size_t id = std::rand() % m_robots.size();
 
+	return GetRobot(id, mapCoords, mapManager);	
+}
+
+Robot * ItemDescriptions::SpawnRobot(const RobotDescription &desc) const
+{	
+	Robot *robot = new Robot();
+	robot->SetID(UniqueID::GetID(robot->GetClassName()));
+
+	for (std::pair<std::string, float> kvPair : desc.m_stats)
+	{
+		robot->m_stats[xmlTypeMap.at(kvPair.first)] = Stat(kvPair.second);
+	}
+
+	robot->m_name = desc.m_name;
+	robot->m_description = desc.m_description;
+
+	robot->Init();
+
+	return robot;
+}
+
+std::pair<bool, Item *> ItemDescriptions::SpawnItem(const std::string name) const
+{
+	if (0 == m_basicItems.count(name))
+		return std::make_pair(false, nullptr);
+
+	ItemDescription desc = m_basicItems.at(name);
+
+	if (desc.m_type == ItemType::PASSIVE)
+	{
+		Item *result = new Item();
+		result->m_name = desc.m_name;
+		result->m_description = desc.m_description;
+		
+		///TODO Icon
+
+		result->m_modifiers = desc.m_modifiers;
+		return std::make_pair(false, result);
+	}
+
+	ActiveItem *result = new ActiveItem();
+	result->SetID(UniqueID::GetID(result->GetClassName()));
+	result->m_name = desc.m_name;
+	result->m_description = desc.m_description;
+	result->m_cooldown = desc.m_cooldown;
+	result->Init();
+
+	Buff buff;
+	buff.m_duration = desc.m_buff.m_duration;
+	buff.m_modifiers = desc.m_buff.m_modifiers;
+	buff.m_name = desc.m_buff.m_name;
+	
+	result->m_buff = buff;
+
+	return std::make_pair(true, result);
+}
+
+size_t ItemDescriptions::GetNumberOfRobots()
+{
+	return m_robots.size();
+}
+
+Robot * ItemDescriptions::GetRobot(const size_t id, const Vector2 mapCoords, MapManager *mapManager)
+{
 	RobotDescription description;
 
 	int cnt = 0;
@@ -97,7 +161,7 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 	defaultItem.m_itemName = description.m_AI.m_defaultItemAction;
 
 	ai->m_itemRules.push_back(defaultItem);
-	
+
 
 	for (auto movementRule : description.m_AI.m_movementRules)
 	{
@@ -121,69 +185,39 @@ Robot * ItemDescriptions::GetRandomRobot(const Vector2 mapCoords, MapManager *ma
 
 	robot->AddComponent(ai);
 	robot->m_stats[StatType::HEALTH] = robot->m_armor->m_stats.at(StatType::MAXIMUM_HEALTH);
-	
 
 
-	return robot;
-}
-
-Robot * ItemDescriptions::SpawnRobot(const RobotDescription &desc) const
-{	
-	Robot *robot = new Robot();
-	robot->SetID(UniqueID::GetID(robot->GetClassName()));
-
-	for (std::pair<std::string, float> kvPair : desc.m_stats)
-	{
-		robot->m_stats[xmlTypeMap.at(kvPair.first)] = Stat(kvPair.second);
-	}
-
-	robot->m_name = desc.m_name;
-	robot->m_description = desc.m_description;
-
-	robot->Init();
 
 	return robot;
 }
 
-std::pair<bool, Item *> ItemDescriptions::SpawnItem(const std::string name) const
+RobotStrings ItemDescriptions::GetRobotStrings(const size_t id)
 {
-	if (0 == m_basicItems.count(name))
-		return std::make_pair(false, nullptr);
+	RobotDescription description;
 
-	ItemDescription desc = m_basicItems.at(name);
-
-	if (desc.m_type == ItemType::PASSIVE)
+	int cnt = 0;
+	for (auto kvPair : m_robots)
 	{
-		Item *result = new Item();
-		result->m_name = desc.m_name;
-		result->m_description = desc.m_description;
-		
-		///TODO Icon
-
-		result->m_modifiers = desc.m_modifiers;
-		return std::make_pair(false, result);
+		if (cnt++ == id)
+		{
+			description = kvPair.second;
+			break;
+		}
 	}
 
-	ActiveItem *result = new ActiveItem();
-	result->SetID(UniqueID::GetID(result->GetClassName()));
-	result->m_name = desc.m_name;
-	result->m_description = desc.m_description;
-	result->m_cooldown = desc.m_cooldown;
-	result->Init();
+	RobotStrings result;
 
-	Buff buff;
-	buff.m_duration = desc.m_buff.m_duration;
-	buff.m_modifiers = desc.m_buff.m_modifiers;
-	buff.m_name = desc.m_buff.m_name;
-	
-	result->m_buff = buff;
+	result.m_robotStrings = std::make_pair(description.m_name, description.m_description);
+	result.m_weaponStrings = std::make_pair(m_weapons.at(description.m_weapon.first).m_name, m_weapons.at(description.m_weapon.first).m_description);
+	result.m_armorStrings = std::make_pair(m_armors.at(description.m_armor.first).m_name, m_armors.at(description.m_armor.first).m_description);
 
-	return std::make_pair(true, result);
-}
+	for (auto kvPair : description.m_items)
+	{
+		auto item = m_basicItems.at(kvPair.first);
+		result.m_itemStrings.push_back(std::make_pair(item.m_name, item.m_description));
+	}
 
-AIController * ItemDescriptions::SpawnAI(const AIDescription &desc) const
-{
-	
+	return result;
 }
 
 Armor * ItemDescriptions::SpawnArmor(const std::string name) const

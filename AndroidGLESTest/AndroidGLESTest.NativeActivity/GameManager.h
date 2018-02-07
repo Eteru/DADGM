@@ -37,9 +37,12 @@ public:
 	void DestroyTree();
 private:
 
+	void SetPlayerPreset(size_t id);
+	void LoadPlayer(const Vector2 spawnPoint);
 	void LoadRandomLevel();
 
 
+	size_t m_crtPlayerPreset;
 	Robot *m_playerRobot;
 	std::vector<Robot *> m_enemyRobots;
 

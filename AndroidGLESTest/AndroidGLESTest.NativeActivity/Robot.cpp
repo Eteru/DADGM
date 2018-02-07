@@ -28,6 +28,7 @@ void Robot::FixedUpdate()
 {
 	AcquireTarget();
 	ManageBuffs();
+	
 
 	if (nullptr != m_physicsBody)
 	{
@@ -82,7 +83,7 @@ std::string Robot::GetClassName()
 
 void Robot::TakeDamage(const float value)
 {
-	m_stats.at(StatType::HEALTH).AddFlat(-value * (1.f - m_armor->m_stats.at(StatType::ARMOR).GetValue()));
+	m_stats.at(StatType::HEALTH).AddFlat(-value * (1.f - Math::Clamp(m_armor->m_stats.at(StatType::ARMOR).GetValue(), 0, 1)));
 }
 
 bool Robot::IsDead()

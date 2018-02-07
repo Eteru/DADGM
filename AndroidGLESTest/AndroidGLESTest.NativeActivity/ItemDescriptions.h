@@ -96,6 +96,16 @@ public:
 	std::unordered_map<std::string, float> m_stats;
 };
 
+class RobotStrings
+{
+public:
+
+	std::pair<std::string, std::string> m_robotStrings;
+	std::pair<std::string, std::string> m_armorStrings;
+	std::pair<std::string, std::string> m_weaponStrings;
+	std::vector<std::pair<std::string, std::string>> m_itemStrings;
+};
+
 class Robot;
 class AIController;
 class Weapon;
@@ -110,11 +120,14 @@ public:
 	MapDescription GetRandomMap();
 	Robot *GetRandomRobot(const Vector2 mapCoords, MapManager *mapManager);
 	std::pair<bool, Item *> SpawnItem(const std::string name) const;
+	size_t GetNumberOfRobots();
+	Robot *GetRobot(const size_t id, const Vector2 mapCoords, MapManager *mapManager);
+	RobotStrings GetRobotStrings(const size_t id);
+
 
 private:
 
 	Robot * SpawnRobot(const RobotDescription &desc) const;
-	AIController * SpawnAI(const AIDescription &desc) const;
 	Armor * SpawnArmor(const std::string name) const;
 	Weapon * SpawnWeapon(const std::string name) const;
 	PhysicsBody *SpawnPhysicsBody(const Vector2 mapCoords) const;
