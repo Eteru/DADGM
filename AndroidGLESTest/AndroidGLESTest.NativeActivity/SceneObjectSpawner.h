@@ -23,7 +23,7 @@ namespace SceneObjectSpawner
 	MapCell * SpawnMapCell(const Vector2 mapCoords, const MapObjectType cellType);
 
 	PhysicsBody *SpawnRobot(const Vector2 mapCoords, MapManager *mapManager);
-	Projectile *SpawnProjectile(const Vector3 worldCoords, Robot *target, size_t team, float damage, float ttl, size_t bounces, bool isSeeker, float speed, float knockback);
+	Projectile *SpawnProjectile(const Vector3 worldCoords, const Vector3 target, size_t team, float damage, float ttl, size_t bounces, bool isSeeker, float speed, float knockback);
 
 	static Texture *ChooseRandomTexture(const MapObjectType type);
 	static Model *GetMapCellModel();

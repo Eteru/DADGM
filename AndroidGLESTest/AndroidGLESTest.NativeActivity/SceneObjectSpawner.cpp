@@ -185,7 +185,7 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	return pb;
 }
 
-Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, Robot *target, size_t team, float damage, float ttl, size_t bounces, bool isSeeker, float speed, float knockback)
+Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, const Vector3 target, size_t team, float damage, float ttl, size_t bounces, bool isSeeker, float speed, float knockback)
 {
 	PhysicsBodyDumb *pb = new PhysicsBodyDumb();
 	pb->SetID(UniqueID::GetID(pb->GetClassName()));
@@ -196,7 +196,7 @@ Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, Robo
 	pb->m_mass = 0.1f;
 	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 5.f);
 	pb->m_debugDraw = false;
-	pb->m_initialTarget = target->m_transform.GetWorldPos();
+	pb->m_initialTarget = target;
 	pb->m_topSpeed = speed;
 	
 
@@ -222,7 +222,6 @@ Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, Robo
 	proj->SetID(UniqueID::GetID(proj->GetClassName()));
 	
 	proj->m_team = team;
-	proj->m_enemyTeam = target->m_team;
 	proj->m_stats[StatType::DAMAGE] = Stat(damage);
 	proj->m_stats[StatType::LINEAR_TOP] = Stat(speed);
 	proj->m_stats[StatType::BOUNCES] = Stat(bounces);
@@ -254,7 +253,7 @@ Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, Robo
 
 	proj->AddComponent(vb);
 
-	pb->SetTarget(target->m_transform.GetWorldPos());
+	pb->SetTarget(target);
 
 	return proj;
 }

@@ -77,10 +77,10 @@ void GameManager::Init()
 
 	AddComponent(m_menu);
 
-	HealthBar *playerhb = new HealthBar(eng->height - 300.f, 50.f, 800.f, 100.f, "Player", {"", DebugDrawPrimitives::COLOR_GREEN});
+	HealthBar *playerhb = new HealthBar(eng->height - 300.f, 50.f, 800.f, 100.f, "Player", { "", DebugDrawPrimitives::COLOR_GREEN });
 	playerhb->Init();
 	AddComponent(playerhb);
- 	StringRenderer::Init("7", eng->width, eng->height);
+	StringRenderer::Init("7", eng->width, eng->height);
 }
 
 void GameManager::FixedUpdate()

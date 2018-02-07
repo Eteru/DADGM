@@ -37,6 +37,7 @@ void Robot::FixedUpdate()
 		m_physicsBody->m_topTurningSpeed = m_armor->m_stats.at(StatType::ANGULAR_TOP).GetValue();
 	}
 
+	m_weapon->m_debugDraw = true;
 }
 
 void Robot::Update()
