@@ -63,7 +63,7 @@ void Button::Init()
 		m_info_texts.push_back(rs.m_armorStrings.second);
 		m_info_texts.push_back("");
 
-		m_info_texts.push_back("Weapons: " + rs.m_weaponStrings.first);
+		m_info_texts.push_back("Weapon: " + rs.m_weaponStrings.first);
 		m_info_texts.push_back(rs.m_weaponStrings.second);
 		m_info_texts.push_back("");
 		m_info_texts.push_back("Items:");
@@ -136,11 +136,11 @@ void Button::Draw()
 	{
 		if (true == m_active) 
 		{
-			StringRenderer::DrawText(m_top_offset + m_height * 0.4f, m_left_offset + 0.03f, 8, Vector4(1.f, 0.f, 0.f, 1.f), m_text);
+			StringRenderer::DrawText(m_top_offset + m_height * 0.4f, m_left_offset + 0.03f, 5, Vector4(1.f, 0.f, 0.f, 1.f), m_text);
 		}
 		else 
 		{
-			StringRenderer::DrawText(m_top_offset + m_height * 0.4f, m_left_offset + 0.03f, 8, m_design.text_color, m_text);
+			StringRenderer::DrawText(m_top_offset + m_height * 0.4f, m_left_offset + 0.03f, 5, m_design.text_color, m_text);
 		}
 	}
 
@@ -149,7 +149,7 @@ void Button::Draw()
 		float top_offset = 0.f;
 		for (auto str : m_info_texts)
 		{
-			StringRenderer::DrawText(top - top_offset, -0.3f, 6, Vector4(1.f, 0.f, 0.f, 1.f), str);
+			StringRenderer::DrawText(top - top_offset, -0.3f, 4, Vector4(0.f, 0.f, 0.f, 1.f), str);
 
 			top_offset += 0.1f;
 		}
