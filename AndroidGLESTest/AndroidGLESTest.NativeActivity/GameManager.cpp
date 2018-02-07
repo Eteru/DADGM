@@ -22,11 +22,12 @@
 #include "Tabs.h"
 #include "StringRenderer.h"
 #include "ObjectContactActions.h"
-
+#include "HealthBar.h"
 
 
 GameManager::GameManager()
 {
+	m_menu = nullptr;
 	m_parent = nullptr;
 	m_transform.m_relative = false;
 }
@@ -47,54 +48,38 @@ void GameManager::Init()
 	//SceneManager::GetInstance()->LoadFromFile("XMLs/sceneManager.xml");
 	SceneManager::GetInstance()->LoadFromFile("XMLs/hartaDeTest.xml");
 
-
-	LoadRandomLevel();
+	//LoadRandomLevel();
 
 	AddComponent(SceneManager::GetInstance());
 
-
 	PrintUtils::PrintI(ToStringTree());
 
-	m_debugDraw = true;
+	m_debugDraw = false;
 
  	const engine *eng = SceneManager::GetInstance()->GetEngine();
 
- 	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
- 	btn->Init();
- 	AddComponent(btn);
- 
-	Tabs *tabs = new Tabs(eng->height - 100.f, 0.f, eng->width, eng->height, {});
-	tabs->Init();
+	m_menu = new ButtonList(eng->height - 500.f, 50.f, eng->width, eng->height, {});
+	m_menu->SetActive(true);
+
+	ButtonList *robotPresets = new ButtonList(eng->height - 500.f, 50.f, eng->width, eng->height, {});
+	robotPresets->AddButton("Preset 1", nullptr);
+	robotPresets->SetCustomFunction(0, std::bind(&GameManager::SetPresset, this, std::placeholders::_1));
+	robotPresets->AddButton("Preset 2", nullptr);
+	robotPresets->SetCustomFunction(1, std::bind(&GameManager::SetPresset, this, std::placeholders::_1));
 
 
-	ButtonList *bl1 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl1->SetActive(true);
+	m_menu->AddButton("Robot Preset", robotPresets);
+	m_menu->AddButton("Play", nullptr);
+	m_menu->SetCustomFunction(1, std::bind(&GameManager::Play, this, std::placeholders::_1));
+	m_menu->AddButton("Play Random", nullptr);
+	m_menu->SetCustomFunction(2, std::bind(&GameManager::PlayRandom, this, std::placeholders::_1));
+	m_menu->Init();
 
-	ButtonList *bl11 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl11->AddButton("sbtn11", nullptr);
-	bl11->AddButton("sbtn12", nullptr);
-	bl11->AddButton("sbtn13", nullptr);
+	AddComponent(m_menu);
 
-	bl1->AddButton("btn11", bl11);
-	bl1->AddButton("btn12", nullptr);
-	bl1->AddButton("btn13", nullptr);
-
-	ButtonList *bl2 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl2->AddButton("btn21", nullptr);
-	bl2->AddButton("btn22", nullptr);
-	bl2->AddButton("btn23", nullptr);
-	ButtonList *bl3 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl3->AddButton("btn31", nullptr);
-	bl3->AddButton("btn32", nullptr);
-	bl3->AddButton("btn33", nullptr);
-
-	tabs->AddTab("Items", bl1);
-	tabs->AddTab("Movement", bl2);
-	tabs->AddTab("Item Rules", bl3);
-
-	AddComponent(tabs);
-
- 	
+	HealthBar *playerhb = new HealthBar(eng->height - 300.f, 50.f, 800.f, 100.f, "Player", {"", DebugDrawPrimitives::COLOR_GREEN});
+	playerhb->Init();
+	AddComponent(playerhb);
  	StringRenderer::Init("7", eng->width, eng->height);
 }
 
@@ -132,6 +117,11 @@ void GameManager::FixedUpdate()
 void GameManager::LoadRandomLevel()
 {
 	DestroyComponents("Level");
+
+	if (nullptr != m_menu)
+	{
+		m_menu->SetActive(false);
+	}
 
 	m_playerRobot = nullptr;
 	m_enemyRobots.clear();
@@ -177,7 +167,6 @@ void GameManager::LoadRandomLevel()
 
 void GameManager::Update()
 {
-
 }
 
 void GameManager::Draw()
@@ -264,4 +253,17 @@ void GameManager::DrawTree()
 void GameManager::DestroyTree()
 {
 	_Destroy();
+}
+
+void GameManager::Play(int)
+{
+}
+
+void GameManager::PlayRandom(int)
+{
+	LoadRandomLevel();
+}
+
+void GameManager::SetPresset(int index)
+{
 }

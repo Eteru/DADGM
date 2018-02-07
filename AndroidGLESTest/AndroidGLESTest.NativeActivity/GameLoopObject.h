@@ -26,7 +26,7 @@ public:
 	virtual std::string ToString() = 0;
 	virtual std::string GetClassName() = 0;
 
-	virtual void OnTouchDown(const int x, const int y);
+	virtual bool OnTouchDown(const int x, const int y);
 	virtual void OnTouchUp(const int x, const int y);
 	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y);
 
@@ -88,7 +88,7 @@ inline void GameLoopObject::Draw() {}
 inline void GameLoopObject::DebugDraw() {}
 
 inline void GameLoopObject::Destroy() {}
-inline void GameLoopObject::OnTouchDown(const int x, const int y) {}
+inline bool GameLoopObject::OnTouchDown(const int x, const int y) { return false; }
 inline void GameLoopObject::OnTouchUp(const int x, const int y) {}
 inline void GameLoopObject::OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) {}
 

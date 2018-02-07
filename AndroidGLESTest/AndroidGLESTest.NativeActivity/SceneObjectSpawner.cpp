@@ -120,7 +120,7 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	pb->m_kinematic = false;
 	pb->m_mass = 1.f;
 	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 2.f);
-	pb->m_debugDraw = true;
+	pb->m_debugDraw = false;
 	pb->Init();
 
 	BoundingSphere *bs = new BoundingSphere();
@@ -161,7 +161,7 @@ PhysicsBody * SceneObjectSpawner::SpawnRobot(const Vector2 mapCoords, MapManager
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
 	vb->SetModel(robotModel);
 	vb->SetShader(robotShader);
-	//vb->m_debugDraw = true;
+	vb->m_debugDraw = false;
 
 	Texture *tex = ResourceManager::GetInstance()->LoadTexture(PLAYER_ROBOT_TEXTURE);
 
@@ -195,7 +195,7 @@ Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, Robo
 	pb->m_kinematic = false;
 	pb->m_mass = 0.1f;
 	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 5.f);
-	//pb->m_debugDraw = true;
+	pb->m_debugDraw = false;
 	pb->m_initialTarget = target->m_transform.GetWorldPos();
 	pb->m_topSpeed = speed;
 	
@@ -238,12 +238,12 @@ Projectile * SceneObjectSpawner::SpawnProjectile(const Vector3 worldCoords, Robo
 
 
 	///TODO actual textures and model
-	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.2f), "Proj", true);
+	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(1.57f, 0.f, 0.f), Vector3(0.005f), "Proj", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
-	vb->SetModel(GetRobotModel());
+	vb->SetModel(ResourceManager::GetInstance()->LoadModel("8"));
 	vb->SetShader(GetMapCellShader());
 
-	Texture *tex = ResourceManager::GetInstance()->LoadTexture(PLAYER_ROBOT_TEXTURE);
+	Texture *tex = ResourceManager::GetInstance()->LoadTexture("16");
 
 	if (nullptr != tex)
 	{

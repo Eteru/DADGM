@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "MapManager.h"
 #include "XMLParser.h"
+#include "ButtonList.h"
 
 class Robot;
 
@@ -35,11 +36,15 @@ public:
 	void UpdateTree();
 	void DrawTree();
 	void DestroyTree();
+
+	void Play(int);
+	void PlayRandom(int);
+	void SetPresset(int index);
 private:
 
 	void LoadRandomLevel();
 
-
+	ButtonList *m_menu;
 	Robot *m_playerRobot;
 	std::vector<Robot *> m_enemyRobots;
 

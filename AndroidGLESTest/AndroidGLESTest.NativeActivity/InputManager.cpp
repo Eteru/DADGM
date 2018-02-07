@@ -14,7 +14,10 @@ void InputManager::TouchDown(const int x, const int y)
 
 	for (auto obj : m_listeners)
 	{
-		obj->OnTouchDown(x, y);
+		if (obj->OnTouchDown(x, y))
+		{
+			return;
+		}
 	}
 }
 

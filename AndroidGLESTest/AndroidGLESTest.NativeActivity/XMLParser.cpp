@@ -89,7 +89,7 @@ Robot * XMLParser::GetRandomRobot(const Vector2 mapCoords, MapManager *mapManage
 	pb->m_kinematic = false;
 	pb->m_mass = 1.f;
 	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 2.f);
-	pb->m_debugDraw = true;
+	pb->m_debugDraw = false;
 	pb->Init();
 
 	BoundingSphere *bs = new BoundingSphere();

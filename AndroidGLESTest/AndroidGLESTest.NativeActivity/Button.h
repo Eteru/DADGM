@@ -22,15 +22,18 @@ public:
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 
-	virtual void OnTouchDown(const int x, const int y) override;
+	virtual bool OnTouchDown(const int x, const int y) override;
 	virtual void OnTouchUp(const int x, const int y) override;
 	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 
 	inline void SetIndex(int idx) { m_index = idx; }
+	inline void SetActive(bool active) { m_active = active;  }
 	inline void SetCallbackFunction(std::function<void(int)> f) { m_callback_func = f; }
 
 private:
+	bool m_active;
 	int m_index; /* if needed by lists or tabs */
+	Matrix m_M;
 	std::string m_text;
 
 	std::function<void(size_t)> m_callback_func;

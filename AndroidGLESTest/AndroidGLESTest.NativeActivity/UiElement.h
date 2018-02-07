@@ -26,7 +26,7 @@ public:
 	virtual std::string ToString() override;
 	virtual std::string GetClassName() override;
 
-	virtual void OnTouchDown(const int x, const int y) override;
+	virtual bool OnTouchDown(const int x, const int y) override;
 	virtual void OnTouchUp(const int x, const int y) override;
 	virtual void OnTouchDrag(const int xPrev, const int yPrev, const int x, const int y) override;
 

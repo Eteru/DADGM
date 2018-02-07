@@ -15,6 +15,15 @@ ButtonList::~ButtonList()
 			btn = nullptr;
 		}
 	}
+
+	for (ButtonList *bl : m_button_lists)
+	{
+		if (nullptr != bl)
+		{
+			delete bl;
+			bl = nullptr;
+		}
+	}
 }
 
 void ButtonList::Init()
@@ -38,7 +47,7 @@ void ButtonList::Draw()
 			btn->Draw();
 		}
 	}
-	else
+	else if(m_current_page >= 0)
 	{
 		m_button_lists[m_current_page]->Draw();
 	}
@@ -52,6 +61,15 @@ void ButtonList::Destroy()
 		{
 			delete btn;
 			btn = nullptr;
+		}
+	}
+
+	for (ButtonList *bl : m_button_lists)
+	{
+		if (nullptr != bl)
+		{
+			delete bl;
+			bl = nullptr;
 		}
 	}
 }
@@ -69,7 +87,7 @@ std::string ButtonList::GetClassName()
 void ButtonList::AddButton(const std::string & text, ButtonList *bl, bool is_back)
 {
 	float top_offset = m_buttons.size() * 260.f;
-	Button *b = new Button(m_top_offset - top_offset - 250.f, m_left_offset, 2200.f, 250.f, text, { "8", Vector4(0.f, 0.f, 1.f, 1.f) });
+	Button *b = new Button(m_top_offset - top_offset - 250.f, m_left_offset, 800.f, 300.f, text, { "8", Vector4(0.f, 0.f, 1.f, 1.f) });
 	b->SetParent(this);
 	b->SetIndex(is_back == true ? -1 : m_buttons.size());
 	b->SetCallbackFunction(std::bind(&ButtonList::SetClickedButton, this, std::placeholders::_1));
@@ -96,6 +114,11 @@ void ButtonList::SetClickedButton(int index)
 			SetActive(false);
 			dynamic_cast<ButtonList *>(m_parent)->SetActive(true);
 
+			for (int i = 0; i < m_buttons.size(); ++i)
+			{
+				m_buttons[i]->SetActive(false);
+			}
+
 			return;
 		}
 
@@ -103,6 +126,25 @@ void ButtonList::SetClickedButton(int index)
 		{
 			SetActive(false);
 			m_button_lists[index]->SetActive(true);
+			
+			return;
 		}
+
+		for (int i = 0; i < m_buttons.size(); ++i)
+		{
+			m_buttons[i]->SetActive(false);
+		}
+
+		m_buttons[index]->SetActive(true);
 	}
+}
+
+void ButtonList::SetCustomFunction(size_t index, std::function<void(int)> f)
+{
+	if (index > m_buttons.size())
+	{
+		return;
+	}
+
+	m_buttons[index]->SetCallbackFunction(f);
 }
