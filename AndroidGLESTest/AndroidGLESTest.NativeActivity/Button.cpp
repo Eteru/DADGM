@@ -149,7 +149,7 @@ void Button::Draw()
 		float top_offset = 0.f;
 		for (auto str : m_info_texts)
 		{
-			StringRenderer::DrawText(top - top_offset, -0.3f, 6, Vector4(1.f, 0.f, 0.f, 1.f), str);
+			StringRenderer::DrawText(top - top_offset, -0.3f, 4, Vector4(0.f, 0.f, 0.f, 1.f), str);
 
 			top_offset += 0.1f;
 		}

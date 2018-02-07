@@ -110,7 +110,7 @@ void HealthBar::Draw()
 
 	if ("" != m_output_text)
 	{
-		StringRenderer::DrawText(m_top_offset + 0.1f, m_left_offset, 8, m_design.text_color, m_output_text);
+		StringRenderer::DrawText(m_top_offset + 0.1f, m_left_offset, 5, m_design.text_color, m_output_text);
 	}
 }
 

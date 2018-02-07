@@ -59,7 +59,7 @@ void GameManager::Init()
 
  	const engine *eng = SceneManager::GetInstance()->GetEngine();
 
-	m_menu = new ButtonList(eng->height - 500.f, 50.f, eng->width, eng->height, {});
+	m_menu = new ButtonList(eng->height - 100.f, 50.f, eng->width, eng->height, {});
 	m_menu->SetActive(true);
 
 	ButtonList *robotPresets = new ButtonList(eng->height - 100.f, 50.f, eng->width, eng->height, {});
@@ -81,11 +81,11 @@ void GameManager::Init()
 
 	AddComponent(m_menu);
 
-	m_player_hb = new HealthBar(eng->height - 100.f, 50.f, 800.f, 100.f, "Player", { "", DebugDrawPrimitives::COLOR_BLUE });
+	m_player_hb = new HealthBar(eng->height - 150.f, 20.f, 600.f, 50.f, "Player", { "", DebugDrawPrimitives::COLOR_BLUE });
 	m_player_hb->Init();
 	AddComponent(m_player_hb);
 
-	m_enemy_hb = new HealthBar(eng->height - 100.f, eng->width - 900.f, 800.f, 100.f, "Enemy", { "", DebugDrawPrimitives::COLOR_RED });
+	m_enemy_hb = new HealthBar(eng->height - 150.f, eng->width - 620.f, 600.f, 50.f, "Enemy", { "", DebugDrawPrimitives::COLOR_RED });
 	m_enemy_hb->Init();
 	AddComponent(m_enemy_hb);
 
