@@ -20,7 +20,9 @@ void HealthBar::Update()
 	}
 
  	float perc = m_robot->m_stats.at(StatType::HEALTH).GetValue() / m_init_health;
-	m_M = Matrix().SetScale(perc, 1.f, 1.f) /* Matrix().SetTranslation(m_left_offset, m_top_offset, 0.f)*/;
+	m_transform.SetScale(Vector3(perc, 1.f, 1.f));
+
+	//m_M = Matrix().SetScale(perc, 1.f, 1.f) /* Matrix().SetTranslation(m_left_offset, m_top_offset, 0.f)*/;
 }
 
 void HealthBar::Init()
@@ -62,7 +64,7 @@ void HealthBar::Draw()
 
 	if (objShader.matrixUniform != -1)
 	{
-		glUniformMatrix4fv(objShader.matrixUniform, 1, GL_FALSE, reinterpret_cast<GLfloat*>(m_M.m));
+		glUniformMatrix4fv(objShader.matrixUniform, 1, GL_FALSE, reinterpret_cast<GLfloat*>(m_transform.GetModel().m));
 	}
 
 	if (objShader.colorUniform != -1)
