@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "ButtonList.h"
+#include "ItemDescriptions.h"
 
 Button::Button()
 	: UiElement(), m_text(""), m_active(false)
@@ -50,6 +51,31 @@ void Button::Init()
 	SetShader("4");
 
 	m_M = Matrix().SetIdentity();
+
+	if (m_index >= 0 && m_text.find("Preset") != std::string::npos)
+	{
+		RobotStrings rs = ItemDescriptions::GetInstance().GetRobotStrings(m_index);
+
+		m_info_texts.push_back("Robot: " + rs.m_robotStrings.first);
+		m_info_texts.push_back(rs.m_robotStrings.second);
+		m_info_texts.push_back("");
+		m_info_texts.push_back("Armor: " + rs.m_armorStrings.first);
+		m_info_texts.push_back(rs.m_armorStrings.second);
+		m_info_texts.push_back("");
+
+		m_info_texts.push_back("Weapons: " + rs.m_weaponStrings.first);
+		m_info_texts.push_back(rs.m_weaponStrings.second);
+		m_info_texts.push_back("");
+		m_info_texts.push_back("Items:");
+
+
+		for (auto kvPair : rs.m_itemStrings)
+		{
+			m_info_texts.push_back(kvPair.first);
+			m_info_texts.push_back(kvPair.second);
+			m_info_texts.push_back("");
+		}
+	}
 }
 
 void Button::FixedUpdate()
@@ -115,6 +141,17 @@ void Button::Draw()
 		else 
 		{
 			StringRenderer::DrawText(m_top_offset + m_height * 0.4f, m_left_offset + 0.03f, 8, m_design.text_color, m_text);
+		}
+	}
+
+	if (true == m_active) {
+		float top = .8f;
+		float top_offset = 0.f;
+		for (auto str : m_info_texts)
+		{
+			StringRenderer::DrawText(top - top_offset, -0.3f, 6, Vector4(1.f, 0.f, 0.f, 1.f), str);
+
+			top_offset += 0.1f;
 		}
 	}
 }

@@ -57,49 +57,49 @@
   </shader>
 	<!-- si aici se adauga toate shaderele -->
 	</shaders>
-	<textures>
-		<texture id="1" type="2d">
-			<path>Textures/Rock.tga</path>
-			<min_filter>LINEAR</min_filter>
-			<mag_filter>LINEAR</mag_filter>
-			<wrap_s>REPEAT</wrap_s>
-			<wrap_t>REPEAT</wrap_t>
-		</texture>
-		<texture id="2" type="2d">
-			<path>Textures/Dirt.tga</path>
-			<min_filter>LINEAR</min_filter>
-			<mag_filter>LINEAR</mag_filter>
-			<wrap_s>REPEAT</wrap_s>
-			<wrap_t>REPEAT</wrap_t>
-		</texture>
-		<texture id="3" type="2d">
-			<path>Textures/Grass.tga</path>
-			<min_filter>LINEAR</min_filter>
-			<mag_filter>LINEAR</mag_filter>
-			<wrap_s>REPEAT</wrap_s>
-			<wrap_t>REPEAT</wrap_t>
-		</texture>
-		<texture id="4" type="2d">
-			<path>Textures/Croco.tga</path>			
-			<min_filter>LINEAR</min_filter>
-			<mag_filter>LINEAR</mag_filter>
-			<wrap_s>CLAMP_TO_EDGE</wrap_s>
-			<wrap_t>CLAMP_TO_EDGE</wrap_t>
-		</texture>
-		<texture id="5" type="2d">
-			<path>Textures/Terrain_blend_map.tga</path>
-			<min_filter>LINEAR</min_filter>
-			<mag_filter>LINEAR</mag_filter>
-			<wrap_s>REPEAT</wrap_s>
-			<wrap_t>REPEAT</wrap_t>
-		</texture>
-		<texture id="6" type="2d">
-			<path>Textures/Bus.tga</path>
-			<min_filter>LINEAR</min_filter>
-			<mag_filter>LINEAR</mag_filter>
-			<wrap_s>CLAMP_TO_EDGE</wrap_s>
-			<wrap_t>CLAMP_TO_EDGE</wrap_t>
-		</texture>
+  <textures>
+    <texture id="1" type="2d">
+      <path>Textures/dark_floor.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="2" type="2d">
+      <path>Textures/Dirt.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>REPEAT</wrap_s>
+      <wrap_t>REPEAT</wrap_t>
+    </texture>
+    <texture id="3" type="2d">
+      <path>Textures/Grass.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>REPEAT</wrap_s>
+      <wrap_t>REPEAT</wrap_t>
+    </texture>
+    <texture id="4" type="2d">
+      <path>Textures/Croco.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="5" type="2d">
+      <path>Textures/Terrain_blend_map.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>REPEAT</wrap_s>
+      <wrap_t>REPEAT</wrap_t>
+    </texture>
+    <texture id="6" type="2d">
+      <path>Textures/Bus.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
     <texture id="7" type="2d">
       <path>Textures/console24bit.tga</path>
       <min_filter>LINEAR</min_filter>
@@ -171,6 +171,13 @@
       <wrap_s>CLAMP_TO_EDGE</wrap_s>
       <wrap_t>CLAMP_TO_EDGE</wrap_t>
     </texture>
-		<!-- si aici se adauga toate texturile -->
-	</textures>	
+    <texture id="17" type="2d">
+      <path>Textures/Rock.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>REPEAT</wrap_s>
+      <wrap_t>REPEAT</wrap_t>
+    </texture>
+    <!-- si aici se adauga toate texturile -->
+  </textures>	
 </resourceManager>
