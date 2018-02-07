@@ -82,7 +82,7 @@ void GameManager::Init()
 	m_player_hb->Init();
 	AddComponent(m_player_hb);
 
-	m_enemy_hb = new HealthBar(eng->height - 300.f, eng->width - 850.f, 800.f, 100.f, "Enemy", { "", DebugDrawPrimitives::COLOR_RED });
+	m_enemy_hb = new HealthBar(eng->height - 300.f, eng->width - 900.f, 800.f, 100.f, "Enemy", { "", DebugDrawPrimitives::COLOR_RED });
 	m_enemy_hb->Init();
 	AddComponent(m_enemy_hb);
 

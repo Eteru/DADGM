@@ -156,5 +156,8 @@ void ButtonList::SetButtonActive(int idx)
 		m_buttons[i]->SetActive(false);
 	}
 
-	m_buttons[idx]->SetActive(true);
+	if (idx >= 0)
+	{
+		m_buttons[idx]->SetActive(true);
+	}
 }

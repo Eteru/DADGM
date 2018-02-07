@@ -163,6 +163,7 @@
     <Content Include="assets\Textures\Marine.tga" />
     <Content Include="assets\Textures\bullet.tga" />
     <Content Include="assets\Textures\NormalMap.tga" />
+    <Content Include="assets\Textures\dark_floor.tga" />
     <Content Include="assets\Textures\radar.tga" />
     <Content Include="assets\Textures\Rock.tga" />
     <Content Include="assets\Textures\SCV.tga" />

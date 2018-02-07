@@ -17,8 +17,9 @@ public:
 
 private:
 	float m_init_health;
+	float m_health_left;
 	std::string m_text;
-	Matrix m_M;
+	std::string m_output_text;
 	Robot *m_robot;
 };
 

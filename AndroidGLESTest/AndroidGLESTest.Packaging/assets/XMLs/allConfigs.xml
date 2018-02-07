@@ -233,7 +233,7 @@
 				<model>2</model>
 				<texture>11</texture>
 				
-				<description>A well balanced armor suit.</description>
+				<description>A well balanced armor suit</description>
 				<stats>
 					<stat>
 						<name>MaximumHealth</name>
@@ -272,7 +272,7 @@
 				<model>2</model>
 				<texture>12</texture>
 				
-				<description>A slow but resilient armor suit.</description>
+				<description>A slow but resilient armor suit</description>
 				<stats>
 					<stat>
 						<name>MaximumHealth</name>
@@ -313,7 +313,7 @@
 				<model>6</model>
 				<texture>13</texture>
 				
-				<description>A fast firing, short range weapon.</description>
+				<description>A fast firing, short range weapon</description>
 				<stats>
 					<stat>
 						<name>MaximumAmmo</name>
@@ -357,7 +357,7 @@
 				<model>7</model>
 				<texture>14</texture>
 				
-				<description>A slow firing, heavy hitting long range weapon.</description>
+				<description>A heavy long range weapon</description>
 				<stats>
 					<stat>
 						<name>MaximumAmmo</name>
@@ -400,7 +400,7 @@
 		<items>
 			<item>
 				<name>repair</name>
-				<description>Instantly restores a portion of health.</description>
+				<description>Instantly restores a portion of health</description>
 				<icon></icon>
 				
 				<type>active</type>
@@ -418,7 +418,7 @@
 			
 			<item>
 				<name>sprint</name>
-				<description>Temporarily increases movement speed.</description>
+				<description>Temporarily increases movement speed</description>
 				<icon></icon>
 				
 				<type>active</type>
@@ -447,7 +447,7 @@
 			
 			<item>
 				<name>rofBoost</name>
-				<description>Permanently increases weapon rate of fire.</description>
+				<description>Permanently increases weapon rate of fire</description>
 				<icon></icon>
 				
 				<type>passive</type>				
