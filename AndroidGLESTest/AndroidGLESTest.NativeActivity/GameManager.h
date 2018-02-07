@@ -39,7 +39,6 @@ public:
 
 	void Play(int);
 	void PlayRandom(int);
-	void SetPresset(int index);
 private:
 
 	void SetPlayerPreset(size_t id);

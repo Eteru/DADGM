@@ -14,8 +14,8 @@ HealthBar::~HealthBar()
 
 void HealthBar::Update()
 {
-	float perc = m_robot->m_stats[StatType::HEALTH].GetValue() / m_init_health;
-	m_M = Matrix().SetScale(perc, 1.f, 1.f);
+// 	float perc = m_robot->m_stats.at(StatType::HEALTH).GetValue() / m_init_health;
+// 	m_M = Matrix().SetScale(perc, 1.f, 1.f);
 }
 
 void HealthBar::Init()

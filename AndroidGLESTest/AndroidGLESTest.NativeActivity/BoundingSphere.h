@@ -11,7 +11,10 @@ public:
 
 	GLfloat m_radius;
 
-	virtual void Draw() override;
+	
+
+
+	virtual void DebugDraw() override;
 
 private:
 };

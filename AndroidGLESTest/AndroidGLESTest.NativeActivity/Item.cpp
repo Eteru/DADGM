@@ -181,7 +181,7 @@ Vector3 Weapon::GetInterceptTarget()
 	Vector3 relPos = m_robot->m_target->m_transform.GetWorldPos() - m_robot->m_transform.GetWorldPos();
 	Vector3 relVel = m_robot->m_target->m_physicsBody->m_linearVelEngine - m_robot->m_physicsBody->m_linearVelEngine;
 	
-	return m_robot->m_target->m_transform.GetWorldPos() + InterceptTime(m_stats.at(StatType::LINEAR_TOP).GetValue() * GameConstants::PHYSICS_TIME_STEP, relPos, relVel) * relVel;
+	return m_robot->m_target->m_transform.GetWorldPos() + InterceptTime(m_stats.at(StatType::LINEAR_TOP).GetValue() * GameConstants::PHYSICS_TIME_STEP, relPos, relVel) * relVel * GameConstants::PHYSICS_TIME_STEP;
 }
 
 float Weapon::InterceptTime(float projVel, Vector3 relPos, Vector3 relVel)

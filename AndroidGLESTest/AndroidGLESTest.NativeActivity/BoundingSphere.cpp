@@ -21,7 +21,7 @@ std::string BoundingSphere::GetClassName()
 	return std::string("BoundingSphere");
 }
 
-void BoundingSphere::Draw()
+void BoundingSphere::DebugDraw()
 {
 	DebugDrawPrimitives::DrawSphere(m_transform.GetWorldPos(), m_transform.GetWorldRot(), m_radius * m_transform.GetWorldScale(), DebugDrawPrimitives::COLOR_BLUE);
 }

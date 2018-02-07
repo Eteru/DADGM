@@ -63,9 +63,9 @@ void GameManager::Init()
 
 	ButtonList *robotPresets = new ButtonList(eng->height - 500.f, 50.f, eng->width, eng->height, {});
 	robotPresets->AddButton("Preset 1", nullptr);
-	robotPresets->SetCustomFunction(0, std::bind(&GameManager::SetPresset, this, std::placeholders::_1));
+	robotPresets->SetCustomFunction(0, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
 	robotPresets->AddButton("Preset 2", nullptr);
-	robotPresets->SetCustomFunction(1, std::bind(&GameManager::SetPresset, this, std::placeholders::_1));
+	robotPresets->SetCustomFunction(1, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
 
 
 	m_menu->AddButton("Robot Preset", robotPresets);
@@ -265,13 +265,10 @@ void GameManager::DestroyTree()
 
 void GameManager::Play(int)
 {
+	LoadRandomLevel();
 }
 
 void GameManager::PlayRandom(int)
 {
 	LoadRandomLevel();
-}
-
-void GameManager::SetPresset(int index)
-{
 }
