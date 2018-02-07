@@ -126,6 +126,11 @@ void ButtonList::SetClickedButton(int index)
 		{
 			SetActive(false);
 			m_button_lists[index]->SetActive(true);
+
+			for (int i = 0; i < m_buttons.size(); ++i)
+			{
+				m_buttons[i]->SetActive(false);
+			}
 			
 			return;
 		}

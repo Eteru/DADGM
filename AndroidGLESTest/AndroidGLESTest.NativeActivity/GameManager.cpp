@@ -66,7 +66,7 @@ void GameManager::Init()
 	for (int i = 0; i < ItemDescriptions::GetInstance().GetNumberOfRobots(); ++i)
 	{
 		robotPresets->AddButton("Preset " + PrintUtils::ToString(i + 1), nullptr);
-		robotPresets->SetCustomFunction(0, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
+		robotPresets->SetCustomFunction(i, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
 	}
 	//robotPresets->AddButton("Preset 2", nullptr);
 	//robotPresets->SetCustomFunction(1, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
@@ -123,6 +123,10 @@ void GameManager::FixedUpdate()
 
 	if (IsGameWon() || IsGameLost())
 	{
+		DestroyComponents("Level");
+
+		m_playerRobot = nullptr;
+		m_enemyRobots.clear();
 		m_player_hb->InitRobot(nullptr);
 		m_enemy_hb->InitRobot(nullptr);
 		m_menu->SetActive(true);
