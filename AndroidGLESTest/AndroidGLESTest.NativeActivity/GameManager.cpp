@@ -62,14 +62,17 @@ void GameManager::Init()
 	m_menu = new ButtonList(eng->height - 500.f, 50.f, eng->width, eng->height, {});
 	m_menu->SetActive(true);
 
-	ButtonList *robotPresets = new ButtonList(eng->height - 500.f, 50.f, eng->width, eng->height, {});
-	robotPresets->AddButton("Preset 1", nullptr);
-	robotPresets->SetCustomFunction(0, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
-	robotPresets->AddButton("Preset 2", nullptr);
-	robotPresets->SetCustomFunction(1, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
+	ButtonList *robotPresets = new ButtonList(eng->height - 100.f, 50.f, eng->width, eng->height, {});
+	for (int i = 0; i < ItemDescriptions::GetInstance().GetNumberOfRobots(); ++i)
+	{
+		robotPresets->AddButton("Preset " + PrintUtils::ToString(i + 1), nullptr);
+		robotPresets->SetCustomFunction(0, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
+	}
+	//robotPresets->AddButton("Preset 2", nullptr);
+	//robotPresets->SetCustomFunction(1, std::bind(&GameManager::SetPlayerPreset, this, std::placeholders::_1));
 
 
-	m_menu->AddButton("Robot Preset", robotPresets);
+	m_menu->AddButton("Choose Robot", robotPresets);
 	m_menu->AddButton("Play", nullptr);
 	m_menu->SetCustomFunction(1, std::bind(&GameManager::Play, this, std::placeholders::_1));
 	m_menu->AddButton("Play Random", nullptr);
@@ -78,11 +81,11 @@ void GameManager::Init()
 
 	AddComponent(m_menu);
 
-	m_player_hb = new HealthBar(eng->height - 300.f, 50.f, 800.f, 100.f, "Player", { "", DebugDrawPrimitives::COLOR_BLUE });
+	m_player_hb = new HealthBar(eng->height - 100.f, 50.f, 800.f, 100.f, "Player", { "", DebugDrawPrimitives::COLOR_BLUE });
 	m_player_hb->Init();
 	AddComponent(m_player_hb);
 
-	m_enemy_hb = new HealthBar(eng->height - 300.f, eng->width - 900.f, 800.f, 100.f, "Enemy", { "", DebugDrawPrimitives::COLOR_RED });
+	m_enemy_hb = new HealthBar(eng->height - 100.f, eng->width - 900.f, 800.f, 100.f, "Enemy", { "", DebugDrawPrimitives::COLOR_RED });
 	m_enemy_hb->Init();
 	AddComponent(m_enemy_hb);
 

@@ -87,7 +87,7 @@ std::string ButtonList::GetClassName()
 void ButtonList::AddButton(const std::string & text, ButtonList *bl, bool is_back)
 {
 	float top_offset = m_buttons.size() * 260.f;
-	Button *b = new Button(m_top_offset - top_offset - 250.f, m_left_offset, 800.f, 300.f, text, { "8", Vector4(0.f, 0.f, 1.f, 1.f) });
+	Button *b = new Button(m_top_offset - top_offset - 250.f, m_left_offset, 400.f, 200.f, text, { "8", Vector4(0.f, 0.f, 1.f, 1.f) });
 	b->SetParent(this);
 	b->SetIndex(is_back == true ? -1 : m_buttons.size());
 	b->SetCallbackFunction(std::bind(&ButtonList::SetClickedButton, this, std::placeholders::_1));
