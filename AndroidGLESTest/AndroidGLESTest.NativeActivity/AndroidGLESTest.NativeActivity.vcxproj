@@ -83,6 +83,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>Clang_3_8</PlatformToolset>
+    <ThumbMode>Disabled</ThumbMode>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -155,6 +156,7 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <CppLanguageStandard>c++11</CppLanguageStandard>
       <ExceptionHandling>Enabled</ExceptionHandling>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv2;EGL;m;log;</LibraryDependencies>
@@ -167,6 +169,7 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <CppLanguageStandard>c++11</CppLanguageStandard>
       <ExceptionHandling>Enabled</ExceptionHandling>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <LibraryDependencies>%(LibraryDependencies);GLESv2;EGL;m;log;</LibraryDependencies>
