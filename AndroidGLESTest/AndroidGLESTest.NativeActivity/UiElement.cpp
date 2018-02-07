@@ -33,6 +33,8 @@ void UiElement::Init()
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verts.size(), &verts[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	SetShader("4");
 }
 
 void UiElement::FixedUpdate()
@@ -49,6 +51,9 @@ void UiElement::Draw()
 
 void UiElement::DebugDraw()
 {
+
+	glDeleteBuffers(1, &m_vbo);
+	glDeleteBuffers(1, &m_tex_vbo);
 }
 
 void UiElement::Destroy()
@@ -65,8 +70,9 @@ std::string UiElement::GetClassName()
 	return "UiElement";
 }
 
-void UiElement::OnTouchDown(const int x, const int y)
+bool UiElement::OnTouchDown(const int x, const int y)
 {
+	return false;
 }
 
 void UiElement::OnTouchUp(const int x, const int y)

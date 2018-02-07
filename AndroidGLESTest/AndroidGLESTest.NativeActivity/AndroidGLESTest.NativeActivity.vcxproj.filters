@@ -54,6 +54,7 @@
     <ClCompile Include="Tabs.cpp" />
     <ClCompile Include="ButtonList.cpp" />
     <ClCompile Include="obj_loader.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientalLight.h" />
@@ -113,5 +114,6 @@
     <ClInclude Include="Tabs.h" />
     <ClInclude Include="ButtonList.h" />
     <ClInclude Include="obj_loader.h" />
+    <ClInclude Include="HealthBar.h" />
   </ItemGroup>
 </Project>

@@ -231,7 +231,7 @@
 				<name>balanced</name>
 				<icon></icon>
 				<model>2</model>
-				<texture>3</texture>
+				<texture>11</texture>
 				
 				<description>A well balanced armor suit.</description>
 				<stats>
@@ -270,7 +270,7 @@
 				<name>heavy</name>
 				<icon></icon>
 				<model>2</model>
-				<texture>3</texture>
+				<texture>12</texture>
 				
 				<description>A slow but resilient armor suit.</description>
 				<stats>
@@ -310,8 +310,8 @@
 			<weapon>
 				<name>smg</name>
 				<icon></icon>
-				<model>2</model>
-				<texture>3</texture>
+				<model>6</model>
+				<texture>13</texture>
 				
 				<description>A fast firing, short range weapon.</description>
 				<stats>
@@ -354,8 +354,8 @@
 			<weapon>
 				<name>sniper</name>
 				<icon></icon>
-				<model>2</model>
-				<texture>3</texture>
+				<model>7</model>
+				<texture>14</texture>
 				
 				<description>A slow firing, heavy hitting long range weapon.</description>
 				<stats>
@@ -414,7 +414,7 @@
 						<value>25</value>
 					</modifier>
 				</modifiers>				
-			</item>			
+			</item>
 			
 			<item>
 				<name>sprint</name>

@@ -12,7 +12,7 @@ MovementController::MovementController(PhysicsBody *physicsBody, MapManager *map
 
 void MovementController::Init()
 {
-	m_debugDraw = true;
+	m_debugDraw = false;
 }
 
 void MovementController::FixedUpdate()

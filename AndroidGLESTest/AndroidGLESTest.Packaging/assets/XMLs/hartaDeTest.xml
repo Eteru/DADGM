@@ -48,80 +48,34 @@
 
   <ambientalLight>
     <color>
-      <r>0.66</r>
-      <g>0.89</g>
-      <b>0.97</b>
+        <r>1.0</r>
+        <g>1.0</g>
+        <b>1.0</b>
     </color>
     <ratio>0.2</ratio>
   </ambientalLight>
 
   <lights>
     <light>
-      <id>1</id>
+      <id>2</id>
       <diffuseColor>
         <r>1.0</r>
         <g>1.0</g>
         <b>1.0</b>
       </diffuseColor>
       <specularColor>
-        <r>1.0</r>
-        <g>0.0</g>
-        <b>0.0</b>
-      </specularColor>
-      <type>point</type>
-      <specCoef>1</specCoef>
-      <diffCoef>1.0</diffCoef>
-      <shininess>0.3</shininess>
-      <position>
-        <x>0.0</x>
-        <y>100.0</y>
-        <z>0.0</z>
-      </position>
-    </light>
-    <light>
-      <id>2</id>      
-      <diffuseColor>
-        <r>1.0</r>
-        <g>1.0</g>
-        <b>1.0</b>
-      </diffuseColor>
-      <specularColor>
-        <r>0.0</r>
-        <g>0.0</g>
-        <b>1.0</b>
+        <r>0.72</r>
+        <g>0.89</g>
+        <b>0.96</b>
       </specularColor>
       <type>directional</type>
-      <specCoef>0.5</specCoef>
-      <diffCoef>0.5</diffCoef>
-      <shininess>0.3</shininess>
+      <specCoef>0.2</specCoef>
+      <diffCoef>0.3</diffCoef>
+      <shininess>0.2</shininess>
       <direction>
         <x>0.0</x>
         <y>0.0</y>
         <z>10.0</z>
-      </direction>
-    </light>
-
-    <light>
-      <id>3</id>      
-      <diffuseColor>
-        <r>1.0</r>
-        <g>1.0</g>
-        <b>1.0</b>
-      </diffuseColor>
-      <specularColor>
-        <r>1.0</r>
-        <g>1.0</g>
-        <b>1.0</b>
-      </specularColor>
-      <type>spot</type>
-      <specCoef>1.0</specCoef>
-      <diffCoef>1.0</diffCoef>
-      <shininess>0.3</shininess>
-      <spotAngle>4.77</spotAngle>
-      <direction>
-        <x>0.0</x>
-        <y>-1.0</y>
-        <z>0.0</z>
       </direction>
     </light>
   </lights>

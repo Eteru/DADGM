@@ -232,6 +232,7 @@
     <ClInclude Include="GameLoopObject.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="HealthBar.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
@@ -290,6 +291,7 @@
     <ClCompile Include="Fog.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />

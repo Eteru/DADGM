@@ -16,6 +16,17 @@
 		<model id="5">
 			<path>Models/sphere.obj</path>
 		</model>
+
+    <model id="6">
+      <path>Models/smg.obj</path>
+    </model>
+
+    <model id="7">
+      <path>Models/sniper.obj</path>
+    </model>
+    <model id="8">
+      <path>Models/bullet.obj</path>
+    </model>
 	
 		<!-- si aici se adauga toate modelele -->
 	</models>
@@ -103,13 +114,63 @@
       <wrap_s>CLAMP_TO_EDGE</wrap_s>
       <wrap_t>CLAMP_TO_EDGE</wrap_t>
     </texture>
-		<texture id="15" type="cube">
-			<path>Textures/envMap.tga</path>			
-			<min_filter>LINEAR</min_filter>
-			<mag_filter>LINEAR</mag_filter>
-			<wrap_s>CLAMP_TO_EDGE</wrap_s>
-			<wrap_t>CLAMP_TO_EDGE</wrap_t>
-		</texture>
+    <texture id="9" type="2d">
+      <path>Textures/balanced_armor.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="10" type="2d">
+      <path>Textures/heavy_armor.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="11" type="2d">
+      <path>Textures/balanced_armor2.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="12" type="2d">
+      <path>Textures/heavy_armor2.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="13" type="2d">
+      <path>Textures/smg.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="14" type="2d">
+      <path>Textures/sniper.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+
+    <texture id="15" type="cube">
+      <path>Textures/envMap.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
+    <texture id="16" type="2d">
+      <path>Textures/bullet.tga</path>
+      <min_filter>LINEAR</min_filter>
+      <mag_filter>LINEAR</mag_filter>
+      <wrap_s>CLAMP_TO_EDGE</wrap_s>
+      <wrap_t>CLAMP_TO_EDGE</wrap_t>
+    </texture>
 		<!-- si aici se adauga toate texturile -->
 	</textures>	
 </resourceManager>

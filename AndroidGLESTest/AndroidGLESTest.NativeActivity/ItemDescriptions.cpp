@@ -265,7 +265,7 @@ Weapon * ItemDescriptions::SpawnWeapon(const std::string name) const
 	Weapon *result = new Weapon();
 	result->SetID(UniqueID::GetID(result->GetClassName()));
 
-	VisualBody *vb = new VisualBody(Vector3(0.f, 0.f, -1.f), Vector3(0.f), Vector3(0.25f), "WeaponVB", true);
+	VisualBody *vb = new VisualBody(Vector3(0.f, 0.f, -1.f), Vector3(0.f, 3.1415f, 0.f), Vector3(0.25f), "WeaponVB", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
 	vb->SetModel(ResourceManager::GetInstance()->LoadModel(desc.m_model));
 	vb->SetShader(ResourceManager::GetInstance()->LoadShader("3"));
@@ -299,7 +299,7 @@ PhysicsBody * ItemDescriptions::SpawnPhysicsBody(const Vector2 mapCoords) const
 	pb->m_kinematic = false;
 	pb->m_mass = 1.f;
 	pb->m_inertia = Math::SphereInertia(pb->m_mass, GameConstants::CELL_SIZE / 2.f);
-	pb->m_debugDraw = true;
+	pb->m_debugDraw = false;
 	pb->Init();
 
 	BoundingSphere *bs = new BoundingSphere();

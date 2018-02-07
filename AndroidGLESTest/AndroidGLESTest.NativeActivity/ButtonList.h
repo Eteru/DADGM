@@ -27,6 +27,8 @@ public:
 	void AddButton(const std::string & text, ButtonList *bl, bool is_back = false);
 	void SetClickedButton(int index);
 	void SetActive(bool active) { m_active = active; }
+	void SetCustomFunction(size_t index, std::function<void(int)> f);
+	bool IsActive() { return m_active; }
 
 private:
 	bool m_active;

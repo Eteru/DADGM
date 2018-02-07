@@ -120,10 +120,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Content Include="assets\Models\Bila.nfg" />
+    <Content Include="assets\Models\bullet.obj" />
     <Content Include="assets\Models\Cube.nfg" />
     <Content Include="assets\Models\cube.obj" />
     <Content Include="assets\Models\DebugCube.nfg" />
     <Content Include="assets\Models\DebugSphere.nfg" />
+    <Content Include="assets\Models\smg.obj" />
+    <Content Include="assets\Models\sniper.obj" />
     <Content Include="assets\Models\sphere.obj" />
     <Content Include="assets\Shaders\DebugShader.fs" />
     <Content Include="assets\Shaders\DebugShader.vs" />
@@ -139,6 +142,8 @@
     <Content Include="assets\Shaders\FontShader.vs" />
     <Content Include="assets\Shaders\UiShader.fs" />
     <Content Include="assets\Shaders\UiShader.vs" />
+    <Content Include="assets\Textures\balanced_armor.tga" />
+    <Content Include="assets\Textures\balanced_armor2.tga" />
     <Content Include="assets\Textures\Bus.tga" />
     <Content Include="assets\Textures\console24bit.tga" />
     <Content Include="assets\Textures\console8bit.tga" />
@@ -151,13 +156,18 @@
     <Content Include="assets\Textures\button.tga" />
     <Content Include="assets\Textures\Golitah.tga" />
     <Content Include="assets\Textures\Grass.tga" />
+    <Content Include="assets\Textures\heavy_armor.tga" />
+    <Content Include="assets\Textures\heavy_armor2.tga" />
     <Content Include="assets\Textures\heightmap.raw" />
     <Content Include="assets\Textures\House.tga" />
     <Content Include="assets\Textures\Marine.tga" />
+    <Content Include="assets\Textures\bullet.tga" />
     <Content Include="assets\Textures\NormalMap.tga" />
     <Content Include="assets\Textures\radar.tga" />
     <Content Include="assets\Textures\Rock.tga" />
     <Content Include="assets\Textures\SCV.tga" />
+    <Content Include="assets\Textures\smg.tga" />
+    <Content Include="assets\Textures\sniper.tga" />
     <Content Include="assets\Textures\Terrain_blend_map.tga" />
     <Content Include="assets\Textures\Terran_Command_Center.tga" />
     <Content Include="assets\Textures\Train.tga" />
@@ -166,9 +176,13 @@
     <Content Include="assets\Textures\Woman1.tga" />
     <Content Include="assets\Textures\Woman2.tga" />
     <Content Include="assets\XMLs\adevarataHarta.xml" />
-    <Content Include="assets\XMLs\allConfigs.xml" />
+    <Content Include="assets\XMLs\allConfigs.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="assets\XMLs\hartaDeTest.xml" />
-    <Content Include="assets\XMLs\resourceManager.xml" />
+    <Content Include="assets\XMLs\resourceManager.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="assets\XMLs\sceneManager.xml" />
     <Content Include="res\values\strings.xml" />
     <AntBuildXml Include="build.xml" />
