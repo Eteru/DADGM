@@ -85,6 +85,6 @@ private:
 
 	static float InterceptTime(float projVel, Vector3 relPos, Vector3 relVel);
 
-	Vector3 m_angular;
+	Vector3 m_aimTarget;
 	Vector3 m_localRotTarget;
 };

@@ -59,43 +59,43 @@ void GameManager::Init()
 
  	const engine *eng = SceneManager::GetInstance()->GetEngine();
 
- 	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
- 	btn->Init();
- 	AddComponent(btn);
- 
-	Tabs *tabs = new Tabs(eng->height - 100.f, 0.f, eng->width, eng->height, {});
-	tabs->Init();
-
-
-	ButtonList *bl1 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl1->SetActive(true);
-
-	ButtonList *bl11 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl11->AddButton("sbtn11", nullptr);
-	bl11->AddButton("sbtn12", nullptr);
-	bl11->AddButton("sbtn13", nullptr);
-
-	bl1->AddButton("btn11", bl11);
-	bl1->AddButton("btn12", nullptr);
-	bl1->AddButton("btn13", nullptr);
-
-	ButtonList *bl2 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl2->AddButton("btn21", nullptr);
-	bl2->AddButton("btn22", nullptr);
-	bl2->AddButton("btn23", nullptr);
-	ButtonList *bl3 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
-	bl3->AddButton("btn31", nullptr);
-	bl3->AddButton("btn32", nullptr);
-	bl3->AddButton("btn33", nullptr);
-
-	tabs->AddTab("Items", bl1);
-	tabs->AddTab("Movement", bl2);
-	tabs->AddTab("Item Rules", bl3);
-
-	AddComponent(tabs);
-
- 	
- 	StringRenderer::Init("7", eng->width, eng->height);
+//  	Button *btn = new Button(0.f, 0.f, 1200.f, 250.f, "Salut Hurezene;", {"8", DebugDrawPrimitives::COLOR_BLUE});
+//  	btn->Init();
+//  	AddComponent(btn);
+//  
+// 	Tabs *tabs = new Tabs(eng->height - 100.f, 0.f, eng->width, eng->height, {});
+// 	tabs->Init();
+// 
+// 
+// 	ButtonList *bl1 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+// 	bl1->SetActive(true);
+// 
+// 	ButtonList *bl11 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+// 	bl11->AddButton("sbtn11", nullptr);
+// 	bl11->AddButton("sbtn12", nullptr);
+// 	bl11->AddButton("sbtn13", nullptr);
+// 
+// 	bl1->AddButton("btn11", bl11);
+// 	bl1->AddButton("btn12", nullptr);
+// 	bl1->AddButton("btn13", nullptr);
+// 
+// 	ButtonList *bl2 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+// 	bl2->AddButton("btn21", nullptr);
+// 	bl2->AddButton("btn22", nullptr);
+// 	bl2->AddButton("btn23", nullptr);
+// 	ButtonList *bl3 = new ButtonList(eng->height - 500.f, 0.f, eng->width, eng->height, {});
+// 	bl3->AddButton("btn31", nullptr);
+// 	bl3->AddButton("btn32", nullptr);
+// 	bl3->AddButton("btn33", nullptr);
+// 
+// 	tabs->AddTab("Items", bl1);
+// 	tabs->AddTab("Movement", bl2);
+// 	tabs->AddTab("Item Rules", bl3);
+// 
+// 	AddComponent(tabs);
+// 
+//  	
+//  	StringRenderer::Init("7", eng->width, eng->height);
 }
 
 void GameManager::FixedUpdate()

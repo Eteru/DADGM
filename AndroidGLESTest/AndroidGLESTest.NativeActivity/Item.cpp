@@ -81,7 +81,9 @@ void Weapon::FixedUpdate()
 
 	if (nullptr != m_robot->m_target)
 	{
-		Vector3 dir = GetInterceptTarget() - m_robot->m_transform.GetWorldPos();
+		m_aimTarget = GetInterceptTarget();
+
+		Vector3 dir = m_aimTarget - m_robot->m_transform.GetWorldPos();
 
 		if (Math::Length(dir) != 0)
 		{
@@ -157,11 +159,15 @@ void Weapon::Init()
 
 void Weapon::DebugDraw()
 {	
+	if (nullptr == m_robot->m_target)
+		return;
+
+	DebugDrawPrimitives::DrawLine(m_transform.GetWorldPos(), m_aimTarget, DebugDrawPrimitives::COLOR_PURPLE);
 }
 
 void Weapon::Fire()
 {
-	Projectile *proj = SceneObjectSpawner::SpawnProjectile(m_transform.GetWorldPos() + m_transform.GetForward() * m_transform.GetWorldScale().z, m_robot->m_target, m_robot->m_team,
+	Projectile *proj = SceneObjectSpawner::SpawnProjectile(m_transform.GetWorldPos() + m_transform.GetForward() * m_transform.GetWorldScale().z, m_aimTarget, m_robot->m_team,
 		m_stats.at(StatType::DAMAGE).GetValue(), m_stats.at(StatType::LIFE_TIME).GetValue(), m_stats.at(StatType::BOUNCES).GetValue(), false, m_stats.at(StatType::LINEAR_TOP).GetValue(),
 		m_stats.at(StatType::KNOCKBACK).GetValue());
 
@@ -175,7 +181,7 @@ Vector3 Weapon::GetInterceptTarget()
 	Vector3 relPos = m_robot->m_target->m_transform.GetWorldPos() - m_robot->m_transform.GetWorldPos();
 	Vector3 relVel = m_robot->m_target->m_physicsBody->m_linearVelEngine - m_robot->m_physicsBody->m_linearVelEngine;
 	
-	return m_robot->m_target->m_transform.GetWorldPos() + InterceptTime(m_stats.at(StatType::LINEAR_TOP).GetValue(), relPos, relVel) * relVel / GameConstants::PHYSICS_TIME_STEP;
+	return m_robot->m_target->m_transform.GetWorldPos() + InterceptTime(m_stats.at(StatType::LINEAR_TOP).GetValue() * GameConstants::PHYSICS_TIME_STEP, relPos, relVel) * relVel;
 }
 
 float Weapon::InterceptTime(float projVel, Vector3 relPos, Vector3 relVel)
