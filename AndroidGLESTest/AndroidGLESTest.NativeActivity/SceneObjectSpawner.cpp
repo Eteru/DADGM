@@ -66,7 +66,7 @@ MapCell * SceneObjectSpawner::SpawnMapCell(const Vector2 mapCoords, const MapObj
 	cell->m_transform.SetPos(GameConstants::ToWorldCoords(mapCoords, cellType == GROUND ? GameConstants::GROUND_HEIGHT : GameConstants::WALL_HEIGHT));	
 	cell->Init();
 
-	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(0.5f), "MapCell", true);
+	VisualBody *vb = new VisualBody(Vector3(0.f), Vector3(0.f), Vector3(1.f), "MapCell", true);
 	vb->SetID(UniqueID::GetID(vb->GetClassName()));
 	vb->SetModel(cubeModel);
 	vb->SetShader(cubeShader);

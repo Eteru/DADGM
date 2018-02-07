@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resourceManager>
 	<models>
-		<model id="1">
-			<path>Models/Croco.nfg</path>
-		</model>
-
 		<model id="2">
-		  <path>Models/Cube.nfg</path>
+		  <path>Models/cube.obj</path>
 		</model>
 		
 		<model id="3">
-		  <path>Models/Bila.nfg</path>
+		  <path>Models/sphere.obj</path>
 		</model>
 		
 		<model id="4">
-			<path>Models/DebugSphere.nfg</path>
+			<path>Models/cube.obj</path>
 		</model>
 		
 		<model id="5">
-			<path>Models/DebugCube.nfg</path>
+			<path>Models/sphere.obj</path>
 		</model>
 	
 		<!-- si aici se adauga toate modelele -->
